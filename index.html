@@ -1,0 +1,309 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>VJOX · Catálogo rápido</title>
+<meta name="theme-color" content="#111" />
+<style>
+  :root { --bg:#0f0f10; --card:#16171a; --muted:#8a8f98; --text:#fff; --accent:#22c55e; --accent2:#38bdf8; }
+  *{box-sizing:border-box} body{margin:0;font-family:system-ui,-apple-system,Segoe UI,Roboto,Inter,Arial;background:var(--bg);color:var(--text)}
+  header{padding:18px 16px;border-bottom:1px solid #222; display:flex; align-items:center; gap:10px}
+  header img{width:28px;height:28px}
+  header h1{font-size:16px;margin:0;font-weight:600;letter-spacing:.3px}
+  main{max-width:860px;margin:0 auto;padding:18px;display:grid;gap:14px}
+  .card{background:var(--card);border:1px solid #26272b;border-radius:14px;padding:14px}
+  .row{display:grid;gap:10px}
+  .grid{display:grid;gap:12px}
+  @media (min-width:720px){ .grid{grid-template-columns:1.2fr 1fr} }
+  label{font-size:12px;color:var(--muted);margin-bottom:4px;display:block}
+  input, textarea, button{width:100%;border:1px solid #313338;background:#1a1c20;color:var(--text);padding:12px;border-radius:10px; font-size:14px}
+  input[type="file"]{padding:10px}
+  .inline{display:flex;gap:10px}
+  .inline > *{flex:1}
+  .btn{cursor:pointer; border:1px solid #3a3d44}
+  .btn-primary{background:var(--accent);border-color:#169c48;color:#041d0f;font-weight:700}
+  .btn-ghost{background:#1a1c20}
+  .muted{color:var(--muted);font-size:12px}
+  .preview{display:grid;grid-template-columns:repeat(auto-fill,minmax(140px,1fr));gap:10px}
+  .thumb{position:relative;border:1px solid #2a2d33;border-radius:10px;overflow:hidden;background:#0b0c0e}
+  .thumb img{width:100%;height:140px;object-fit:cover;display:block}
+  .thumb .priceTag{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.6);padding:4px 8px;border-radius:999px;font-size:12px}
+  .actions{display:flex;gap:8px;margin-top:8px}
+  .pill{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #2a2d33;background:#121316}
+  .list .item{display:grid;grid-template-columns:80px 1fr;gap:10px;padding:10px;border:1px solid #2a2d33;border-radius:12px;align-items:center}
+  .item img{width:80px;height:80px;object-fit:cover;border-radius:10px}
+  .share{display:flex;flex-wrap:wrap; gap:8px}
+  .whats{background:#25D366;border-color:#128C7E;color:#062d1e;font-weight:700}
+  .copy{border-color:#3a3d44}
+  footer{padding:18px;text-align:center;color:var(--muted);font-size:12px}
+  .ok{color:#86efac} .bad{color:#fda4af}
+</style>
+</head>
+<body>
+<header>
+  <img alt="VJOX" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M3 3h18v3H3zM3 9h18v3H3zM3 15h18v6H3z'/%3E%3C/svg%3E" />
+  <h1>VJOX · Publicador Express</h1>
+</header>
+
+<main class="grid">
+  <!-- Crear publicación -->
+  <section class="card">
+    <div class="row">
+      <div>
+        <label>Foto(s) del producto</label>
+        <input id="fileInput" type="file" accept="image/*" multiple />
+        <div class="muted">Tip: puedes seleccionar varias fotos; comprimimos automáticamente.</div>
+      </div>
+
+      <div class="inline">
+        <div>
+          <label>Título</label>
+          <input id="titleInput" placeholder="Ej. Galleta artesanal de nuez" />
+        </div>
+        <div>
+          <label>Precio (MXN)</label>
+          <input id="priceInput" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Ej. 120" />
+        </div>
+      </div>
+
+      <div>
+        <label>Descripción (opcional)</label>
+        <textarea id="descInput" rows="3" placeholder="Ingredientes, tamaño, condiciones de entrega…"></textarea>
+      </div>
+
+      <div class="inline">
+        <button id="uploadBtn" class="btn btn-primary">Subir y generar links</button>
+        <button id="clearBtn" class="btn btn-ghost">Limpiar</button>
+      </div>
+
+      <div id="status" class="muted"></div>
+
+      <div id="preview" class="preview"></div>
+    </div>
+  </section>
+
+  <!-- Publicaciones generadas -->
+  <section class="card">
+    <h3 style="margin:0 0 8px 0">Tus publicaciones</h3>
+    <div class="muted" style="margin-bottom:10px">Se guardan localmente (en este dispositivo). Puedes volver a compartir cuando quieras.</div>
+    <div id="list" class="grid list"></div>
+  </section>
+</main>
+
+<footer>
+  Hecho con ♥ para Vero y Veré. • Sin servidor • Puedes publicar esto en GitHub Pages.
+</footer>
+
+<script>
+/** 🔧 CONFIGURA AQUÍ TU CLOUDINARY **/
+const CLOUD_NAME = "dvxorpdrd"; 
+const UPLOAD_PRESET = "Ventas"; 
+const DEFAULT_PHONE = "656-579-2009"; 
+
+const state = { files: [], uploads: [], items: JSON.parse(localStorage.getItem("vjox_items")||"[]") };
+
+const $ = s => document.querySelector(s);
+const $$ = s => document.querySelectorAll(s);
+
+const fileInput = $("#fileInput");
+const titleInput = $("#titleInput");
+const priceInput = $("#priceInput");
+const descInput = $("#descInput");
+const uploadBtn = $("#uploadBtn");
+const clearBtn = $("#clearBtn");
+const preview = $("#preview");
+const list = $("#list");
+const statusEl = $("#status");
+
+function formatPrice(n){
+  if(n==null || n==="") return "";
+  const v = Number(n);
+  try { return v.toLocaleString("es-MX",{style:"currency",currency:"MXN",maximumFractionDigits:2}); }
+  catch { return `MXN ${v.toFixed(2)}`; }
+}
+
+fileInput.addEventListener("change", async (e)=>{
+  state.files = Array.from(e.target.files || []);
+  preview.innerHTML = "";
+  for(const f of state.files){
+    const url = URL.createObjectURL(f);
+    const el = document.createElement("div");
+    el.className = "thumb";
+    el.innerHTML = `<img src="${url}" alt="">
+      <div class="priceTag">Previsualización</div>`;
+    preview.appendChild(el);
+  }
+});
+
+clearBtn.addEventListener("click", ()=>{
+  state.files = [];
+  fileInput.value = "";
+  preview.innerHTML = "";
+  titleInput.value = "";
+  priceInput.value = "";
+  descInput.value = "";
+  setStatus("");
+});
+
+uploadBtn.addEventListener("click", async ()=>{
+  const title = titleInput.value.trim() || "Producto";
+  const price = priceInput.value.trim();
+  const desc  = descInput.value.trim();
+
+  if(state.files.length === 0){ return setStatus("Sube al menos una foto 🖼️", true); }
+  if(!price){ return setStatus("Agrega un precio 💵", true); }
+
+  setStatus("Subiendo fotos… 📤 Esto puede tardar unos segundos.");
+  try{
+    const urls = [];
+    for(const file of state.files){
+      const compressed = await compressImage(file, 1600, 0.85);
+      const form = new FormData();
+      form.append("file", compressed);
+      form.append("upload_preset", UPLOAD_PRESET);
+      form.append("folder", "verox-ventas");
+
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method:"POST", body: form });
+      if(!res.ok) throw new Error("Fallo al subir imagen");
+      const data = await res.json();
+
+      // Versión optimizada (transformación de entrega)
+      const delivered = optimizeUrl(data.secure_url);
+      urls.push(delivered);
+    }
+
+    const item = {
+      id: Date.now(),
+      title, price, desc, urls,
+      createdAt: new Date().toISOString()
+    };
+    state.items.unshift(item);
+    persist();
+    renderList();
+    setStatus(`Listo ✔️ Subidas ${urls.length}. Ya puedes compartir por WhatsApp.`, false);
+    // refresca miniaturas con el precio
+    preview.innerHTML = "";
+    for(const u of urls){
+      const el = document.createElement("div");
+      el.className = "thumb";
+      el.innerHTML = `<img src="${u}" alt=""><div class="priceTag">${formatPrice(price)}</div>`;
+      preview.appendChild(el);
+    }
+  }catch(err){
+    console.error(err);
+    setStatus("Error subiendo. Revisa tu CLOUD_NAME y UPLOAD_PRESET.", true);
+  }
+});
+
+function optimizeUrl(url){
+  // Inserta transformación básica (auto-qual, webp, ancho 1200)
+  // https://res.cloudinary.com/<cloud>/image/upload/<transform>/.../file.jpg
+  return url.replace("/upload/","/upload/f_auto,q_auto:eco,w_1200/");
+}
+
+function setStatus(msg, isError=false){
+  statusEl.textContent = msg;
+  statusEl.className = isError ? "muted bad" : "muted ok";
+}
+
+function persist(){ localStorage.setItem("vjox_items", JSON.stringify(state.items)); }
+
+function renderList(){
+  list.innerHTML = "";
+  if(state.items.length===0){
+    list.innerHTML = `<div class="muted">Aún no hay publicaciones. Sube una foto para empezar.</div>`;
+    return;
+  }
+  for(const it of state.items){
+    const cover = it.urls[0];
+    const div = document.createElement("div");
+    div.className = "item";
+    div.innerHTML = `
+      <img src="${cover}" alt="">
+      <div>
+        <div class="inline" style="align-items:center;gap:8px;margin-bottom:4px">
+          <strong>${it.title}</strong>
+          <span class="pill">${formatPrice(it.price)}</span>
+        </div>
+        <div class="muted" style="margin:4px 0">${it.desc ? it.desc : ""}</div>
+        <div class="share">
+          <button class="btn whats">Compartir WhatsApp</button>
+          <button class="btn copy">Copiar mensaje</button>
+          <button class="btn btn-ghost">Abrir imagen</button>
+          <button class="btn btn-ghost">Eliminar</button>
+        </div>
+      </div>
+    `;
+    const [btnWa, btnCopy, btnOpen, btnDel] = div.querySelectorAll("button");
+    btnWa.addEventListener("click", ()=> shareWhatsApp(it));
+    btnCopy.addEventListener("click", ()=> copyMessage(it));
+    btnOpen.addEventListener("click", ()=> window.open(cover,"_blank"));
+    btnDel.addEventListener("click", ()=>{
+      state.items = state.items.filter(x=>x.id!==it.id);
+      persist(); renderList();
+    });
+    list.appendChild(div);
+  }
+}
+
+function buildMessage(it){
+  const lines = [];
+  lines.push(`*${it.title}*`);
+  lines.push(`Precio: ${formatPrice(it.price)}`);
+  if(it.desc) lines.push(it.desc);
+  // agrega la primera imagen como link (WhatsApp genera preview)
+  lines.push(it.urls[0]);
+  // extras
+  lines.push("");
+  lines.push("_Consulta disponibilidad. Envío/entrega a convenir._");
+  return lines.join("\n");
+}
+
+function shareWhatsApp(it){
+  const message = encodeURIComponent(buildMessage(it));
+  const base = DEFAULT_PHONE ? `https://wa.me/${DEFAULT_PHONE}?text=` : `https://api.whatsapp.com/send?text=`;
+  const url = base + message;
+  window.open(url, "_blank");
+}
+
+async function copyMessage(it){
+  const msg = buildMessage(it);
+  try{
+    await navigator.clipboard.writeText(msg);
+    alert("Mensaje copiado ✅ Pégalo en WhatsApp.");
+  }catch{
+    prompt("Copia el mensaje:", msg);
+  }
+}
+
+/** Compresión básica de imagen para móviles */
+function compressImage(file, maxSize=1600, quality=0.85){
+  return new Promise((resolve,reject)=>{
+    const img = new Image();
+    img.onload = () => {
+      const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
+      const w = Math.round(img.width * scale);
+      const h = Math.round(img.height * scale);
+      const canvas = document.createElement("canvas");
+      canvas.width = w; canvas.height = h;
+      const ctx = canvas.getContext("2d");
+      ctx.drawImage(img,0,0,w,h);
+      canvas.toBlob((blob)=>{
+        if(!blob) return reject(new Error("No se pudo comprimir"));
+        resolve(new File([blob], file.name, {type: blob.type}));
+      }, "image/jpeg", quality);
+    };
+    img.onerror = reject;
+    const reader = new FileReader();
+    reader.onload = e => img.src = e.target.result;
+    reader.onerror = reject;
+    reader.readAsDataURL(file);
+  });
+}
+
+// arranque
+renderList();
+</script>
+</body>
+</html>
