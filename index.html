@@ -98,16 +98,10 @@
 </footer>
 
 <script>
-  //Cloudinary
-const CLOUD_NAME   = "dvxorpdrd";
-const UPLOAD_PRESET= "Ventas";       // debe ser UNSIGNED y permitir jpg/jpeg/webp
-const DEFAULT_PHONE= "6565792009";
-
-// ► define carpetas claras:
-const IMG_FOLDER   = "verox-ventas"; // ← carpeta de FOTOS (corrige el typo)
-const RAW_PRESET   = "VentasRaw";    // ← preset UNSIGNED para JSON (raw)
-const RAW_FOLDER   = "vjox-views";   // ← carpeta de JSON
-
+/** 🔧 CONFIGURA AQUÍ TU CLOUDINARY **/
+const CLOUD_NAME = "dvxorpdrd";           
+const UPLOAD_PRESET = "Ventas";
+const DEFAULT_PHONE = "";
   
 const state = { files: [], items: JSON.parse(localStorage.getItem("vjox_items")||"[]") };
 
@@ -196,20 +190,11 @@ uploadBtn.addEventListener("click", async ()=>{
       const form = new FormData();
       form.append("file", compressed);
       form.append("upload_preset", UPLOAD_PRESET);
-      form.append("folder", "IMG_FOLDER");
-      const publicId = `p-${Date.now()}-${i}`;
-      form.append("public_id", publicId);
+      form.append("folder", "verox-ventas");
 
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
-        method:"POST", body: form 
-      });
-      let data;
-      try { data = await res.json(); } catch { data = {}; }
-      
-      if(!res.ok){
-      const msg = data.error?.message || JSON.stringify(data) || `HTTP ${res.status}`;
-      throw new Error("Imagen: " + msg);
-      }
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method:"POST", body: form });
+      if(!res.ok) throw new Error("Fallo al subir imagen");
+      const data = await res.json();
 
       const delivered = optimizeUrl(data.secure_url);
       urls.push(delivered);
@@ -222,14 +207,11 @@ uploadBtn.addEventListener("click", async ()=>{
       perPhoto, perPhotoPrices,
       createdAt: new Date().toISOString()
     };
-    setStatus("Publicando ficha… 🗂️", false);
-    item.cloudPublicId = await saveItemJsonToCloudinary(item); 
     state.items.unshift(item);
-    
     persist();
     renderList();
-    
     setStatus(`Listo ✔️ Subidas ${urls.length}.`, false);
+
     // refresca miniaturas con el precio correcto
     preview.innerHTML = "";
     urls.forEach((u,idx)=>{
@@ -257,9 +239,20 @@ function setStatus(msg, isError=false){
 function persist(){ localStorage.setItem("vjox_items", JSON.stringify(state.items)); }
 
 function buildGalleryLink(it){
+  const payload = {
+    t: it.title,
+    d: it.desc || "",
+    p: "MXN",
+    u: it.urls,
+    pp: it.perPhoto ? it.perPhotoPrices : null
+  };
+  // stringify -> UTF-8 safe -> base64
+  const json = JSON.stringify(payload);
+  const b64 = btoa(unescape(encodeURIComponent(json)));
+
+  // Armamos el link usando #s=... (hash)
   const base = location.origin + location.pathname.replace(/\/[^\/]*$/,'/') + "viewer.html";
-  const shortId = (it.cloudPublicId || "").split("/").pop();
-  return `${base}?id=${encodeURIComponent(shortId)}`;
+  return `${base}#s=${encodeURIComponent(b64)}`;
   
 }
 
@@ -359,29 +352,9 @@ function compressImage(file, maxSize=1600, quality=0.85){
   });
 }
 
-async function saveItemJsonToCloudinary(it){
-  const publicId = "item-" + it.id; // ej: item-1728935192081
-  const jsonBlob = new Blob([JSON.stringify(it)], {type: "application/json"});
-  const form = new FormData();
-  form.append("file", jsonBlob, publicId + ".json");
-  form.append("upload_preset", RAW_PRESET);
-  form.append("folder", RAW_FOLDER);
-  // importante: endpoint RAW
-  const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/raw/upload`, {
-    method: "POST",
-    body: form
-  });
- let data;
-  try { data = await res.json(); } catch { data = {}; }
-  if(!res.ok){
-    const msg = data.error?.message || JSON.stringify(data) || `HTTP ${res.status}`;
-    throw new Error("JSON: " + msg);
-  }
-  return data.public_id; // p.ej. "vjox-views/item-1728935..."
-}
-
 // arranque
 renderList();
+//Commit 954828f
 </script>
 </body>
 </html>
