@@ -40,12 +40,26 @@
 <footer>Hecho con ♥ | VJOX</footer>
 
 <script>
-const p = new URLSearchParams(location.search);
-const title = p.get("t") || "Producto";
-const desc  = p.get("d") || "";
-const currency = p.get("p") || "MXN";
-const urls = (p.get("u")||"").split(",").map(decodeURIComponent).filter(Boolean);
-const pp = (p.get("pp")||"").split(",").map(x=>x?Number(x):null);
+function getStateFromHash(){
+  const h = location.hash || "";
+  const m = h.match(/[#&]s=([^&]+)/);
+  if(!m){ return null; }
+  try{
+    const b64 = decodeURIComponent(m[1]);
+    const json = decodeURIComponent(escape(atob(b64)));
+    return JSON.parse(json);
+  }catch(e){
+    console.error("Error leyendo hash:", e);
+    return null;
+  }
+}
+
+const st = getStateFromHash() || {};
+const title = st.t || "Producto";
+const desc  = st.d || "";
+const currency = st.p || "MXN";
+const urls = Array.isArray(st.u) ? st.u : [];
+const pp = Array.isArray(st.pp) ? st.pp : [];
 
 document.getElementById("t").textContent = title;
 document.getElementById("d").textContent = desc;
@@ -79,5 +93,6 @@ function formatPrice(v,curr="MXN"){
   catch{return `${curr} ${Number(v).toFixed(2)}`;}
 }
 </script>
+
 </body>
 </html>
