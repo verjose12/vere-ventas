@@ -239,14 +239,21 @@ function setStatus(msg, isError=false){
 function persist(){ localStorage.setItem("vjox_items", JSON.stringify(state.items)); }
 
 function buildGalleryLink(it){
+  const payload = {
+    t: it.title,
+    d: it.desc || "",
+    p: "MXN",
+    u: it.urls,
+    pp: it.perPhoto ? it.perPhotoPrices : null
+  };
+  // stringify -> UTF-8 safe -> base64
+  const json = JSON.stringify(payload);
+  const b64 = btoa(unescape(encodeURIComponent(json)));
+
+  // Armamos el link usando #s=... (hash)
   const base = location.origin + location.pathname.replace(/\/[^\/]*$/,'/') + "viewer.html";
-  const t = encodeURIComponent(it.title);
-  const d = encodeURIComponent(it.desc || "");
-  const p = "MXN";
-  const u = it.urls.map(encodeURIComponent).join(",");
-  const pp = (it.perPhoto ? it.perPhotoPrices.map(v=>encodeURIComponent(v||"")).join(",") : "");
-  const query = `t=${t}&d=${d}&p=${p}&u=${u}${it.perPhoto?`&pp=${pp}`:""}`;
-  return `${base}?${query}`;
+  return `${base}#s=${encodeURIComponent(b64)}`;
+  
 }
 
 function renderList(){
