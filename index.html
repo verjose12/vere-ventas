@@ -98,12 +98,16 @@
 </footer>
 
 <script>
-/** 🔧 CONFIGURA AQUÍ TU CLOUDINARY **/
-const CLOUD_NAME = "dvxorpdrd";           
-const UPLOAD_PRESET = "Ventas";
-const DEFAULT_PHONE = "6565792009";
-const RAW_PRESET = "VentasRaw"; 
-const RAW_FOLDER = "vjox-views";
+  //Cloudinary
+const CLOUD_NAME   = "dvxorpdrd";
+const UPLOAD_PRESET= "Ventas";       // debe ser UNSIGNED y permitir jpg/jpeg/webp
+const DEFAULT_PHONE= "6565792009";
+
+// ► define carpetas claras:
+const IMG_FOLDER   = "verox-ventas"; // ← carpeta de FOTOS (corrige el typo)
+const RAW_PRESET   = "VentasRaw";    // ← preset UNSIGNED para JSON (raw)
+const RAW_FOLDER   = "vjox-views";   // ← carpeta de JSON
+
   
 const state = { files: [], items: JSON.parse(localStorage.getItem("vjox_items")||"[]") };
 
@@ -192,11 +196,18 @@ uploadBtn.addEventListener("click", async ()=>{
       const form = new FormData();
       form.append("file", compressed);
       form.append("upload_preset", UPLOAD_PRESET);
-      form.append("folder", "vere-ventas");
+      form.append("folder", "IMG_FOLDER");
 
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method:"POST", body: form });
-      if(!res.ok) throw new Error("Fallo al subir imagen");
-      const data = await res.json();
+      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
+        method:"POST", body: form 
+      });
+      let data;
+      try { data = await res.json(); } catch { data = {}; }
+      
+      if(!res.ok){
+      const msg = data.error?.message || JSON.stringify(data) || `HTTP ${res.status}`;
+      throw new Error("Imagen: " + msg);
+      }
 
       const delivered = optimizeUrl(data.secure_url);
       urls.push(delivered);
@@ -245,7 +256,7 @@ function persist(){ localStorage.setItem("vjox_items", JSON.stringify(state.item
 
 function buildGalleryLink(it){
   const base = location.origin + location.pathname.replace(/\/[^\/]*$/,'/') + "viewer.html";
-  const shortId = it.cloudPublicId.split("/").pop(); 
+  const shortId = (it.cloudPublicId || "").split("/").pop();
   return `${base}?id=${encodeURIComponent(shortId)}`;
   
 }
@@ -358,10 +369,13 @@ async function saveItemJsonToCloudinary(it){
     method: "POST",
     body: form
   });
-  if(!res.ok) throw new Error("No se pudo subir el JSON");
-  const data = await res.json();
-  // data.public_id será algo como "vjox-items/item-1728935192081"
-  return data.public_id; // lo usaremos como id
+ let data;
+  try { data = await res.json(); } catch { data = {}; }
+  if(!res.ok){
+    const msg = data.error?.message || JSON.stringify(data) || `HTTP ${res.status}`;
+    throw new Error("JSON: " + msg);
+  }
+  return data.public_id; // p.ej. "vjox-views/item-1728935..."
 }
 
 // arranque
