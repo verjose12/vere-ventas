@@ -197,6 +197,8 @@ uploadBtn.addEventListener("click", async ()=>{
       form.append("file", compressed);
       form.append("upload_preset", UPLOAD_PRESET);
       form.append("folder", "IMG_FOLDER");
+      const publicId = `p-${Date.now()}-${i}`;
+      form.append("public_id", publicId);
 
       const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, {
         method:"POST", body: form 
