@@ -1,4 +1,3 @@
-<!-- v1 -->
 <!doctype html>
 <html lang="es">
 <head>
@@ -30,7 +29,6 @@
   .thumb{position:relative;border:1px solid #2a2d33;border-radius:10px;overflow:hidden;background:#0b0c0e}
   .thumb img{width:100%;height:140px;object-fit:cover;display:block}
   .thumb .priceTag{position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.6);padding:4px 8px;border-radius:999px;font-size:12px}
-  .actions{display:flex;gap:8px;margin-top:8px}
   .pill{font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #2a2d33;background:#121316}
   .list .item{display:grid;grid-template-columns:80px 1fr;gap:10px;padding:10px;border:1px solid #2a2d33;border-radius:12px;align-items:center}
   .item img{width:80px;height:80px;object-fit:cover;border-radius:10px}
@@ -55,6 +53,10 @@
         <label>Foto(s) del producto</label>
         <input id="fileInput" type="file" accept="image/*" multiple />
         <div class="muted">Tip: puedes seleccionar varias fotos; comprimimos automáticamente.</div>
+        <label style="display:flex;gap:8px;align-items:center;margin-top:6px">
+          <input id="perPhotoChk" type="checkbox" />
+          Usar precio por foto
+        </label>
       </div>
 
       <div class="inline">
@@ -79,7 +81,6 @@
       </div>
 
       <div id="status" class="muted"></div>
-
       <div id="preview" class="preview"></div>
     </div>
   </section>
@@ -87,7 +88,7 @@
   <!-- Publicaciones generadas -->
   <section class="card">
     <h3 style="margin:0 0 8px 0">Tus publicaciones</h3>
-    <div class="muted" style="margin-bottom:10px">Se guardan localmente (en este dispositivo). Puedes volver a compartir cuando quieras.</div>
+    <div class="muted" style="margin-bottom:10px">Se guardan localmente (en este dispositivo).</div>
     <div id="list" class="grid list"></div>
   </section>
 </main>
@@ -98,14 +99,13 @@
 
 <script>
 /** 🔧 CONFIGURA AQUÍ TU CLOUDINARY **/
-const CLOUD_NAME = "dvxorpdrd"; 
-const UPLOAD_PRESET = "Ventas"; 
-const DEFAULT_PHONE = "656-579-2009"; 
-
-const state = { files: [], uploads: [], items: JSON.parse(localStorage.getItem("vjox_items")||"[]") };
+const CLOUD_NAME = "dvxorpdrd";           
+const UPLOAD_PRESET = "Ventas";
+const DEFAULT_PHONE = "";
+  
+const state = { files: [], items: JSON.parse(localStorage.getItem("vjox_items")||"[]") };
 
 const $ = s => document.querySelector(s);
-const $$ = s => document.querySelectorAll(s);
 
 const fileInput = $("#fileInput");
 const titleInput = $("#titleInput");
@@ -116,6 +116,7 @@ const clearBtn = $("#clearBtn");
 const preview = $("#preview");
 const list = $("#list");
 const statusEl = $("#status");
+const perPhotoChk = $("#perPhotoChk");
 
 function formatPrice(n){
   if(n==null || n==="") return "";
@@ -124,18 +125,41 @@ function formatPrice(n){
   catch { return `MXN ${v.toFixed(2)}`; }
 }
 
-fileInput.addEventListener("change", async (e)=>{
-  state.files = Array.from(e.target.files || []);
+function rebuildPreview(){
   preview.innerHTML = "";
-  for(const f of state.files){
+  for (let i=0;i<state.files.length;i++){
+    const f = state.files[i];
     const url = URL.createObjectURL(f);
     const el = document.createElement("div");
     el.className = "thumb";
-    el.innerHTML = `<img src="${url}" alt="">
-      <div class="priceTag">Previsualización</div>`;
+    el.innerHTML = `
+      <img src="${url}" alt="">
+      <div class="priceTag">Previsualización</div>
+      ${perPhotoChk.checked ? `
+        <div style="position:absolute;top:8px;left:8px;right:8px;background:rgba(0,0,0,.55);padding:6px;border-radius:8px">
+          <input data-idx="${i}" class="pp" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Precio para esta foto" style="width:100%;border:1px solid #444;background:#111;color:#fff;padding:6px;border-radius:6px;font-size:12px">
+        </div>` : ``}
+    `;
     preview.appendChild(el);
   }
+}
+
+fileInput.addEventListener("change", (e)=>{
+  state.files = Array.from(e.target.files || []);
+  rebuildPreview();
 });
+
+// si cambias el checkbox, vuelve a dibujar inputs por foto
+perPhotoChk.addEventListener("change", rebuildPreview);
+
+// Lee precios por foto antes de subir
+function getPerPhotoPrices(){
+  const map = {};
+  document.querySelectorAll("input.pp").forEach(inp=>{
+    map[Number(inp.dataset.idx)] = inp.value.trim();
+  });
+  return map;
+}
 
 clearBtn.addEventListener("click", ()=>{
   state.files = [];
@@ -151,14 +175,17 @@ uploadBtn.addEventListener("click", async ()=>{
   const title = titleInput.value.trim() || "Producto";
   const price = priceInput.value.trim();
   const desc  = descInput.value.trim();
+  const perPhoto = perPhotoChk.checked;
+  const ppMap = perPhoto ? getPerPhotoPrices() : {};
 
   if(state.files.length === 0){ return setStatus("Sube al menos una foto 🖼️", true); }
   if(!price){ return setStatus("Agrega un precio 💵", true); }
 
   setStatus("Subiendo fotos… 📤 Esto puede tardar unos segundos.");
   try{
-    const urls = [];
-    for(const file of state.files){
+    const urls = [], perPhotoPrices = [];
+    for(let i=0;i<state.files.length;i++){
+      const file = state.files[i];                                   // <-- corregido
       const compressed = await compressImage(file, 1600, 0.85);
       const form = new FormData();
       form.append("file", compressed);
@@ -169,28 +196,31 @@ uploadBtn.addEventListener("click", async ()=>{
       if(!res.ok) throw new Error("Fallo al subir imagen");
       const data = await res.json();
 
-      // Versión optimizada (transformación de entrega)
       const delivered = optimizeUrl(data.secure_url);
       urls.push(delivered);
+      perPhotoPrices.push(perPhoto ? (ppMap[i] || price) : null);
     }
 
     const item = {
       id: Date.now(),
       title, price, desc, urls,
+      perPhoto, perPhotoPrices,
       createdAt: new Date().toISOString()
     };
     state.items.unshift(item);
     persist();
     renderList();
-    setStatus(`Listo ✔️ Subidas ${urls.length}. Ya puedes compartir por WhatsApp.`, false);
-    // refresca miniaturas con el precio
+    setStatus(`Listo ✔️ Subidas ${urls.length}.`, false);
+
+    // refresca miniaturas con el precio correcto
     preview.innerHTML = "";
-    for(const u of urls){
+    urls.forEach((u,idx)=>{
       const el = document.createElement("div");
       el.className = "thumb";
-      el.innerHTML = `<img src="${u}" alt=""><div class="priceTag">${formatPrice(price)}</div>`;
+      const tagPrice = perPhoto ? perPhotoPrices[idx] : price;
+      el.innerHTML = `<img src="${u}" alt=""><div class="priceTag">${formatPrice(tagPrice)}</div>`;
       preview.appendChild(el);
-    }
+    });
   }catch(err){
     console.error(err);
     setStatus("Error subiendo. Revisa tu CLOUD_NAME y UPLOAD_PRESET.", true);
@@ -198,8 +228,6 @@ uploadBtn.addEventListener("click", async ()=>{
 });
 
 function optimizeUrl(url){
-  // Inserta transformación básica (auto-qual, webp, ancho 1200)
-  // https://res.cloudinary.com/<cloud>/image/upload/<transform>/.../file.jpg
   return url.replace("/upload/","/upload/f_auto,q_auto:eco,w_1200/");
 }
 
@@ -209,6 +237,17 @@ function setStatus(msg, isError=false){
 }
 
 function persist(){ localStorage.setItem("vjox_items", JSON.stringify(state.items)); }
+
+function buildGalleryLink(it){
+  const base = location.origin + location.pathname.replace(/\/[^\/]*$/,'/') + "viewer.html";
+  const t = encodeURIComponent(it.title);
+  const d = encodeURIComponent(it.desc || "");
+  const p = "MXN";
+  const u = it.urls.map(encodeURIComponent).join(",");
+  const pp = (it.perPhoto ? it.perPhotoPrices.map(v=>encodeURIComponent(v||"")).join(",") : "");
+  const query = `t=${t}&d=${d}&p=${p}&u=${u}${it.perPhoto?`&pp=${pp}`:""}`;
+  return `${base}?${query}`;
+}
 
 function renderList(){
   list.innerHTML = "";
@@ -225,21 +264,25 @@ function renderList(){
       <div>
         <div class="inline" style="align-items:center;gap:8px;margin-bottom:4px">
           <strong>${it.title}</strong>
-          <span class="pill">${formatPrice(it.price)}</span>
+          <span class="pill">${it.perPhoto ? "Precio por foto" : formatPrice(it.price)}</span>
         </div>
         <div class="muted" style="margin:4px 0">${it.desc ? it.desc : ""}</div>
         <div class="share">
           <button class="btn whats">Compartir WhatsApp</button>
           <button class="btn copy">Copiar mensaje</button>
-          <button class="btn btn-ghost">Abrir imagen</button>
-          <button class="btn btn-ghost">Eliminar</button>
+          <button class="btn btn-ghost gal">Ver galería</button>
+          <button class="btn btn-ghost del">Eliminar</button>
         </div>
       </div>
     `;
-    const [btnWa, btnCopy, btnOpen, btnDel] = div.querySelectorAll("button");
+    const btnWa  = div.querySelector(".whats");
+    const btnCp  = div.querySelector(".copy");
+    const btnGal = div.querySelector(".gal");
+    const btnDel = div.querySelector(".del");
+
     btnWa.addEventListener("click", ()=> shareWhatsApp(it));
-    btnCopy.addEventListener("click", ()=> copyMessage(it));
-    btnOpen.addEventListener("click", ()=> window.open(cover,"_blank"));
+    btnCp.addEventListener("click", ()=> copyMessage(it));
+    btnGal.addEventListener("click", ()=> window.open(buildGalleryLink(it), "_blank"));
     btnDel.addEventListener("click", ()=>{
       state.items = state.items.filter(x=>x.id!==it.id);
       persist(); renderList();
@@ -251,21 +294,26 @@ function renderList(){
 function buildMessage(it){
   const lines = [];
   lines.push(`*${it.title}*`);
-  lines.push(`Precio: ${formatPrice(it.price)}`);
+  if(!it.perPhoto){
+    lines.push(`Precio: ${formatPrice(it.price)}`);
+  }else{
+    lines.push(`Precios:`);
+    it.urls.forEach((u,idx)=>{
+      const p = it.perPhotoPrices[idx] || it.price || "";
+      lines.push(`• Foto ${idx+1}: ${formatPrice(p)}`);
+    });
+  }
   if(it.desc) lines.push(it.desc);
-  // agrega la primera imagen como link (WhatsApp genera preview)
-  lines.push(it.urls[0]);
-  // extras
+  lines.push(buildGalleryLink(it));  // link a la galería con todas las fotos
   lines.push("");
-  lines.push("_Consulta disponibilidad. Envío/Entrega a convenir._");
+  lines.push("_Consulta disponibilidad. Envío/entrega a convenir._");
   return lines.join("\n");
 }
 
 function shareWhatsApp(it){
   const message = encodeURIComponent(buildMessage(it));
   const base = DEFAULT_PHONE ? `https://wa.me/${DEFAULT_PHONE}?text=` : `https://api.whatsapp.com/send?text=`;
-  const url = base + message;
-  window.open(url, "_blank");
+  window.open(base + message, "_blank");
 }
 
 async function copyMessage(it){
