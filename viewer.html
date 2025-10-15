@@ -1,0 +1,83 @@
+<!doctype html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Galería | VJOX</title>
+<style>
+  :root{--bg:#0f0f10;--card:#16171a;--muted:#8a8f98;--text:#fff;--accent:#22c55e}
+  *{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Inter,Roboto,Arial;background:var(--bg);color:var(--text)}
+  header{padding:16px;border-bottom:1px solid #222}
+  main{max-width:900px;margin:0 auto;padding:16px;display:grid;gap:16px}
+  .title{font-size:20px;font-weight:700}
+  .muted{color:var(--muted)}
+  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
+  .card{background:var(--card);border:1px solid #26272b;border-radius:14px;padding:12px}
+  .img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;border:1px solid #2a2d33}
+  .pill{display:inline-block;margin-top:8px;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #2a2d33;background:#121316}
+  .cta{display:flex;gap:10px}
+  button{cursor:pointer;border:1px solid #3a3d44;background:#1a1c20;color:#fff;padding:12px 14px;border-radius:10px}
+  .whats{background:#25D366;border-color:#128C7E;color:#062d1e;font-weight:700}
+  footer{padding:16px;text-align:center;color:var(--muted);font-size:12px}
+</style>
+</head>
+<body>
+<header><strong>VJOX · Galería</strong></header>
+<main>
+  <div>
+    <div class="title" id="t"></div>
+    <div class="muted" id="d"></div>
+  </div>
+  <div class="card">
+    <div id="prices" class="muted" style="margin-bottom:8px"></div>
+    <div id="g" class="grid"></div>
+    <div class="cta" style="margin-top:12px">
+      <button class="whats" id="askBtn">Pedir por WhatsApp</button>
+      <button id="copyBtn">Copiar link</button>
+    </div>
+  </div>
+</main>
+<footer>Hecho con ♥ | VJOX</footer>
+
+<script>
+const p = new URLSearchParams(location.search);
+const title = p.get("t") || "Producto";
+const desc  = p.get("d") || "";
+const currency = p.get("p") || "MXN";
+const urls = (p.get("u")||"").split(",").map(decodeURIComponent).filter(Boolean);
+const pp = (p.get("pp")||"").split(",").map(x=>x?Number(x):null);
+
+document.getElementById("t").textContent = title;
+document.getElementById("d").textContent = desc;
+
+const g = document.getElementById("g");
+urls.forEach((u,idx)=>{
+  const el = document.createElement("div");
+  el.innerHTML = `
+    <img class="img" src="${u}" alt="">
+    ${pp[idx]!=null ? `<span class="pill">${formatPrice(pp[idx], currency)}</span>` : ``}
+  `;
+  g.appendChild(el);
+});
+
+const priceBox = document.getElementById("prices");
+if(pp.some(v=>v!=null)){
+  priceBox.textContent = "Precios por foto disponibles.";
+}
+
+document.getElementById("askBtn").addEventListener("click", ()=>{
+  const msg = encodeURIComponent(`Hola, me interesa: *${title}*`);
+  window.open(`https://api.whatsapp.com/send?text=${msg}`, "_blank");
+});
+document.getElementById("copyBtn").addEventListener("click", async ()=>{
+  try{ await navigator.clipboard.writeText(location.href); alert("Link copiado ✅"); }
+  catch{ prompt("Copia el link:", location.href); }
+});
+
+function formatPrice(v,curr="MXN"){
+  try{return Number(v).toLocaleString("es-MX",{style:"currency",currency:curr});}
+  catch{return `${curr} ${Number(v).toFixed(2)}`;}
+}
+</script>
+</body>
+</html>
