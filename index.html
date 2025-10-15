@@ -299,19 +299,13 @@ function renderList(){
 }
 
 function buildMessage(it){
+  const galleryLink = buildGalleryLink(it);
   const lines = [];
   lines.push(`*${it.title}*`);
-  if(!it.perPhoto){
-    lines.push(`Precio: ${formatPrice(it.price)}`);
-  }else{
-    lines.push(`Precios:`);
-    it.urls.forEach((u,idx)=>{
-      const p = it.perPhotoPrices[idx] || it.price || "";
-      lines.push(`• Foto ${idx+1}: ${formatPrice(p)}`);
-    });
-  }
   if(it.desc) lines.push(it.desc);
-  lines.push(buildGalleryLink(it));  // link a la galería con todas las fotos
+  lines.push("");
+  lines.push(`👉 *Ver fotos del producto:*`);
+  lines.push(galleryLink);
   lines.push("");
   lines.push("_Consulta disponibilidad. Envío/entrega a convenir._");
   return lines.join("\n");
