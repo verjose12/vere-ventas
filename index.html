@@ -118,6 +118,22 @@ const list = $("#list");
 const statusEl = $("#status");
 const perPhotoChk = $("#perPhotoChk");
 
+const __utf8 = new TextEncoder();
+function toBase64UrlUtf8(str){
+  // convierte a UTF-8 y luego a Base64URL (seguro para WhatsApp)
+  const bytes = __utf8.encode(str);
+  let bin = "";
+  for (let i=0; i<bytes.length; i++) bin += String.fromCharCode(bytes[i]);
+  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
+}
+
+function buildShareUrlFromState(stateObj){
+  const json = JSON.stringify(stateObj);           // { t,d,p,u,pp }
+  const b64url = toBase64UrlUtf8(json);            // <<< Base64URL correcto
+  const base = new URL("viewer.html", location.href).toString();
+  return `${base}#s=${encodeURIComponent(b64url)}`;
+}
+
 function formatPrice(n){
   if(n==null || n==="") return "";
   const v = Number(n);
@@ -257,18 +273,12 @@ function buildGalleryLink(it){
     t: it.title,
     d: it.desc || "",
     p: "MXN",
-    u: it.urls,
+    u: it.urls,                             // deben ser URLs reales (Cloudinary)
     pp: it.perPhoto ? it.perPhotoPrices : null
   };
-  // stringify -> UTF-8 safe -> base64
-  const json = JSON.stringify(payload);
-  const b64 = btoa(unescape(encodeURIComponent(json)));
-
-  // Armamos el link usando #s=... (hash)
-  const base = location.origin + location.pathname.replace(/\/[^\/]*$/,'/') + "viewer.html";
-  return `${base}#s=${encodeURIComponent(b64)}`;
-  
+  return buildShareUrlFromState(payload);  // <<< usa el helper nuevo
 }
+
 
 function renderList(){
   list.innerHTML = "";
