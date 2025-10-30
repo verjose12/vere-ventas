@@ -124,7 +124,17 @@ function formatPrice(n){
   try { return v.toLocaleString("es-MX",{style:"currency",currency:"MXN",maximumFractionDigits:2}); }
   catch { return `MXN ${v.toFixed(2)}`; }
 }
+// helpers: funciones auxiliares..
+function fileKey(f){ return [f.name, f.size, f.lastModified].join("::"); }
 
+function addFiles(newFiles){
+  const map = new Map(state.files.map(f => [fileKey(f), f]));
+  for(const f of newFiles){
+    map.set(fileKey(f), f); // evita duplicados por nombre+tamaño+fecha
+  }
+  state.files = Array.from(map.values());
+}
+  
 function rebuildPreview(){
   preview.innerHTML = "";
   for (let i=0;i<state.files.length;i++){
@@ -145,9 +155,13 @@ function rebuildPreview(){
 }
 
 fileInput.addEventListener("change", (e)=>{
-  state.files = Array.from(e.target.files || []);
+  const picked = Array.from(e.target.files || []);
+  if(picked.length === 0) return;
+  addFiles(picked);     // 👈 usamos el helper para acumular
+  fileInput.value = ""; // 👈 permite volver a elegir los mismos archivos
   rebuildPreview();
 });
+
 
 // si cambias el checkbox, vuelve a dibujar inputs por foto
 perPhotoChk.addEventListener("change", rebuildPreview);
