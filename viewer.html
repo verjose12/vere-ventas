@@ -40,47 +40,43 @@
 <footer>Hecho con ♥ | VJOX</footer>
 
 <script>
-function safeDecode(b64){
-  try { return decodeURIComponent(escape(atob(b64))); }
-  catch { return "{}"; }
+function decodeStateFromHash() {
+  const h = location.hash || "";
+  const m = h.match(/[#&?]s=([^&]+)/);
+  if (!m) return null;
+
+  // 1) Quita el escape de URL (por si trae %2F, %2B, etc.)
+  let b64 = decodeURIComponent(m[1]);
+
+  // 2) Acepta Base64URL (convierte -/_ a +/ )
+  b64 = b64.replace(/-/g, '+').replace(/_/g, '/');
+
+  // 3) Rellena padding (=) si falta
+  while (b64.length % 4) b64 += '=';
+
+  try {
+    const json = atob(b64);
+    return JSON.parse(json);
+  } catch (e) {
+    console.error("Error decodificando estado:", e);
+    return null;
+  }
 }
-function formatPrice(v){ 
-  if(v==null || v==="") return "";
-  try { return Number(v).toLocaleString("es-MX",{style:"currency",currency:"MXN"}); }
-  catch { return "MXN " + Number(v).toFixed(2); }
+
+// Usa el estado
+const STATE = decodeStateFromHash();
+
+// Si no hay estado válido, muestra un mensaje claro
+if (!STATE || !Array.isArray(STATE.u) || STATE.u.length === 0) {
+  document.body.insertAdjacentHTML(
+    'afterbegin',
+    '<div style="padding:12px;margin:12px;background:#222;border:1px solid #333;border-radius:8px">' +
+    'No se pudo cargar la galería. Revisa que el enlace esté completo.' +
+    '</div>'
+  );
 }
-
-(function init(){
-  const hash = location.hash || "";
-  const m = hash.match(/#s=([^]+)/);
-  if(!m){ document.body.innerHTML = "<main style='padding:20px'><h2>Publicación no encontrada</h2></main>"; return; }
-
-  const json = safeDecode(decodeURIComponent(m[1]));
-  let data;
-  try { data = JSON.parse(json); } catch { data = {}; }
-
-  // referencias simples (ajusta a tu HTML real)
-  const t = document.getElementById("t") || document.body.appendChild(Object.assign(document.createElement("h2"),{id:"t",style:"padding:16px"}));
-  const d = document.getElementById("d") || document.body.appendChild(Object.assign(document.createElement("p"),{id:"d",style:"padding:0 16px"}));
-  let g = document.getElementById("g");
-  if(!g){ g = document.createElement("div"); g.id="g"; g.style = "display:grid;gap:10px;padding:16px;grid-template-columns:repeat(auto-fill,minmax(140px,1fr))"; document.body.appendChild(g); }
-
-  t.textContent = data.t || "Producto";
-  d.textContent = data.d || "";
-
-  g.innerHTML = "";
-  (data.u || []).forEach((url, idx)=>{
-    const price = (data.pp && data.pp[idx] != null) ? data.pp[idx] : data.gp;
-    const card = document.createElement("div");
-    card.style = "position:relative;border:1px solid #2a2d33;border-radius:10px;overflow:hidden;background:#0b0c0e";
-    card.innerHTML = `
-      <img src="${url}" style="width:100%;height:140px;object-fit:cover;display:block" />
-      ${price ? `<span style="position:absolute;bottom:8px;left:8px;background:rgba(0,0,0,.6);padding:4px 8px;border-radius:999px;font-size:12px;color:#fff">${formatPrice(price)}</span>` : ""}
-    `;
-    g.appendChild(card);
-  });
-})();
 </script>
+
 
 
 </body>
