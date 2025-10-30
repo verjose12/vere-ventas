@@ -45,14 +45,11 @@ function decodeStateFromHash() {
   const m = h.match(/[#&?]s=([^&]+)/);
   if (!m) return null;
 
-  // 1) Quita el escape de URL (por si trae %2F, %2B, etc.)
   let b64 = decodeURIComponent(m[1]);
 
-  // 2) Acepta Base64URL (convierte -/_ a +/ )
+  // Aceptar Base64URL (lo que mandamos desde el publicador)
   b64 = b64.replace(/-/g, '+').replace(/_/g, '/');
-
-  // 3) Rellena padding (=) si falta
-  while (b64.length % 4) b64 += '=';
+  while (b64.length % 4) b64 += '=';   // padding si falta
 
   try {
     const json = atob(b64);
@@ -63,10 +60,7 @@ function decodeStateFromHash() {
   }
 }
 
-// Usa el estado
 const STATE = decodeStateFromHash();
-
-// Si no hay estado válido, muestra un mensaje claro
 if (!STATE || !Array.isArray(STATE.u) || STATE.u.length === 0) {
   document.body.insertAdjacentHTML(
     'afterbegin',
@@ -74,8 +68,11 @@ if (!STATE || !Array.isArray(STATE.u) || STATE.u.length === 0) {
     'No se pudo cargar la galería. Revisa que el enlace esté completo.' +
     '</div>'
   );
+} else {
+  // 👉 Aquí ya usas STATE.t / STATE.d / STATE.u / STATE.pp para renderizar las tarjetas
 }
 </script>
+
 
 
 
