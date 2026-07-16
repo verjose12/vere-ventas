@@ -4,10 +4,7 @@ const CLOUD_NAME = "dvxorpdrd";
 const UPLOAD_PRESET = "Ventas";
 const DEFAULT_PHONE = "";
   
-/* const state = { 
-  files: [], 
-  items: JSON.parse(localStorage.getItem("vjox_items")||"[]") };
- */
+
 const state ={
   files: [],
   items: loadItems()
@@ -48,17 +45,7 @@ function formatPrice(n){
   try { return v.toLocaleString("es-MX",{style:"currency",currency:"MXN",maximumFractionDigits:2}); }
   catch { return `MXN ${v.toFixed(2)}`; }
 }
-// helpers: funciones auxiliares..
-function fileKey(f){ return [f.name, f.size, f.lastModified].join("::"); }
 
-function addFiles(newFiles){
-  const map = new Map(state.files.map(f => [fileKey(f), f]));
-  for(const f of newFiles){
-    map.set(fileKey(f), f); // evita duplicados por nombre+tamaño+fecha
-  }
-  state.files = Array.from(map.values());
-}
-  
 function rebuildPreview(){
   preview.innerHTML = "";
   for (let i=0;i<state.files.length;i++){
@@ -81,7 +68,11 @@ function rebuildPreview(){
 fileInput.addEventListener("change", (e)=>{
   const picked = Array.from(e.target.files || []);
   if(picked.length === 0) return;
-  addFiles(picked);     // 👈 usamos el helper para acumular
+  //addFiles(picked);     // 👈 usamos el helper para acumular
+  state.files = mergeFiles(
+    state.files,
+    picked
+  );
   fileInput.value = ""; // 👈 permite volver a elegir los mismos archivos
   rebuildPreview();
 });
@@ -146,7 +137,7 @@ uploadBtn.addEventListener("click", async ()=>{
       createdAt: new Date().toISOString()
     };
     state.items.unshift(item);
-    //persist();
+
     saveItems(state.items);
     renderList();
     setStatus(`Listo ✔️ Subidas ${urls.length}.`, false);
@@ -175,7 +166,7 @@ function setStatus(msg, isError=false){
   statusEl.className = isError ? "muted bad" : "muted ok";
 }
 
-//function persist(){ localStorage.setItem("vjox_items", JSON.stringify(state.items)); }
+
 
 function buildGalleryLink(it){
   const payload = {
@@ -225,7 +216,7 @@ function renderList(){
     btnGal.addEventListener("click", ()=> window.open(buildGalleryLink(it), "_blank"));
     btnDel.addEventListener("click", ()=>{
       state.items = state.items.filter(x=>x.id!==it.id);
-      //persist(); 
+     
       saveItems(state.items);
       renderList();
     });
@@ -261,32 +252,6 @@ async function copyMessage(it){
     prompt("Copia el mensaje:", msg);
   }
 }
-
-/** Compresión básica de imagen para móviles */
-function compressImage(file, maxSize=1600, quality=0.85){
-  return new Promise((resolve,reject)=>{
-    const img = new Image();
-    img.onload = () => {
-      const scale = Math.min(1, maxSize / Math.max(img.width, img.height));
-      const w = Math.round(img.width * scale);
-      const h = Math.round(img.height * scale);
-      const canvas = document.createElement("canvas");
-      canvas.width = w; canvas.height = h;
-      const ctx = canvas.getContext("2d");
-      ctx.drawImage(img,0,0,w,h);
-      canvas.toBlob((blob)=>{
-        if(!blob) return reject(new Error("No se pudo comprimir"));
-        resolve(new File([blob], file.name, {type: blob.type}));
-      }, "image/jpeg", quality);
-    };
-    img.onerror = reject;
-    const reader = new FileReader();
-    reader.onload = e => img.src = e.target.result;
-    reader.onerror = reject;
-    reader.readAsDataURL(file);
-  });
-}
-
 // arranque
 renderList();
 //Commit 954828f
