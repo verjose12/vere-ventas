@@ -63,12 +63,11 @@ function rebuildPreview(){
 fileInput.addEventListener("change", (e)=>{
   const picked = Array.from(e.target.files || []);
   if(picked.length === 0) return;
-  //addFiles(picked);     // 👈 usamos el helper para acumular
-  state.files = mergeFiles(
+  state.files = mergeFiles( // <-usamos el helper para acumular
     state.files,
     picked
-  );
-  fileInput.value = ""; // 👈 permite volver a elegir los mismos archivos
+  );    
+  fileInput.value = ""; // <-permite volver a elegir los mismos archivos
   rebuildPreview();
 });
 
@@ -110,17 +109,6 @@ uploadBtn.addEventListener("click", async ()=>{
     const urls = [], perPhotoPrices = [];
     for(let i=0;i<state.files.length;i++){
       const file = state.files[i];                                   // <-- corregido
-     /*  //const compressed = await compressImage(file, 1600, 0.85);
-      const form = new FormData();
-      form.append("file", compressed);
-      form.append("upload_preset", UPLOAD_PRESET);
-      form.append("folder", "verox-ventas");
-
-      const res = await fetch(`https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`, { method:"POST", body: form });
-      if(!res.ok) throw new Error("Fallo al subir imagen");
-      const data = await res.json();
-
-      const delivered = optimizeUrl(data.secure_url); */
       const compressed = await compressImage(file, 1600, 0.85);
       const delivered = await uploadImageToCloudinary(compressed);
       urls.push(delivered);
@@ -154,9 +142,6 @@ uploadBtn.addEventListener("click", async ()=>{
   }
 });
 
-/* function optimizeUrl(url){
-  return url.replace("/upload/","/upload/f_auto,q_auto:eco,w_1200/");
-} */
 
 function setStatus(msg, isError=false){
   statusEl.textContent = msg;
