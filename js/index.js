@@ -1,9 +1,4 @@
-
-/** 🔧 CONFIGURA AQUÍ TU CLOUDINARY **/
-const CLOUD_NAME = "dvxorpdrd";           
-const UPLOAD_PRESET = "Ventas";
 const DEFAULT_PHONE = "";
-  
 
 const state ={
   files: [],
@@ -115,7 +110,7 @@ uploadBtn.addEventListener("click", async ()=>{
     const urls = [], perPhotoPrices = [];
     for(let i=0;i<state.files.length;i++){
       const file = state.files[i];                                   // <-- corregido
-      const compressed = await compressImage(file, 1600, 0.85);
+     /*  //const compressed = await compressImage(file, 1600, 0.85);
       const form = new FormData();
       form.append("file", compressed);
       form.append("upload_preset", UPLOAD_PRESET);
@@ -125,7 +120,9 @@ uploadBtn.addEventListener("click", async ()=>{
       if(!res.ok) throw new Error("Fallo al subir imagen");
       const data = await res.json();
 
-      const delivered = optimizeUrl(data.secure_url);
+      const delivered = optimizeUrl(data.secure_url); */
+      const compressed = await compressImage(file, 1600, 0.85);
+      const delivered = await uploadImageToCloudinary(compressed);
       urls.push(delivered);
       perPhotoPrices.push(perPhoto ? (ppMap[i] || price) : null);
     }
@@ -157,9 +154,9 @@ uploadBtn.addEventListener("click", async ()=>{
   }
 });
 
-function optimizeUrl(url){
+/* function optimizeUrl(url){
   return url.replace("/upload/","/upload/f_auto,q_auto:eco,w_1200/");
-}
+} */
 
 function setStatus(msg, isError=false){
   statusEl.textContent = msg;
