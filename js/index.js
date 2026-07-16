@@ -4,7 +4,14 @@ const CLOUD_NAME = "dvxorpdrd";
 const UPLOAD_PRESET = "Ventas";
 const DEFAULT_PHONE = "";
   
-const state = { files: [], items: JSON.parse(localStorage.getItem("vjox_items")||"[]") };
+/* const state = { 
+  files: [], 
+  items: JSON.parse(localStorage.getItem("vjox_items")||"[]") };
+ */
+const state ={
+  files: [],
+  items: loadItems()
+};
 
 const $ = s => document.querySelector(s);
 
@@ -139,7 +146,8 @@ uploadBtn.addEventListener("click", async ()=>{
       createdAt: new Date().toISOString()
     };
     state.items.unshift(item);
-    persist();
+    //persist();
+    saveItems(state.items);
     renderList();
     setStatus(`Listo ✔️ Subidas ${urls.length}.`, false);
 
@@ -167,7 +175,7 @@ function setStatus(msg, isError=false){
   statusEl.className = isError ? "muted bad" : "muted ok";
 }
 
-function persist(){ localStorage.setItem("vjox_items", JSON.stringify(state.items)); }
+//function persist(){ localStorage.setItem("vjox_items", JSON.stringify(state.items)); }
 
 function buildGalleryLink(it){
   const payload = {
@@ -217,7 +225,9 @@ function renderList(){
     btnGal.addEventListener("click", ()=> window.open(buildGalleryLink(it), "_blank"));
     btnDel.addEventListener("click", ()=>{
       state.items = state.items.filter(x=>x.id!==it.id);
-      persist(); renderList();
+      //persist(); 
+      saveItems(state.items);
+      renderList();
     });
     list.appendChild(div);
   }
