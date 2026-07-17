@@ -1,5 +1,3 @@
-//const DEFAULT_PHONE = "";
-
 const state ={
   files: [],
   items: loadItems()
@@ -17,22 +15,6 @@ const preview = $("#preview");
 const list = $("#list");
 const statusEl = $("#status");
 const perPhotoChk = $("#perPhotoChk");
-
-//const __utf8 = new TextEncoder();
-/* function toBase64UrlUtf8(str){
-  // convierte a UTF-8 y luego a Base64URL (seguro para WhatsApp)
-  const bytes = __utf8.encode(str);
-  let bin = "";
-  for (let i=0; i<bytes.length; i++) bin += String.fromCharCode(bytes[i]);
-  return btoa(bin).replace(/\+/g,'-').replace(/\//g,'_').replace(/=+$/,'');
-} */
-
-/* function buildShareUrlFromState(stateObj){
-  const json = JSON.stringify(stateObj);           // { t,d,p,u,pp }
-  const b64url = toBase64UrlUtf8(json);            // <<< Base64URL correcto
-  const base = new URL("viewer.html", location.href).toString();
-  return `${base}#s=${encodeURIComponent(b64url)}`;
-} */
 
 function formatPrice(n){
   if(n==null || n==="") return "";
@@ -149,19 +131,6 @@ function setStatus(msg, isError=false){
 }
 
 
-
-/* function buildGalleryLink(it){
-  const payload = {
-    t: it.title,
-    d: it.desc || "",
-    p: "MXN",
-    u: it.urls,                             // deben ser URLs reales (Cloudinary)
-    pp: it.perPhoto ? it.perPhotoPrices : null
-  };
-  return buildShareUrlFromState(payload);  // <<< usa el helper nuevo
-} */
-
-
 function renderList(){
   list.innerHTML = "";
   if(state.items.length===0){
@@ -206,34 +175,6 @@ function renderList(){
   }
 }
 
-/* function buildMessage(it){
-  const galleryLink = buildGalleryLink(it);
-  const lines = [];
-  lines.push(`*${it.title}*`);
-  if(it.desc) lines.push(it.desc);
-  lines.push("");
-  lines.push(`👉 *Ver fotos del producto:*`);
-  lines.push(galleryLink);
-  lines.push("");
-  lines.push("_Consulta disponibilidad. Envío/entrega a convenir._");
-  return lines.join("\n");
-} */
-
-/* function shareWhatsApp(it){
-  const message = encodeURIComponent(buildMessage(it));
-  const base = DEFAULT_PHONE ? `https://wa.me/${DEFAULT_PHONE}?text=` : `https://api.whatsapp.com/send?text=`;
-  window.open(base + message, "_blank");
-} */
-
-/* async function copyMessage(it){
-  const msg = buildMessage(it);
-  try{
-    await navigator.clipboard.writeText(msg);
-    alert("Mensaje copiado ✅ Pégalo en WhatsApp.");
-  }catch{
-    prompt("Copia el mensaje:", msg);
-  }
-} */
 // arranque
 renderList();
 //Commit 954828f
