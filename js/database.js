@@ -6,24 +6,6 @@ const supabaseClient = supabase.createClient(
   SUPABASE_KEY
 );
 
-/* console.log("Supabase conectado");
-
-async function testConnection() {
-
-    const { data, error } = await supabaseClient
-        .from("products")
-        .select("*");
-
-    if (error) {
-        console.error(error);
-        return;
-    }
-
-    console.log(data);
-}
-
-testConnection(); */
-
 async function saveProduct(product) {
     console.log("Producto que se enviará:", product);
 
@@ -56,10 +38,18 @@ async function saveProduct(product) {
     return data;
   }
 
+  async function deleteProduct(productId) {
+    const { error } = await supabaseClient
+      .from("products")
+      .delete()
+      .eq("id", productId);
   
- /*  async function testGetProducts() {
-    const products = await getProducts();
-    console.log("Prueba de productos:", products);
+    if (error) {
+      console.error("Error eliminando producto:", error);
+      return false;
+    }
+  
+    return true;
   }
+
   
-  testGetProducts(); */

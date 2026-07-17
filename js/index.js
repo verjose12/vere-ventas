@@ -97,15 +97,6 @@ uploadBtn.addEventListener("click", async ()=>{
       perPhotoPrices.push(perPhoto ? (ppMap[i] || price) : null);
     }
 
-    /* const item = {
-      id: Date.now(),
-      title, price, desc, urls,
-      perPhoto, perPhotoPrices,
-      createdAt: new Date().toISOString()
-    };
-    state.items.unshift(item);
-
-    saveItems(state.items); */
     const productToSave = {
       title: title,
       price: Number(price),
@@ -210,11 +201,28 @@ function renderList(){
     btnWa.addEventListener("click", ()=> shareWhatsApp(it));
     btnCp.addEventListener("click", ()=> copyMessage(it));
     btnGal.addEventListener("click", ()=> window.open(buildGalleryLink(it), "_blank"));
-    btnDel.addEventListener("click", ()=>{
+   /*  btnDel.addEventListener("click", ()=>{
       state.items = state.items.filter(x=>x.id!==it.id);
      
       saveItems(state.items);
       renderList();
+    }); */
+    btnDel.addEventListener("click", async () => {
+      const confirmed = confirm(`¿Eliminar "${it.title}"?`);
+    
+      if (!confirmed) return;
+    
+      const deleted = await deleteProduct(it.id);
+    
+      if (!deleted) {
+        setStatus("No se pudo eliminar el producto.", true);
+        return;
+      }
+    
+      state.items = state.items.filter(product => product.id !== it.id);
+    
+      renderList();
+      setStatus("Producto eliminado correctamente.");
     });
     list.appendChild(div);
   }
@@ -223,4 +231,3 @@ function renderList(){
 // arranque
 loadProductsFromDatabase();
 //renderList();
-//Commit 954828f
