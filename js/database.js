@@ -29,8 +29,8 @@ async function saveProduct(product) {
 
     const { data, error } = await supabaseClient
       .from("products")
-      .insert([product])
-      .select();
+      .insert([product]) // para poder insertar en data base agregamos politicas de seguridad en supabase
+      .select("*");// politica INSERT Y SELECT
   
     if (error) {
       console.error("Error en supabase:", error);
@@ -40,3 +40,25 @@ async function saveProduct(product) {
     console.log("Producto guardado en Supabase:", data);
     return data[0];
   }
+
+  async function getProducts() {
+    const { data, error } = await supabaseClient
+      .from("products")
+      .select("*")
+      .order("created_at", { ascending: false });
+  
+    if (error) {
+      console.error("Error al obtener productos:", error);
+      return [];
+    }
+  
+    console.log("Productos obtenidos:", data);
+    return data;
+  }
+
+  async function testGetProducts() {
+    const products = await getProducts();
+    console.log("Prueba de productos:", products);
+  }
+  
+  testGetProducts();
