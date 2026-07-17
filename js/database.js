@@ -8,6 +8,18 @@ const supabaseClient = supabase.createClient(
 
 console.log("Supabase conectado");
 
-const { data, error } = await supabaseClient
-    .from("products")
-    .select("*");
+async function testConnection() {
+
+    const { data, error } = await supabaseClient
+        .from("products")
+        .select("*");
+
+    if (error) {
+        console.error(error);
+        return;
+    }
+
+    console.log(data);
+}
+
+testConnection();
