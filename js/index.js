@@ -132,9 +132,13 @@ uploadBtn.addEventListener("click", async ()=>{
       el.innerHTML = `<img src="${u}" alt=""><div class="priceTag">${formatPrice(tagPrice)}</div>`;
       preview.appendChild(el);
     });
-  }catch(err){
+  /* }catch(err){
     console.error(err);
     setStatus("Error subiendo. Revisa tu CLOUD_NAME y UPLOAD_PRESET.", true);
+  } */
+    }catch(err){
+      console.error("Error completo:", err);
+      setStatus(`Error: ${err.message}`, true);
   }
 });
 

@@ -25,13 +25,15 @@ async function testConnection() {
 testConnection(); */
 
 async function saveProduct(product) {
+    console.log("Producto que se enviará:", product);
+
     const { data, error } = await supabaseClient
       .from("products")
       .insert([product])
       .select();
   
     if (error) {
-      console.error("Error al guardar el producto:", error);
+      console.error("Error en supabase:", error);
       return null;
     }
   
