@@ -6,7 +6,7 @@ const supabaseClient = supabase.createClient(
   SUPABASE_KEY
 );
 
-console.log("Supabase conectado");
+/* console.log("Supabase conectado");
 
 async function testConnection() {
 
@@ -22,4 +22,19 @@ async function testConnection() {
     console.log(data);
 }
 
-testConnection();
+testConnection(); */
+
+async function saveProduct(product) {
+    const { data, error } = await supabaseClient
+      .from("products")
+      .insert([product])
+      .select();
+  
+    if (error) {
+      console.error("Error al guardar el producto:", error);
+      return null;
+    }
+  
+    console.log("Producto guardado en Supabase:", data);
+    return data[0];
+  }

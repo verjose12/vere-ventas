@@ -106,6 +106,20 @@ uploadBtn.addEventListener("click", async ()=>{
     state.items.unshift(item);
 
     saveItems(state.items);
+    const productToSave = {
+      title: title,
+      price: Number(price),
+      description: desc,
+      image_urls: urls,
+      per_photo: perPhoto,
+      per_photo_prices: perPhotoPrices
+    };
+    
+    const savedProduct = await saveProduct(productToSave);
+    
+    if (!savedProduct) {
+      throw new Error("No se pudo guardar el producto en Supabase");
+    }
     renderList();
     setStatus(`Listo ✔️ Subidas ${urls.length}.`, false);
 
