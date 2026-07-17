@@ -195,21 +195,34 @@ function renderList(){
       <div>
         <div class="inline" style="align-items:center;gap:8px;margin-bottom:4px">
           <strong>${it.title}</strong>
-          <span class="pill">${it.perPhoto ? "Precio por foto" : formatPrice(it.price)}</span>
+
+          <span class="pill">
+          ${it.perPhoto ? "Precio por foto" : formatPrice(it.price)}
+          </span>
         </div>
-        <div class="muted" style="margin-top:6px;">
-           Stock: <strong>${it.stock}</strong>
-        </div>
+
+        <div class="muted">
+          Stock: <strong>${it.stock}</strong>
+          &nbsp;&nbsp;•&nbsp;&nbsp;
+          ${it.category || "Sin categoría"}
+          </div>
+
           <div class="muted">
            ${it.category || "Sin categoría"}
           </div>
-        <div class="muted" style="margin:4px 0">${it.desc ? it.desc : ""}</div>
-        <div class="share">
+          <div class="muted" style="margin-top:8px;margin-bottom:12px">
+          ${it.desc || ""}
+      </div>
+  
+      <div class="share">
           <button class="btn whats">Compartir WhatsApp</button>
+  
           <button class="btn copy">Copiar mensaje</button>
+  
           <button class="btn btn-ghost gal">Ver galería</button>
+  
           <button class="btn btn-ghost del">Eliminar</button>
-        </div>
+      </div>
       </div>
     `;
     const btnWa  = div.querySelector(".whats");
