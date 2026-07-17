@@ -1,6 +1,6 @@
 const state ={
   files: [],
-  items: loadItems()
+  items: []
 };
 
 const $ = s => document.querySelector(s);
@@ -97,7 +97,7 @@ uploadBtn.addEventListener("click", async ()=>{
       perPhotoPrices.push(perPhoto ? (ppMap[i] || price) : null);
     }
 
-    const item = {
+    /* const item = {
       id: Date.now(),
       title, price, desc, urls,
       perPhoto, perPhotoPrices,
@@ -105,7 +105,7 @@ uploadBtn.addEventListener("click", async ()=>{
     };
     state.items.unshift(item);
 
-    saveItems(state.items);
+    saveItems(state.items); */
     const productToSave = {
       title: title,
       price: Number(price),
@@ -120,6 +120,9 @@ uploadBtn.addEventListener("click", async ()=>{
     if (!savedProduct) {
       throw new Error("No se pudo guardar el producto en Supabase");
     }
+
+    const savedItem = adaptProductFromDatabase(savedProduct);
+    state.items.unshift(savedItem);
     renderList();
     setStatus(`Listo ✔️ Subidas ${urls.length}.`, false);
 
@@ -146,6 +149,30 @@ uploadBtn.addEventListener("click", async ()=>{
 function setStatus(msg, isError=false){
   statusEl.textContent = msg;
   statusEl.className = isError ? "muted bad" : "muted ok";
+}
+
+function adaptProductFromDatabase(product) {
+  return {
+    id: product.id,
+    title: product.title,
+    price: product.price,
+    desc: product.description,
+    urls: product.image_urls || [],
+    perPhoto: product.per_photo,
+    perPhotoPrices: product.per_photo_prices || [],
+    createdAt: product.created_at
+  };
+}
+
+async function loadProductsFromDatabase() {
+  setStatus("Cargando publicaciones...");
+
+  const products = await getProducts();
+
+  state.items = products.map(adaptProductFromDatabase);
+
+  renderList();
+  setStatus("");
 }
 
 
@@ -194,5 +221,6 @@ function renderList(){
 }
 
 // arranque
-renderList();
+loadProductsFromDatabase();
+//renderList();
 //Commit 954828f

@@ -56,9 +56,10 @@ async function saveProduct(product) {
     return data;
   }
 
-  async function testGetProducts() {
+  
+ /*  async function testGetProducts() {
     const products = await getProducts();
     console.log("Prueba de productos:", products);
   }
   
-  testGetProducts();
+  testGetProducts(); */
