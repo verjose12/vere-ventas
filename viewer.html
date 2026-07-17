@@ -39,42 +39,6 @@
 </main>
 <footer>Hecho con ♥ | VJOX</footer>
 
-<!-- <script>
-function decodeStateFromHash() {
-  const h = location.hash || "";
-  const m = h.match(/[#&?]s=([^&]+)/);
-  if (!m) return null;
-
-  let b64 = decodeURIComponent(m[1]);
-
-  // Aceptar Base64URL (lo que mandamos desde el publicador)
-  b64 = b64.replace(/-/g, '+').replace(/_/g, '/');
-  while (b64.length % 4) b64 += '=';   // padding si falta
-
-  try {
-    const json = atob(b64);
-    return JSON.parse(json);
-  } catch (e) {
-    console.error("Error decodificando estado:", e);
-    return null;
-  }
-}
-
-const STATE = decodeStateFromHash();
-if (!STATE || !Array.isArray(STATE.u) || STATE.u.length === 0) {
-  document.body.insertAdjacentHTML(
-    'afterbegin',
-    '<div style="padding:12px;margin:12px;background:#222;border:1px solid #333;border-radius:8px">' +
-    'No se pudo cargar la galería. Revisa que el enlace esté completo.' +
-    '</div>'
-  );
-} else {
-  // 👉 Aquí ya usas STATE.t / STATE.d / STATE.u / STATE.pp para renderizar las tarjetas
-}
-</script> -->
-
-
-
 <script src="js/viewer.js"></script>
 
 </body>
