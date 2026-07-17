@@ -15,6 +15,8 @@ const preview = $("#preview");
 const list = $("#list");
 const statusEl = $("#status");
 const perPhotoChk = $("#perPhotoChk");
+const stockInput = $("#stockInput");
+const categoryInput = $("#categoryInput");
 
 function formatPrice(n){
   if(n==null || n==="") return "";
@@ -73,6 +75,8 @@ clearBtn.addEventListener("click", ()=>{
   titleInput.value = "";
   priceInput.value = "";
   descInput.value = "";
+  stockInput.value = "";
+  categoryInput.value = "";
   setStatus("");
 });
 
@@ -80,11 +84,16 @@ uploadBtn.addEventListener("click", async ()=>{
   const title = titleInput.value.trim() || "Producto";
   const price = priceInput.value.trim();
   const desc  = descInput.value.trim();
+  const stock = stockInput.value.trim();
+  const category = categoryInput.value;
   const perPhoto = perPhotoChk.checked;
   const ppMap = perPhoto ? getPerPhotoPrices() : {};
 
   if(state.files.length === 0){ return setStatus("Sube al menos una foto 🖼️", true); }
   if(!price){ return setStatus("Agrega un precio 💵", true); }
+  if (!stock) {
+    return setStatus("Agrega la cantidad disponible 📦", true);
+  }
 
   setStatus("Subiendo fotos… 📤 Esto puede tardar unos segundos.");
   try{
@@ -103,7 +112,9 @@ uploadBtn.addEventListener("click", async ()=>{
       description: desc,
       image_urls: urls,
       per_photo: perPhoto,
-      per_photo_prices: perPhotoPrices
+      per_photo_prices: perPhotoPrices,
+      stock: Number(stock),
+      category: category || null
     };
     
     const savedProduct = await saveProduct(productToSave);
@@ -151,6 +162,8 @@ function adaptProductFromDatabase(product) {
     urls: product.image_urls || [],
     perPhoto: product.per_photo,
     perPhotoPrices: product.per_photo_prices || [],
+    stock: product.stock ?? 0,
+    category: product.category || "",
     createdAt: product.created_at
   };
 }
@@ -184,6 +197,12 @@ function renderList(){
           <strong>${it.title}</strong>
           <span class="pill">${it.perPhoto ? "Precio por foto" : formatPrice(it.price)}</span>
         </div>
+        <div class="muted" style="margin-top:6px;">
+           Stock: <strong>${it.stock}</strong>
+        </div>
+          <div class="muted">
+           ${it.category || "Sin categoría"}
+          </div>
         <div class="muted" style="margin:4px 0">${it.desc ? it.desc : ""}</div>
         <div class="share">
           <button class="btn whats">Compartir WhatsApp</button>
@@ -224,6 +243,7 @@ function renderList(){
       renderList();
       setStatus("Producto eliminado correctamente.");
     });
+
     list.appendChild(div);
   }
 }

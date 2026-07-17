@@ -10,7 +10,7 @@
 <body>
 <header>
   <img alt="VJOX" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M3 3h18v3H3zM3 9h18v3H3zM3 15h18v6H3z'/%3E%3C/svg%3E" />
-  <h1>VJOX · Publicador Express</h1>
+  <h1>VJOX · Panel de Inventario</h1>
 </header>
 
 <main class="grid">
@@ -37,13 +37,39 @@
         </div>
       </div>
 
+      <div class="inline">
+        <div>
+          <label>Cantidad disponible</label>
+          <input
+            id="stockInput"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="Ej. 3"
+          />
+        </div>
+      
+        <div>
+          <label>Categoría</label>
+          <select id="categoryInput">
+            <option value="">Selecciona una categoría</option>
+            <option value="perfumes">Perfumes</option>
+            <option value="audifonos">Audífonos</option>
+            <option value="carteras">Carteras</option>
+            <option value="telefonos">Teléfonos</option>
+            <option value="ropa">Ropa</option>
+            <option value="otros">Otros</option>
+          </select>
+        </div>
+      </div>
+
       <div>
         <label>Descripción (opcional)</label>
         <textarea id="descInput" rows="3" placeholder="Ingredientes, tamaño, condiciones de entrega…"></textarea>
       </div>
 
       <div class="inline">
-        <button id="uploadBtn" class="btn btn-primary">Subir y generar links</button>
+        <button id="uploadBtn" class="btn btn-primary">Agregar al inventario</button>
         <button id="clearBtn" class="btn btn-ghost">Limpiar</button>
       </div>
 
@@ -54,13 +80,13 @@
 
   <!-- Publicaciones generadas -->
   <section class="card">
-    <h3 style="margin:0 0 8px 0">Tus publicaciones</h3>
+    <h3 style="margin:0 0 8px 0">Productos Registrados</h3>
     <div id="list" class="grid list"></div>
   </section>
 </main>
 
 <footer>
-  Hecho con ♥ para Veré. • Sin servidor • Ventas.
+  Hecho con ♥ para Veré. • Control de Inventario • Ventas.
 </footer>
   <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
@@ -72,3 +98,4 @@
   <script src="js/index.js"></script>
 </body>
 </html>
+ 
