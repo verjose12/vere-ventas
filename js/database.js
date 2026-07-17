@@ -7,3 +7,7 @@ const supabaseClient = supabase.createClient(
 );
 
 console.log("Supabase conectado");
+
+const { data, error } = await supabaseClient
+    .from("products")
+    .select("*");
