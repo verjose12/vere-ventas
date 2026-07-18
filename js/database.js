@@ -38,6 +38,21 @@ async function saveProduct(product) {
     return data;
   }
 
+  async function getProductById(productId) {
+    const { data, error } = await supabaseClient
+      .from("products")
+      .select("*")
+      .eq("id", productId)
+      .single();
+  
+    if (error) {
+      console.error(error);
+      return null;
+    }
+  
+    return data;
+  }
+
   async function deleteProduct(productId) {
     const { error } = await supabaseClient
       .from("products")

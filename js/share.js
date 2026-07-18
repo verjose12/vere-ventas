@@ -24,7 +24,7 @@ function buildShareUrlFromState(stateObj) {
   return `${base}#s=${encodeURIComponent(base64Url)}`;
 }
 
-function buildGalleryLink(item) {
+/* function buildGalleryLink(item) {
   const payload = {
     t: item.title,
     d: item.desc || "",
@@ -34,7 +34,15 @@ function buildGalleryLink(item) {
   };
 
   return buildShareUrlFromState(payload);
+} */
+
+function buildGalleryLink(item){
+  return new URL(
+      `viewer.html?id=${item.id}`,
+      location.href
+  ).toString();
 }
+
 
 function buildMessage(item) {
   const galleryLink = buildGalleryLink(item);
