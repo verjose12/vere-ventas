@@ -206,10 +206,6 @@ function renderList(){
           &nbsp;&nbsp;•&nbsp;&nbsp;
           ${it.category || "Sin categoría"}
           </div>
-
-          <div class="muted">
-           ${it.category || "Sin categoría"}
-          </div>
           <div class="muted" style="margin-top:8px;margin-bottom:12px">
           ${it.desc || ""}
       </div>
