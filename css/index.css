@@ -215,3 +215,23 @@
   border-radius: 10px;
   display: block;
 }
+
+.modal-photo {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.delete-photo-btn {
+  width: 100%;
+  padding: 9px;
+  border: 1px solid #7f1d1d;
+  border-radius: 8px;
+  background: #3a1619;
+  color: #fecaca;
+  cursor: pointer;
+}
+
+.delete-photo-btn:hover {
+  background: #551b1f;
+}

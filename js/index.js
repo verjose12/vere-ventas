@@ -206,14 +206,28 @@ function renderModalPhotos() {
 
   modalPhotos.innerHTML = "";
 
-  product.urls.forEach((imageUrl) => {
-    const img = document.createElement("img");
+  product.urls.forEach((imageUrl, index) => {
+    const photoCard = document.createElement("div");
+    photoCard.className = "modal-photo";
 
+    const img = document.createElement("img");
     img.src = imageUrl;
     img.alt = product.title;
     img.className = "modal-product-image";
 
-    modalPhotos.appendChild(img);
+    const deleteButton = document.createElement("button");
+    deleteButton.type = "button";
+    deleteButton.className = "delete-photo-btn";
+    deleteButton.textContent = "Eliminar";
+
+    deleteButton.addEventListener("click", () => {
+      console.log("Eliminar imagen:", index);
+    });
+
+    photoCard.appendChild(img);
+    photoCard.appendChild(deleteButton);
+
+    modalPhotos.appendChild(photoCard);
   });
 }
 
