@@ -1,6 +1,7 @@
 const state ={
   files: [],
-  items: []
+  items: [],
+  editingProduct: null
 };
 
 const $ = s => document.querySelector(s);
@@ -17,6 +18,15 @@ const statusEl = $("#status");
 const perPhotoChk = $("#perPhotoChk");
 const stockInput = $("#stockInput");
 const categoryInput = $("#categoryInput");
+
+//obtenemos los elementos del modal 
+
+const editModal = $("#editModal");
+const modalTitle = $("#modalTitle");
+const modalPhotos = $("#modalPhotos");
+const modalStock = $("#modalStock");
+const closeModalBtn = $("#closeModalBtn");
+const finishEditBtn = $("#finishEditBtn");
 
 function formatPrice(n){
   if(n==null || n==="") return "";
@@ -179,6 +189,13 @@ async function loadProductsFromDatabase() {
   setStatus("");
 }
 
+function openProductEditor(product) {
+  state.editingProduct = product;
+
+  modalTitle.textContent = `Editar: ${product.title}`;
+
+  editModal.classList.remove("hidden");
+}
 
 function renderList(){
   list.innerHTML = "";
@@ -213,7 +230,7 @@ function renderList(){
       <div class="share">
           <button class="btn whats">Compartir WhatsApp</button>
   
-          <button class="btn copy">Copiar mensaje</button>
+          <button class="btn edit">Editar</button>
   
           <button class="btn btn-ghost gal">Ver galería</button>
   
@@ -222,12 +239,16 @@ function renderList(){
       </div>
     `;
     const btnWa  = div.querySelector(".whats");
-    const btnCp  = div.querySelector(".copy");
+    const btnEdit = div.querySelector(".edit");
+    //const btnCp  = div.querySelector(".copy");
     const btnGal = div.querySelector(".gal");
     const btnDel = div.querySelector(".del");
 
     btnWa.addEventListener("click", ()=> shareWhatsApp(it));
-    btnCp.addEventListener("click", ()=> copyMessage(it));
+    //btnCp.addEventListener("click", ()=> copyMessage(it));
+    btnEdit.addEventListener("click", () => {
+      openProductEditor(it);
+    });
     btnGal.addEventListener("click", ()=> window.open(buildGalleryLink(it), "_blank"));
    /*  btnDel.addEventListener("click", ()=>{
       state.items = state.items.filter(x=>x.id!==it.id);

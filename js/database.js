@@ -67,4 +67,23 @@ async function saveProduct(product) {
     return true;
   }
 
+  async function updateProductPhotos(productId, imageUrls, newStock) {
+    const { data, error } = await supabaseClient
+      .from("products")
+      .update({
+        image_urls: imageUrls,
+        stock: newStock
+      })
+      .eq("id", productId)
+      .select()
+      .single();
+  
+    if (error) {
+      console.error("Error actualizando producto:", error);
+      return null;
+    }
+  
+    return data;
+  }
+
   
