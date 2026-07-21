@@ -197,6 +197,21 @@ function openProductEditor(product) {
   editModal.classList.remove("hidden");
 }
 
+function closeProductEditor() {
+  editModal.classList.add("hidden");
+  state.editingProduct = null;
+}
+
+closeModalBtn.addEventListener("click", closeProductEditor);
+
+finishEditBtn.addEventListener("click", closeProductEditor);
+
+editModal.addEventListener("click", (event) => {
+  if (event.target === editModal) {
+    closeProductEditor();
+  }
+});
+
 function renderList(){
   list.innerHTML = "";
   if(state.items.length===0){
