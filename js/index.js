@@ -221,7 +221,7 @@ function renderModalPhotos() {
     deleteButton.textContent = "Eliminar";
 
     deleteButton.addEventListener("click", () => {
-      console.log("Eliminar imagen:", index);
+      deleteProductPhoto(index);
     });
 
     photoCard.appendChild(img);
@@ -229,6 +229,43 @@ function renderModalPhotos() {
 
     modalPhotos.appendChild(photoCard);
   });
+}
+
+async function deleteProductPhoto(photoIndex) {
+  const product = state.editingProduct;
+
+  if (!product) return;
+
+  const confirmed = confirm(
+    "¿Seguro que quieres eliminar esta imagen?"
+  );
+
+  if (!confirmed) return;
+
+  const updatedUrls = product.urls.filter(
+    (_, index) => index !== photoIndex
+  );
+
+  const newStock = updatedUrls.length;
+
+  const updatedProduct = await updateProductPhotos(
+    product.id,
+    updatedUrls,
+    newStock
+  );
+
+  if (!updatedProduct) {
+    setStatus("No se pudo actualizar el producto.", true);
+    return;
+  }
+
+  product.urls = updatedUrls;
+  product.stock = newStock;
+
+  renderModalPhotos();
+  renderList();
+
+  setStatus("Imagen eliminada y stock actualizado.");
 }
 
 function closeProductEditor() {
