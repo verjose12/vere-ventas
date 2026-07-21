@@ -194,7 +194,27 @@ function openProductEditor(product) {
 
   modalTitle.textContent = `Editar: ${product.title}`;
 
+  renderModalPhotos();
+
   editModal.classList.remove("hidden");
+}
+
+function renderModalPhotos() {
+  const product = state.editingProduct;
+
+  if (!product) return;
+
+  modalPhotos.innerHTML = "";
+
+  product.urls.forEach((imageUrl) => {
+    const img = document.createElement("img");
+
+    img.src = imageUrl;
+    img.alt = product.title;
+    img.className = "modal-product-image";
+
+    modalPhotos.appendChild(img);
+  });
 }
 
 function closeProductEditor() {
