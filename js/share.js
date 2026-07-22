@@ -24,18 +24,6 @@ function buildShareUrlFromState(stateObj) {
   return `${base}#s=${encodeURIComponent(base64Url)}`;
 }
 
-/* function buildGalleryLink(item) {
-  const payload = {
-    t: item.title,
-    d: item.desc || "",
-    p: "MXN",
-    u: item.urls,
-    pp: item.perPhoto ? item.perPhotoPrices : null
-  };
-
-  return buildShareUrlFromState(payload);
-} */
-
 function buildGalleryLink(item){
   return new URL(
       `viewer.html?id=${item.id}`,
