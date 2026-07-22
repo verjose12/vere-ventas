@@ -24,11 +24,20 @@ function buildShareUrlFromState(stateObj) {
   return `${base}#s=${encodeURIComponent(base64Url)}`;
 }
 
-function buildGalleryLink(item){
+/* function buildGalleryLink(item){
   return new URL(
       `viewer.html?id=${item.id}`,
       location.href
   ).toString();
+} */
+
+function buildGalleryLink(item) {
+  const url = new URL("viewer.html", location.href);
+
+  url.searchParams.set("id", item.id);
+  url.searchParams.set("v", "2");
+
+  return url.toString();
 }
 
 
