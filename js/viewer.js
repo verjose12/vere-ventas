@@ -20,7 +20,7 @@ function formatPrice(value) {
     return number.toLocaleString("es-MX", {
       style: "currency",
       currency: "MXN",
-      maximumFractionDigits: 2
+      maximumFractionDigits: 2,
     });
   } catch {
     return `MXN ${number.toFixed(2)}`;
@@ -43,6 +43,7 @@ function showError(message) {
     `
   );
 }
+let selectedImageIndex = 0;
 
 function renderGallery(product) {
   const titleElement = document.querySelector("#t");
@@ -76,29 +77,51 @@ function renderGallery(product) {
         alt="${product.title || "Producto"}"
       >
 
-      ${
-        price
-          ? `<div class="pill">${formatPrice(price)}</div>`
-          : ""
-      }
+      ${price ? `<div class="pill">${formatPrice(price)}</div>` : ""}
     `;
 
     galleryElement.appendChild(card);
+
+    if (index === 0) {
+      card.classList.add("selected");
+    }
+
+    card.addEventListener("click", () => {
+      selectedImageIndex = index;
+
+      galleryElement
+        .querySelectorAll(".card")
+        .forEach((c) => c.classList.remove("selected"));
+
+      card.classList.add("selected");
+    });
   });
 
   if (product.per_photo) {
-    pricesElement.textContent =
-      "El precio aparece en cada fotografía.";
+    pricesElement.textContent = "El precio aparece en cada fotografía.";
   } else {
-    pricesElement.textContent =
-      `Precio: ${formatPrice(product.price)}`;
+    pricesElement.textContent = `Precio: ${formatPrice(product.price)}`;
   }
 
   askButton.addEventListener("click", () => {
-    const message = encodeURIComponent(
+    /* const message = encodeURIComponent(
       `Hola, me interesa este producto: ${
         product.title || "Producto"
       }\n${window.location.href}`
+    ); */
+    const selectedImage = imageUrls[selectedImageIndex];
+
+    const message = encodeURIComponent(
+      `Hola 👋
+
+Me interesa este producto:
+
+${product.title}
+
+Fotografía seleccionada:
+${selectedImage}
+
+${window.location.href}`
     );
 
     const base = DEFAULT_PHONE
