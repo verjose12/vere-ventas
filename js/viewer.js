@@ -155,6 +155,31 @@ ${selectedPhotoUrl.toString()}`
   });
 }
 
+async function renderGalleryNavigation(currentProductId) {
+  const galleryNav = document.querySelector("#galleryNav");
+
+  if (!galleryNav) {
+    return;
+  }
+
+  const products = await getProducts();
+
+  galleryNav.innerHTML = "";
+
+  products.forEach((product) => {
+    const link = document.createElement("a");
+
+    link.href = `viewer.html?id=${product.id}`;
+    link.textContent = product.title || "Producto";
+
+    if (String(product.id) === String(currentProductId)) {
+      link.classList.add("active");
+    }
+
+    galleryNav.appendChild(link);
+  });
+}
+
 async function loadProduct() {
   const productId = getProductIdFromUrl();
 
@@ -178,6 +203,8 @@ async function loadProduct() {
   }
 
   renderGallery(product);
+
+  await renderGalleryNavigation(productId);
 }
 
 loadProduct();

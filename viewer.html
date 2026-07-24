@@ -39,12 +39,40 @@
   border: 3px solid #25d366;
   transform: scale(1.02);
 }
+
+.gallery-nav {
+  display: flex;
+  gap: 8px;
+  overflow-x: auto;
+  padding: 12px 0 4px;
+  scrollbar-width: thin;
+}
+
+.gallery-nav a {
+  flex: 0 0 auto;
+  text-decoration: none;
+  color: #fff;
+  border: 1px solid #3a3d44;
+  background: #1a1c20;
+  padding: 9px 13px;
+  border-radius: 999px;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+.gallery-nav a.active {
+  background: #25d366;
+  border-color: #128c7e;
+  color: #062d1e;
+  font-weight: 700;
+}
   .img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;border:1px solid #2a2d33}
   .pill{display:inline-block;margin-top:8px;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #2a2d33;background:#121316}
   .cta{display:flex;gap:10px}
   button{cursor:pointer;border:1px solid #3a3d44;background:#1a1c20;color:#fff;padding:12px 14px;border-radius:10px}
   .whats{background:#25D366;border-color:#128C7E;color:#062d1e;font-weight:700}
   footer{padding:16px;text-align:center;color:var(--muted);font-size:12px}
+
 </style>
 </head>
 <body>
@@ -53,9 +81,11 @@
   <div>
     <div class="title" id="t"></div>
     <div class="muted" id="d"></div>
+    <div id="galleryNav" class="gallery-nav"></div>
   </div>
   <div class="card">
     <div id="prices" class="muted" style="margin-bottom:8px"></div>
+
     <div id="g" class="grid"></div>
     <div class="cta" style="margin-top:12px">
       <button class="whats" id="askBtn">Pedir por WhatsApp</button>
@@ -70,7 +100,7 @@
 <script src="js/database.js"></script>
 
 
-<script src="js/viewer.js?v=3"></script>
+<script src="js/viewer.js?v=4"></script>
 
 </body>
 </html>
