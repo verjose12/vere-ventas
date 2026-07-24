@@ -27,6 +27,9 @@ const modalPhotos = $("#modalPhotos");
 const modalStock = $("#modalStock");
 const closeModalBtn = $("#closeModalBtn");
 const finishEditBtn = $("#finishEditBtn");
+const addProductPhotos = $("#addProductPhotos");
+const addProductPhotosBtn = $("#addProductPhotosBtn");
+const addProductStatus = $("#addProductStatus");
 
 function formatPrice(n){
   if(n==null || n==="") return "";
@@ -268,11 +271,84 @@ async function deleteProductPhoto(photoIndex) {
   setStatus("Imagen eliminada y stock actualizado.");
 }
 
+async function addPhotosToProduct() {
+  const product = state.editingProduct;
+
+  if (!product) {
+    return;
+  }
+
+  const selectedFiles = Array.from(
+    addProductPhotos.files || []
+  );
+
+  if (selectedFiles.length === 0) {
+    addProductStatus.textContent =
+      "Selecciona al menos una fotografía.";
+    return;
+  }
+
+  try {
+    addProductPhotosBtn.disabled = true;
+    addProductStatus.textContent =
+      "Subiendo fotografías...";
+
+    const newUrls = [];
+
+    for (const file of selectedFiles) {
+      const imageUrl =
+        await uploadImageToCloudinary(file);
+
+      newUrls.push(imageUrl);
+    }
+
+    const updatedUrls = [
+      ...product.urls,
+      ...newUrls
+    ];
+
+    const newStock = updatedUrls.length;
+
+    const updatedProduct =
+      await updateProductPhotos(
+        product.id,
+        updatedUrls,
+        newStock
+      );
+
+    if (!updatedProduct) {
+      throw new Error(
+        "No se pudo actualizar el producto."
+      );
+    }
+
+    product.urls = updatedUrls;
+    product.stock = newStock;
+
+    addProductPhotos.value = "";
+
+    addProductStatus.textContent =
+      `${newUrls.length} producto(s) agregado(s) correctamente.`;
+
+    renderModalPhotos();
+    renderList();
+
+  } catch (error) {
+    console.error(error);
+
+    addProductStatus.textContent =
+      `Error: ${error.message}`;
+
+  } finally {
+    addProductPhotosBtn.disabled = false;
+  }
+}
+
 function closeProductEditor() {
   editModal.classList.add("hidden");
   state.editingProduct = null;
 }
-
+//eventos del modal
 closeModalBtn.addEventListener("click", closeProductEditor);
 
 finishEditBtn.addEventListener("click", closeProductEditor);
@@ -282,6 +358,11 @@ editModal.addEventListener("click", (event) => {
     closeProductEditor();
   }
 });
+
+addProductPhotosBtn.addEventListener(
+  "click",
+  addPhotosToProduct
+);
 
 function renderList(){
   list.innerHTML = "";
@@ -336,12 +417,8 @@ function renderList(){
       openProductEditor(it);
     });
     btnGal.addEventListener("click", ()=> window.open(buildGalleryLink(it), "_blank"));
-   /*  btnDel.addEventListener("click", ()=>{
-      state.items = state.items.filter(x=>x.id!==it.id);
-     
-      saveItems(state.items);
-      renderList();
-    }); */
+
+    
     btnDel.addEventListener("click", async () => {
       const confirmed = confirm(`¿Eliminar "${it.title}"?`);
     
