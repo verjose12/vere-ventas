@@ -46,25 +46,11 @@ main {
   gap: 14px
 }
 
-/* .card{background:var(--card);
+ .card{background:var(--card);
     border:1px solid #26272b;
     border-radius:14px;
     padding:14px
-  } */
-
-.card {
-  background: var(--card);
-  border: 1px solid #26272b;
-  border-radius: 14px;
-  padding: 12px;
-  cursor: pointer;
-  transition: .2s;
-}
-
-.card.selected {
-  border: 3px solid #25D366;
-  transform: scale(1.02);
-}
+ }
 
 .row {
   display: grid;

@@ -25,7 +25,20 @@
   .title{font-size:20px;font-weight:700}
   .muted{color:var(--muted)}
   .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px}
-  .card{background:var(--card);border:1px solid #26272b;border-radius:14px;padding:12px}
+  /* .card{background:var(--card);border:1px solid #26272b;border-radius:14px;padding:12px} */
+  .card {
+  background: var(--card);
+  border: 1px solid #26272b;
+  border-radius: 14px;
+  padding: 12px;
+  cursor: pointer;
+  transition: 0.2s;
+}
+
+.card.selected {
+  border: 3px solid #25d366;
+  transform: scale(1.02);
+}
   .img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;border:1px solid #2a2d33}
   .pill{display:inline-block;margin-top:8px;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #2a2d33;background:#121316}
   .cta{display:flex;gap:10px}
