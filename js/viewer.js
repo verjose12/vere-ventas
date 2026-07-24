@@ -1,4 +1,8 @@
-const DEFAULT_PHONE = "";
+const DEFAULT_PHONE = "526565792009";
+
+const base = DEFAULT_PHONE
+  ? `https://wa.me/${DEFAULT_PHONE}?text=`
+  : "https://api.whatsapp.com/send?text=";
 
 function getProductIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
