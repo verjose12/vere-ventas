@@ -61,6 +61,19 @@ function renderGallery(product) {
   const imageUrls = product.image_urls || [];
   const perPhotoPrices = product.per_photo_prices || [];
 
+  const params = new URLSearchParams(window.location.search);
+const photoFromUrl = Number(params.get("photo"));
+
+if (
+  Number.isInteger(photoFromUrl) &&
+  photoFromUrl >= 1 &&
+  photoFromUrl <= imageUrls.length
+) {
+  selectedImageIndex = photoFromUrl - 1;
+} else {
+  selectedImageIndex = 0;
+}
+
   imageUrls.forEach((imageUrl, index) => {
     const card = document.createElement("div");
     card.className = "card";
@@ -82,7 +95,7 @@ function renderGallery(product) {
 
     galleryElement.appendChild(card);
 
-    if (index === 0) {
+    if (index === selectedImageIndex) {
       card.classList.add("selected");
     }
 
@@ -109,7 +122,10 @@ function renderGallery(product) {
         product.title || "Producto"
       }\n${window.location.href}`
     ); */
-    const selectedImage = imageUrls[selectedImageIndex];
+    const selectedPhotoNumber = selectedImageIndex + 1;
+
+    const selectedPhotoUrl = new URL(window.location.href);
+    selectedPhotoUrl.searchParams.set("photo", selectedPhotoNumber);
 
     const message = encodeURIComponent(
       `Hola 👋
@@ -118,10 +134,8 @@ Me interesa este producto:
 
 ${product.title}
 
-Fotografía seleccionada:
-${selectedImage}
-
-${window.location.href}`
+📸 Fotografía seleccionada:
+${selectedPhotoUrl.toString()}`
     );
 
     const base = DEFAULT_PHONE
