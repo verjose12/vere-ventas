@@ -175,38 +175,32 @@ input[type="file"] {
   border: 1px solid #2a2d33;
   background: #121316
 }
-/* mejora en tarjeta de inventario */
-.list .item{
-  display:flex;
-  flex-direction:column;
-  overflow:hidden;
+/* V2.0 - FASE 1: imagen grande */
 
-  padding:0;
-
-  border:1px solid #2a2d33;
-  border-radius:16px;
-
-  background:#16171a;
+.list .item {
+  display: flex;
+  flex-direction: column;
+  gap: 0;
+  padding: 0;
+  overflow: hidden;
+  align-items: stretch;
+  background: var(--card);
+  border: 1px solid #2a2d33;
+  border-radius: 16px;
 }
 
-.item img{
-
-  width:100%;
-
-  height:240px;
-
-  object-fit:cover;
-
-  display:block;
-
-  border-radius:0;
-
+.list .item > img {
+  width: 100%;
+  height: 260px;
+  object-fit: cover;
+  object-position: center;
+  display: block;
+  border-radius: 0;
 }
 
-.item > div{
-
-  padding:16px;
-
+.list .item > div {
+  width: 100%;
+  padding: 16px;
 }
 
 .share {
