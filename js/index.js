@@ -379,10 +379,6 @@ function renderList(){
       <div>
         <div class="inline" style="align-items:center;gap:8px;margin-bottom:4px">
           <strong>${it.title}</strong>
-
-          <span class="pill">
-          ${it.perPhoto ? "Precio por foto" : formatPrice(it.price)}
-          </span>
         </div>
 
         <div class="muted">
@@ -396,22 +392,22 @@ function renderList(){
   
       <div class="share">
           <button class="btn whats">Compartir WhatsApp</button>
-  
+          <button class="facebook-btn">Compartir en Facebook</button>
           <button class="btn edit">Editar</button>
-  
           <button class="btn btn-ghost gal">Ver galería</button>
-  
           <button class="btn btn-ghost del">Eliminar</button>
       </div>
       </div>
     `;
     const btnWa  = div.querySelector(".whats");
+    const btnFb = div.querySelector(".facebook-btn");
     const btnEdit = div.querySelector(".edit");
     //const btnCp  = div.querySelector(".copy");
     const btnGal = div.querySelector(".gal");
     const btnDel = div.querySelector(".del");
 
     btnWa.addEventListener("click", ()=> shareWhatsApp(it));
+    btnFb.addEventListener("click", () => {shareFacebook(it); });
     //btnCp.addEventListener("click", ()=> copyMessage(it));
     btnEdit.addEventListener("click", () => {
       openProductEditor(it);

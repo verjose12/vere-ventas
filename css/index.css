@@ -38,6 +38,16 @@ header h1 {
   letter-spacing: .3px
 }
 
+.version {
+  margin-left: 8px;
+  padding: 3px 8px;
+  border-radius: 999px;
+  background: #25d366;
+  color: #062d1e;
+  font-size: 12px;
+  font-weight: 700;
+}
+
 main {
   max-width: 860px;
   margin: 0 auto;

@@ -60,6 +60,20 @@ function buildMessage(item) {
   return lines.join("\n");
 }
 
+function shareFacebook(product){
+
+  const galleryLink = buildGalleryLink(product);
+
+  const facebookUrl =
+      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(galleryLink)}`;
+
+  window.open(
+      facebookUrl,
+      "_blank"
+  );
+
+}
+
 function shareWhatsApp(item) {
   const message = encodeURIComponent(buildMessage(item));
 
