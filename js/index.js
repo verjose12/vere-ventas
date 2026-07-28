@@ -392,7 +392,7 @@ function renderList(){
   
       <div class="share">
           <button class="btn whats">Compartir WhatsApp</button>
-          <button class="facebook-btn">Compartir en Facebook</button>
+          <button class="btn facebook-btn">Compartir en Facebook</button>
           <button class="btn edit">Editar</button>
           <button class="btn btn-ghost gal">Ver galería</button>
           <button class="btn btn-ghost del">Eliminar</button>
