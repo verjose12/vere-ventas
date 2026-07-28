@@ -469,3 +469,100 @@ footer {
 .delete-photo-btn:hover {
   background: #551b1f;
 }
+
+/* =========================================
+   V2.0 - CORRECCIÓN TARJETAS Y BOTONES ADMIN
+========================================= */
+
+/* Evita que el listado herede las columnas del grid principal */
+.grid.list {
+  grid-template-columns: 1fr;
+}
+
+/* Distribución exacta de los botones */
+.share {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "whatsapp facebook"
+    "gallery edit"
+    "delete delete";
+
+  gap: 10px;
+  margin-top: 14px;
+}
+
+/* Posición de cada botón */
+.share .whats {
+  grid-area: whatsapp;
+}
+
+.share .facebook-btn {
+  grid-area: facebook;
+}
+
+.share .gal {
+  grid-area: gallery;
+}
+
+.share .edit {
+  grid-area: edit;
+}
+
+.share .del {
+  grid-area: delete;
+}
+
+/* Mismo tamaño para todos */
+.share .btn,
+.share .facebook-btn {
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  padding: 10px;
+  border-radius: 10px;
+
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  white-space: normal;
+}
+
+/* Colores */
+
+.whats {
+  background: #25D366;
+  border-color: #128C7E;
+  color: #062d1e;
+  font-weight: 700
+}
+
+.share .facebook-btn {
+  background: #1877f2;
+  border-color: #1877f2;
+  color: #fff;
+}
+
+.share .edit {
+  background: #292524;
+  border-color: #57534e;
+  color: #fff;
+}
+
+.share .gal {
+  background: #1e293b;
+  border-color: #334155;
+  color: #e2e8f0;
+}
+
+.share .del {
+  background: #3a1619;
+  border-color: #991b1b;
+  color: #fecaca;
+}
