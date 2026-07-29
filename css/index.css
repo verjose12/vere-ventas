@@ -2,40 +2,44 @@
   --bg: #0f0f10;
   --card: #16171a;
   --muted: #8a8f98;
-  --text: #fff;
+  --text: #ffffff;
   --accent: #22c55e;
   --accent2: #38bdf8;
 }
 
+/* =========================
+   BASE
+========================= */
+
 * {
-  box-sizing: border-box
+  box-sizing: border-box;
 }
 
 body {
   margin: 0;
-  font-family: system-ui, -apple-system, Segoe UI, Roboto, Inter, Arial;
+  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
   background: var(--bg);
-  color: var(--text)
+  color: var(--text);
 }
 
 header {
-  padding: 18px 16px;
-  border-bottom: 1px solid #222;
   display: flex;
   align-items: center;
-  gap: 10px
+  gap: 10px;
+  padding: 18px 16px;
+  border-bottom: 1px solid #222222;
 }
 
 header img {
   width: 28px;
-  height: 28px
+  height: 28px;
 }
 
 header h1 {
-  font-size: 16px;
   margin: 0;
+  font-size: 16px;
   font-weight: 600;
-  letter-spacing: .3px
+  letter-spacing: 0.3px;
 }
 
 .version {
@@ -49,40 +53,45 @@ header h1 {
 }
 
 main {
+  display: grid;
+  gap: 14px;
   max-width: 860px;
   margin: 0 auto;
   padding: 18px;
-  display: grid;
-  gap: 14px
 }
 
- .card{background:var(--card);
-    border:1px solid #26272b;
-    border-radius:14px;
-    padding:14px
- }
+.card {
+  padding: 14px;
+  background: var(--card);
+  border: 1px solid #26272b;
+  border-radius: 14px;
+}
 
 .row {
   display: grid;
-  gap: 10px
+  gap: 10px;
 }
 
 .grid {
   display: grid;
-  gap: 12px
+  gap: 12px;
 }
 
-@media (min-width:720px) {
+@media (min-width: 720px) {
   .grid {
-    grid-template-columns: 1.2fr 1fr
+    grid-template-columns: 1.2fr 1fr;
   }
 }
 
+/* =========================
+   FORMULARIOS
+========================= */
+
 label {
-  font-size: 12px;
-  color: var(--muted);
+  display: block;
   margin-bottom: 4px;
-  display: block
+  color: var(--muted);
+  font-size: 12px;
 }
 
 input,
@@ -90,230 +99,59 @@ textarea,
 button,
 select {
   width: 100%;
-  border: 1px solid #313338;
-  background: #1a1c20;
-  color: var(--text);
   padding: 12px;
+  color: var(--text);
+  background: #1a1c20;
+  border: 1px solid #313338;
   border-radius: 10px;
-  font-size: 14px
+  font-size: 14px;
 }
 
 select option {
+  color: #ffffff;
   background: #1a1c20;
-  color: #fff;
 }
 
 input[type="file"] {
-  padding: 10px
+  padding: 10px;
 }
 
 .inline {
   display: flex;
-  gap: 10px
+  gap: 10px;
 }
 
-.inline>* {
-  flex: 1
+.inline > * {
+  flex: 1;
 }
 
 .btn {
   cursor: pointer;
-  border: 1px solid #3a3d44
+  border: 1px solid #3a3d44;
 }
 
 .btn-primary {
+  color: #041d0f;
   background: var(--accent);
   border-color: #169c48;
-  color: #041d0f;
-  font-weight: 700
+  font-weight: 700;
 }
 
 .btn-ghost {
-  background: #1a1c20
+  background: #1a1c20;
 }
 
 .muted {
   color: var(--muted);
-  font-size: 12px
-}
-
-.preview {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 10px
-}
-
-.thumb {
-  position: relative;
-  border: 1px solid #2a2d33;
-  border-radius: 10px;
-  overflow: hidden;
-  background: #0b0c0e
-}
-
-.thumb img {
-  width: 100%;
-  height: 140px;
-  object-fit: cover;
-  display: block
-}
-
-.thumb .priceTag {
-  position: absolute;
-  bottom: 8px;
-  left: 8px;
-  background: rgba(0, 0, 0, .6);
-  padding: 4px 8px;
-  border-radius: 999px;
-  font-size: 12px
-}
-
-.pill {
   font-size: 12px;
-  padding: 6px 10px;
-  border-radius: 999px;
-  border: 1px solid #2a2d33;
-  background: #121316
-}
-/* V2.0 - FASE 1: imagen grande */
-
-.list .item {
-  display: flex;
-  flex-direction: column;
-  gap: 0;
-  padding: 0;
-  overflow: hidden;
-  align-items: stretch;
-  background: var(--card);
-  border:1px solid #24262b;
-  border-radius: 16px;
-
-  box-shadow: 0 8px 20px rgba(0,0,0,.22);
-}
-
-.list .item > img {
-  width: 100%;
-  height: 220px;
-  object-fit: cover;
-  object-position: center;
-  display: block;
-  border-radius: 0;
-}
-
-.list .item > div {
-  width: 100%;
-  padding: 12px 16px;
-}
-/* Botones de las tarjetas del panel admin */
-.share {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 10px;
-  margin-top: 14px;
-}
-
-.share .btn {
-  width: 100%;
-  min-width: 0;
-  min-height: 46px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 10px 12px;
-  border-radius: 10px;
-
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.2;
-  text-align: center;
-}
-
-/* WhatsApp y Facebook: primera fila */
-.share .whats,
-.share .facebook-btn {
-  grid-column: auto;
-}
-
-/* Ver galería y Editar: segunda fila */
-.share .gal,
-.share .edit {
-  grid-column: auto;
-}
-
-/* Eliminar: última fila completa */
-.share .del {
-  grid-column: 1 / -1;
-}
-.share .facebook-btn {
-  background: #1877f2;
-  border-color: #1877f2;
-  color: #fff;
-}
-
-.share .edit {
-  background: #292524;
-  border-color: #57534e;
-  color: #fff;
-}
-
-.share .gal {
-  background: #1e293b;
-  border-color: #334155;
-  color: #e2e8f0;
-}
-
-.share .del {
-  background: #3a1619;
-  border-color: #7f1d1d;
-  color: #fecaca;
-}
-
-.copy {
-  border-color: #3a3d44
-}
-
-footer {
-  padding: 18px;
-  text-align: center;
-  color: var(--muted);
-  font-size: 12px
 }
 
 .ok {
-  color: #86efac
+  color: #86efac;
 }
 
 .bad {
-  color: #fda4af
-}
-
-/* Botones de cada producto */
-.share {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 8px;
-  margin-top: 12px;
-}
-
-.share .btn {
-  width: auto;
-  min-width: 0;
-  padding: 8px 10px;
-  font-size: 12px;
-  line-height: 1.2;
-  border-radius: 8px;
-}
-
-/* WhatsApp ocupa toda la primera fila */
-.share .whats {
-  grid-column: 1 / -1;
-}
-
-/* Eliminar ocupa toda la última fila */
-.share .del {
-  grid-column: 1 / -1;
+  color: #fda4af;
 }
 
 .per-photo-option {
@@ -321,22 +159,189 @@ footer {
   align-items: center;
   justify-content: flex-start;
   gap: 8px;
-  margin-top: 10px;
   width: fit-content;
+  margin-top: 10px;
 }
 
 .per-photo-option input[type="checkbox"] {
+  flex: 0 0 auto;
   width: 18px;
   height: 18px;
   margin: 0;
-  flex: 0 0 auto;
 }
 
 .per-photo-option span {
   white-space: nowrap;
 }
 
-/* CSS MODAL */
+/* =========================
+   PREVISUALIZACIÓN
+========================= */
+
+.preview {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+  gap: 10px;
+}
+
+.thumb {
+  position: relative;
+  overflow: hidden;
+  background: #0b0c0e;
+  border: 1px solid #2a2d33;
+  border-radius: 10px;
+}
+
+.thumb img {
+  display: block;
+  width: 100%;
+  height: 140px;
+  object-fit: cover;
+}
+
+.thumb .priceTag {
+  position: absolute;
+  bottom: 8px;
+  left: 8px;
+  padding: 4px 8px;
+  background: rgba(0, 0, 0, 0.6);
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+.pill {
+  padding: 6px 10px;
+  background: #121316;
+  border: 1px solid #2a2d33;
+  border-radius: 999px;
+  font-size: 12px;
+}
+
+/* =========================
+   TARJETAS DE PRODUCTOS
+========================= */
+
+.grid.list {
+  grid-template-columns: 1fr;
+}
+
+.list .item {
+  display: flex;
+  flex-direction: column;
+  align-items: stretch;
+  gap: 0;
+  overflow: hidden;
+  padding: 0;
+  background: var(--card);
+  border: 1px solid #24262b;
+  border-radius: 16px;
+  box-shadow: 0 8px 20px rgba(0, 0, 0, 0.22);
+}
+
+.list .item > img {
+  display: block;
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  object-position: center;
+  border-radius: 0;
+}
+
+.list .item > div {
+  width: 100%;
+  padding: 12px 16px;
+}
+
+/* =========================
+   BOTONES DE PRODUCTO
+========================= */
+
+.share {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  grid-template-areas:
+    "whatsapp facebook"
+    "gallery edit"
+    "delete delete";
+  gap: 10px;
+  margin-top: 14px;
+}
+
+.share .whats {
+  grid-area: whatsapp;
+}
+
+.share .facebook-btn {
+  grid-area: facebook;
+}
+
+.share .gal {
+  grid-area: gallery;
+}
+
+.share .edit {
+  grid-area: edit;
+}
+
+.share .del {
+  grid-area: delete;
+}
+
+.share .btn,
+.share .facebook-btn {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 100%;
+  min-width: 0;
+  min-height: 48px;
+  padding: 10px;
+  border-radius: 10px;
+  font-size: 13px;
+  font-weight: 600;
+  line-height: 1.15;
+  text-align: center;
+  white-space: normal;
+}
+
+.whats {
+  color: #062d1e;
+  background: #25d366;
+  border-color: #128c7e;
+  font-weight: 700;
+}
+
+.share .facebook-btn {
+  color: #ffffff;
+  background: #1877f2;
+  border-color: #1877f2;
+}
+
+.share .edit {
+  color: #ffffff;
+  background: #292524;
+  border-color: #57534e;
+}
+
+.share .gal {
+  color: #e2e8f0;
+  background: #1e293b;
+  border-color: #334155;
+}
+
+.share .del {
+  color: #fecaca;
+  background: #3a1619;
+  border-color: #991b1b;
+}
+
+.copy {
+  border-color: #3a3d44;
+}
+
+/* =========================
+   MODAL
+========================= */
 
 .hidden {
   display: none !important;
@@ -346,21 +351,21 @@ footer {
   position: fixed;
   inset: 0;
   z-index: 1000;
-  background: rgba(0, 0, 0, 0.75);
   display: flex;
-  justify-content: center;
   align-items: center;
+  justify-content: center;
   padding: 16px;
+  background: rgba(0, 0, 0, 0.75);
 }
 
 .modal-content {
   width: min(700px, 100%);
   max-height: 90vh;
   overflow-y: auto;
+  padding: 16px;
   background: var(--card);
   border: 1px solid #2a2d33;
   border-radius: 16px;
-  padding: 16px;
 }
 
 .modal-header {
@@ -392,33 +397,44 @@ footer {
 }
 
 .modal-photo {
-  border: 1px solid #2a2d33;
-  border-radius: 12px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
   padding: 8px;
   background: #121316;
+  border: 1px solid #2a2d33;
+  border-radius: 12px;
 }
 
-.modal-photo img {
+.modal-photo img,
+.modal-product-image {
+  display: block;
   width: 100%;
   aspect-ratio: 1 / 1;
   object-fit: cover;
   border-radius: 8px;
-  display: block;
 }
 
-.modal-photo button {
-  margin-top: 8px;
-  padding: 8px;
-  font-size: 12px;
-  background: #3a1619;
-  border-color: #7f1d1d;
+.modal-photo button,
+.delete-photo-btn {
+  width: 100%;
+  padding: 9px;
   color: #fecaca;
+  background: #3a1619;
+  border: 1px solid #7f1d1d;
+  border-radius: 8px;
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.delete-photo-btn:hover {
+  background: #551b1f;
 }
 
 .modal-footer {
   display: flex;
-  justify-content: space-between;
   align-items: center;
+  justify-content: space-between;
   gap: 12px;
   margin-top: 18px;
 }
@@ -426,6 +442,21 @@ footer {
 .modal-footer .btn {
   width: auto;
 }
+
+/* =========================
+   PIE DE PÁGINA
+========================= */
+
+footer {
+  padding: 18px;
+  color: var(--muted);
+  text-align: center;
+  font-size: 12px;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
 
 @media (max-width: 520px) {
   .modal-photos {
@@ -440,129 +471,4 @@ footer {
   .modal-footer .btn {
     width: 100%;
   }
-}
-
-.modal-product-image {
-  width: 100%;
-  aspect-ratio: 1 / 1;
-  object-fit: cover;
-  border-radius: 10px;
-  display: block;
-}
-
-.modal-photo {
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
-}
-
-.delete-photo-btn {
-  width: 100%;
-  padding: 9px;
-  border: 1px solid #7f1d1d;
-  border-radius: 8px;
-  background: #3a1619;
-  color: #fecaca;
-  cursor: pointer;
-}
-
-.delete-photo-btn:hover {
-  background: #551b1f;
-}
-
-/* =========================================
-   V2.0 - CORRECCIÓN TARJETAS Y BOTONES ADMIN
-========================================= */
-
-/* Evita que el listado herede las columnas del grid principal */
-.grid.list {
-  grid-template-columns: 1fr;
-}
-
-/* Distribución exacta de los botones */
-.share {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  grid-template-areas:
-    "whatsapp facebook"
-    "gallery edit"
-    "delete delete";
-
-  gap: 10px;
-  margin-top: 14px;
-}
-
-/* Posición de cada botón */
-.share .whats {
-  grid-area: whatsapp;
-}
-
-.share .facebook-btn {
-  grid-area: facebook;
-}
-
-.share .gal {
-  grid-area: gallery;
-}
-
-.share .edit {
-  grid-area: edit;
-}
-
-.share .del {
-  grid-area: delete;
-}
-
-/* Mismo tamaño para todos */
-.share .btn,
-.share .facebook-btn {
-  width: 100%;
-  min-width: 0;
-  min-height: 48px;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  padding: 10px;
-  border-radius: 10px;
-
-  font-size: 13px;
-  font-weight: 600;
-  line-height: 1.15;
-  text-align: center;
-  white-space: normal;
-}
-
-/* Colores */
-
-.whats {
-  background: #25D366;
-  border-color: #128C7E;
-  color: #062d1e;
-  font-weight: 700
-}
-
-.share .facebook-btn {
-  background: #1877f2;
-  border-color: #1877f2;
-  color: #fff;
-}
-
-.share .edit {
-  background: #292524;
-  border-color: #57534e;
-  color: #fff;
-}
-
-.share .gal {
-  background: #1e293b;
-  border-color: #334155;
-  color: #e2e8f0;
-}
-
-.share .del {
-  background: #3a1619;
-  border-color: #991b1b;
-  color: #fecaca;
 }
