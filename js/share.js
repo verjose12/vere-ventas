@@ -24,12 +24,6 @@ function buildShareUrlFromState(stateObj) {
   return `${base}#s=${encodeURIComponent(base64Url)}`;
 }
 
-/* function buildGalleryLink(item){
-  return new URL(
-      `viewer.html?id=${item.id}`,
-      location.href
-  ).toString();
-} */
 
 function buildGalleryLink(item) {
   const url = new URL("viewer.html", location.href);
@@ -59,7 +53,7 @@ function buildMessage(item) {
 
   return lines.join("\n");
 }
-
+/* 
 function shareFacebook(product){
 
   const galleryLink = buildGalleryLink(product);
@@ -72,6 +66,64 @@ function shareFacebook(product){
       "_blank"
   );
 
+} */
+
+async function shareFacebook(product) {
+  const imageUrl = product.urls?.[0];
+
+  if (!imageUrl) {
+    alert("Este producto no tiene una imagen para publicar.");
+    return;
+  }
+
+  const galleryLink = buildGalleryLink(product);
+
+  const message = [
+    `🛍️ ${product.title}`,
+    "",
+    `💰 ${formatPrice(product.price)}`,
+    product.desc ? `✨ ${product.desc}` : "",
+    "",
+    "📸 Ver todas las fotografías:",
+    galleryLink,
+    "",
+    "📩 Consulta disponibilidad."
+  ]
+    .filter(Boolean)
+    .join("\n");
+
+  try {
+    const { data, error } = await supabaseClient.functions.invoke(
+      "publish-facebook",
+      {
+        body: {
+          imageUrl,
+          message
+        }
+      }
+    );
+
+    if (error) {
+      throw error;
+    }
+
+    if (!data?.ok) {
+      throw new Error(
+        data?.error?.error?.message ||
+        data?.error ||
+        "Meta no pudo crear la publicación."
+      );
+    }
+
+    alert("✅ Producto publicado correctamente en Vjox-Ventas.");
+
+  } catch (error) {
+    console.error("Error publicando en Facebook:", error);
+
+    alert(
+      `❌ No se pudo publicar en Facebook.\n\n${error.message}`
+    );
+  }
 }
 
 function shareWhatsApp(item) {
