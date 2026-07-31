@@ -104,7 +104,28 @@ async function shareFacebook(product) {
     );
 
     if (error) {
-      throw error;
+      let errorDetails = null;
+    
+      try {
+        errorDetails = await error.context.json();
+      } catch {
+        errorDetails = {
+          message: error.message
+        };
+      }
+    
+      console.error(
+        "Respuesta completa de la Edge Function:",
+        errorDetails
+      );
+    
+      throw new Error(
+        errorDetails?.error?.error?.message ||
+        errorDetails?.error?.message ||
+        errorDetails?.error ||
+        errorDetails?.message ||
+        error.message
+      );
     }
 
     if (!data?.ok) {
