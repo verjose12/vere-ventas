@@ -436,11 +436,22 @@ function updateInventorySummary() {
   }, 0);
 
   const inventoryValue = state.items.reduce((total, product) => {
-    const price = Number(product.price || 0);
-    const stock = Number(product.stock || 0);
+  const photoPrices = Array.isArray(product.perPhotoPrices)
+    ? product.perPhotoPrices
+    : [];
 
-    return total + price * stock;
+  const productValue = photoPrices.reduce((subtotal, price) => {
+    const numericPrice = Number(price);
+
+    return subtotal + (
+      Number.isFinite(numericPrice)
+        ? numericPrice
+        : 0
+    );
   }, 0);
+
+  return total + productValue;
+}, 0);
 
   totalProductsEl.textContent = totalProducts;
   totalStockEl.textContent = totalStock;
