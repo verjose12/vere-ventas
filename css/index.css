@@ -647,9 +647,13 @@ footer {
 
 .summary-card__value {
   margin-top: 6px;
+  width: 100%;
   color: var(--text);
-  font-size: 26px;
+  font-size: clamp(18px, 4vw, 26px);
   font-weight: 800;
+  line-height: 1.1;
+  text-align: center;
+  overflow-wrap: anywhere;
 }
 
 /* Colores de los iconos */
@@ -690,6 +694,39 @@ footer {
 
   .summary-card__value {
     margin-top: 4px;
-    font-size: 20px;
+    font-size: clamp(16px, 4.5vw, 20px);
   }
+}
+
+.summary-card--value {
+  position: relative;
+}
+
+.summary-visibility-btn {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+
+  width: 34px;
+  height: 34px;
+  padding: 0;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--muted);
+  background: transparent;
+  border: none;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.summary-visibility-btn:hover {
+  color: var(--text);
+  background: #1f2125;
+}
+
+.summary-visibility-btn i {
+  font-size: 18px;
 }

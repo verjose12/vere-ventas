@@ -14,6 +14,13 @@ const searchInput = $("#searchInput");
 const totalProductsEl = $("#totalProducts");
 const totalStockEl = $("#totalStock");
 const inventoryValueEl = $("#inventoryValue");
+
+const toggleInventoryValueBtn =
+  $("#toggleInventoryValue");
+
+// Estado
+let isInventoryValueVisible = true;
+
 //obtenemos los elementos del modal 
 
 const editModal = $("#editModal");
@@ -407,8 +414,49 @@ function updateInventorySummary() {
 
   totalProductsEl.textContent = totalProducts;
   totalStockEl.textContent = totalStock;
-  inventoryValueEl.textContent = formatPrice(inventoryValue);
+  const formattedValue = formatPrice(inventoryValue);
+
+inventoryValueEl.dataset.visibleValue = formattedValue;
+
+inventoryValueEl.textContent =
+  isInventoryValueVisible
+    ? formattedValue
+    : "••••••";
 }
+
+toggleInventoryValueBtn.addEventListener("click", () => {
+  isInventoryValueVisible = !isInventoryValueVisible;
+
+  const icon =
+    toggleInventoryValueBtn.querySelector("i");
+
+  if (isInventoryValueVisible) {
+    inventoryValueEl.textContent =
+      inventoryValueEl.dataset.visibleValue || "$0";
+
+    icon.className = "bi bi-eye";
+
+    toggleInventoryValueBtn.setAttribute(
+      "aria-label",
+      "Ocultar valor del inventario"
+    );
+
+    toggleInventoryValueBtn.title =
+      "Ocultar valor";
+  } else {
+    inventoryValueEl.textContent = "••••••";
+
+    icon.className = "bi bi-eye-slash";
+
+    toggleInventoryValueBtn.setAttribute(
+      "aria-label",
+      "Mostrar valor del inventario"
+    );
+
+    toggleInventoryValueBtn.title =
+      "Mostrar valor";
+  }
+});
 
 // arranque
 loadProductsFromDatabase();

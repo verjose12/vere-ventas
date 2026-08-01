@@ -99,7 +99,7 @@ Esta versión marca la transición de un proyecto personal a un producto de soft
 - Incorporar navegación inferior entre pantallas.
 - Implementar botón flotante para las acciones principales.
 
-## v3.2.5   ← ESTA
+## v3.2.6   ← ESTA
 📌 Separación de Inventario y Agregar Producto
 - add-product.html
 - add_product.js
@@ -110,7 +110,7 @@ Esta versión marca la transición de un proyecto personal a un producto de soft
 - Botón flotante
 - Responsive
 - Dashboard
-- add-tarjetas resumen
+- add-tarjetas resumen y funcion 
 
 ## v3.3.0   ← ESTA
 Planeado
