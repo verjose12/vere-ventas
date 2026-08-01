@@ -661,3 +661,25 @@ footer {
     font-size: 20px;
   }
 }
+
+.summary-icon{
+
+  font-size:22px;
+
+  color:#25d366;
+
+  margin-bottom:8px;
+
+}
+
+.summary-card:nth-child(1) .summary-icon{
+  color:#25d366;
+}
+
+.summary-card:nth-child(2) .summary-icon{
+  color:#3b82f6;
+}
+
+.summary-card:nth-child(3) .summary-icon{
+  color:#facc15;
+}

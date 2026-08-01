@@ -7,13 +7,17 @@
 <title>VJOX-Ventas</title>
 <link rel="manifest" href="manifest.json">
 <link rel="stylesheet" href="css/index.css?v=2.0.5">
+<link
+  rel="stylesheet"
+  href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css"
+/>
 
 </head>
 <body>
 <header>
   <img alt="VJOX" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M3 3h18v3H3zM3 9h18v3H3zM3 15h18v6H3z'/%3E%3C/svg%3E" />
   <h1>VJOX · Panel de Inventario</h1>
-  <span class="version">v3.2.3</span>
+  <span class="version">v3.2.4</span>
 </header>
 
 <main class="inventory-page">
@@ -32,45 +36,56 @@
     
     </div>
 
-    <div class="inventory-summary">
-      <article class="summary-card">
-        <span class="summary-card__label">
+    <article class="summary-card">
+
+      <i class="bi bi-box-seam summary-icon"></i>
+  
+      <span class="summary-card__label">
           Productos
-        </span>
-    
-        <strong
+      </span>
+  
+      <strong
           id="totalProducts"
           class="summary-card__value"
-        >
+      >
           0
-        </strong>
-      </article>
+      </strong>
+  
+  </article>
     
       <article class="summary-card">
-        <span class="summary-card__label">
-          Disponibles
-        </span>
+
+    <i class="bi bi-boxes summary-icon"></i>
+
+    <span class="summary-card__label">
+        Disponibles
+    </span>
+
+    <strong
+        id="totalStock"
+        class="summary-card__value"
+    >
+        0
+    </strong>
+
+</article>
     
-        <strong
-          id="totalStock"
-          class="summary-card__value"
-        >
-          0
-        </strong>
-      </article>
-    
-      <article class="summary-card">
-        <span class="summary-card__label">
-          Valor estimado
-        </span>
-    
-        <strong
-          id="inventoryValue"
-          class="summary-card__value"
-        >
-          $0
-        </strong>
-      </article>
+<article class="summary-card">
+
+  <i class="bi bi-currency-dollar summary-icon"></i>
+
+  <span class="summary-card__label">
+      Valor
+  </span>
+
+  <strong
+      id="inventoryValue"
+      class="summary-card__value"
+  >
+      $0
+  </strong>
+
+</article>
     </div>
 
     <div class="inventory-search">
@@ -158,7 +173,7 @@
   <script src="js/cloudinary.js" ></script>
   <script src="js/share.js?v=2.0" ></script>
   <script src="js/database.js" ></script>
-  <script src="js/index.js?v=3.2.3"></script>
+  <script src="js/index.js?v=3.2.4"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {
