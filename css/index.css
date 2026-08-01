@@ -508,3 +508,76 @@ footer {
     width: 100%;
   }
 }
+
+/* =========================
+   VISTA PRINCIPAL INVENTARIO
+========================= */
+
+main.grid {
+  width: min(1180px, calc(100% - 32px));
+  margin: 0 auto;
+}
+
+main.grid > .card {
+  width: 100%;
+}
+
+@media (min-width: 900px) {
+  #list.list {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+  }
+
+  .item {
+    min-width: 0;
+  }
+}
+
+/* =========================
+   BOTÓN FLOTANTE AGREGAR
+========================= */
+
+.floating-add-btn {
+  position: fixed;
+  right: 24px;
+  bottom: 24px;
+  z-index: 1200;
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  width: 64px;
+  height: 64px;
+
+  color: #111;
+  background: #ffd400;
+  border: 4px solid #18191d;
+  border-radius: 50%;
+
+  font-size: 38px;
+  font-weight: 500;
+  line-height: 1;
+  text-decoration: none;
+
+  box-shadow:
+    0 10px 24px rgba(0, 0, 0, 0.45),
+    0 0 0 6px rgba(255, 212, 0, 0.16);
+}
+
+.floating-add-btn:hover {
+  transform: translateY(-2px);
+}
+
+.floating-add-btn:active {
+  transform: scale(0.95);
+}
+
+@media (max-width: 640px) {
+  .floating-add-btn {
+    right: 18px;
+    bottom: 18px;
+    width: 60px;
+    height: 60px;
+    font-size: 34px;
+  }
+}
