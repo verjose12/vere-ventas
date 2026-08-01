@@ -608,3 +608,41 @@ footer {
   border-color:#25d366;
   box-shadow:0 0 0 3px rgba(37,211,102,.15);
 }
+
+/* =========================
+   RESUMEN DEL INVENTARIO
+========================= */
+
+.inventory-summary {
+  display: grid;
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+  gap: 12px;
+  margin: 18px 0;
+}
+
+.summary-card {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  padding: 16px;
+  background: #121316;
+  border: 1px solid #2a2d33;
+  border-radius: 12px;
+}
+
+.summary-card__label {
+  color: var(--muted);
+  font-size: 12px;
+}
+
+.summary-card__value {
+  color: var(--text);
+  font-size: 24px;
+  font-weight: 800;
+}
+
+@media (max-width: 640px) {
+  .inventory-summary {
+    grid-template-columns: 1fr;
+  }
+}
