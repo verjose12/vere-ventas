@@ -643,6 +643,21 @@ footer {
 
 @media (max-width: 640px) {
   .inventory-summary {
-    grid-template-columns: 1fr;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+
+  .summary-card {
+    min-width: 0;
+    padding: 12px 8px;
+    text-align: center;
+  }
+
+  .summary-card__label {
+    font-size: 11px;
+  }
+
+  .summary-card__value {
+    font-size: 20px;
   }
 }
