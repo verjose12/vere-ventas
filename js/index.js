@@ -21,6 +21,22 @@ const addProductPhotos = $("#addProductPhotos");
 const addProductPhotosBtn = $("#addProductPhotosBtn");
 const addProductStatus = $("#addProductStatus");
 
+function formatPrice(n) {
+  if (n == null || n === "") return "";
+
+  const value = Number(n);
+
+  try {
+    return value.toLocaleString("es-MX", {
+      style: "currency",
+      currency: "MXN",
+      maximumFractionDigits: 2
+    });
+  } catch {
+    return `MXN ${value.toFixed(2)}`;
+  }
+}
+
 
 function setStatus(msg, isError=false){
   statusEl.textContent = msg;
