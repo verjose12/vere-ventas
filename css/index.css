@@ -17,6 +17,7 @@
 
 body {
   margin: 0;
+  padding-bottom: 100px;
   font-family: system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
   background: var(--bg);
   color: var(--text);
@@ -740,13 +741,13 @@ footer {
 .product-card__actions {
   display: flex;
   flex-wrap: wrap;
-  gap: 8px;
+  gap: 5px;
   margin-top: 10px;
 }
 
 .icon-btn {
-  width: 38px;
-  height: 38px;
+  width: 34px;
+  height: 34px;
   padding: 0;
 
   display: inline-flex;
@@ -796,37 +797,26 @@ footer {
 
 @media (max-width: 640px) {
   .list .item {
-    grid-template-columns: 118px minmax(0, 1fr);
-    gap: 12px;
+    grid-template-columns: 96px minmax(0, 1fr);
+    gap: 10px;
     padding: 10px;
   }
-
+  
   .product-card__image {
-    width: 118px;
-    height: 118px;
+    width: 96px;
+    height: 96px;
   }
-
-  .product-card__title {
-    font-size: 16px;
-  }
-
-  .product-card__description {
-    display: -webkit-box;
-    overflow: hidden;
-    -webkit-box-orient: vertical;
-    -webkit-line-clamp: 2;
-  }
-
+  
   .product-card__actions {
-    gap: 6px;
+    gap: 4px;
   }
-
+  
   .icon-btn {
-    width: 34px;
-    height: 34px;
+    width: 30px;
+    height: 30px;
   }
-
+  
   .icon-btn i {
-    font-size: 16px;
+    font-size: 14px;
   }
 }

@@ -10,7 +10,7 @@ Su objetivo es reducir el tiempo que un vendedor dedica a preparar publicaciones
 
 # Estado del proyecto
 
-**Versión:** 3.2.7
+**Versión:** 3.2.8
 
 **Estado:** En desarrollo activo.
 
