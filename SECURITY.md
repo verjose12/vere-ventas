@@ -115,7 +115,7 @@ VJOX Ventas
 
 Versión actual:
 
-3.0.0
+3.1.1
 
 Última actualización:
 

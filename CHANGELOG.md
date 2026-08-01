@@ -77,6 +77,28 @@ Esta versión marca la transición de un proyecto personal a un producto de soft
 
 ## v3.1.0
 
+# [3.1.0] - En desarrollo
+
+## 🚧 Reestructuración de la interfaz
+
+### Added
+
+- Se inició la separación de la aplicación en múltiples pantallas.
+- Se creó `add-product.html` como vista independiente para el registro de productos.
+- Se agregó un acceso directo desde el inventario para registrar nuevos productos.
+
+### Changed
+
+- `index.html` comenzó a enfocarse exclusivamente en la administración del inventario.
+- Se inició la reorganización de la navegación para preparar una experiencia más cercana a una aplicación móvil.
+- Se estableció la base para futuras vistas independientes (Estadísticas, Configuración y Más).
+
+### Planned
+
+- Regresar automáticamente al inventario después de guardar un producto.
+- Incorporar navegación inferior entre pantallas.
+- Implementar botón flotante para las acciones principales.
+
 Planeado
 
 - Sistema de autenticación.

@@ -472,3 +472,39 @@ footer {
     width: 100%;
   }
 }
+
+/* =========================
+   INVENTARIO HEADER
+========================= */
+
+.inventory-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 16px;
+  margin-bottom: 18px;
+}
+
+.inventory-header h2 {
+  margin: 0;
+}
+
+.inventory-header p {
+  margin: 4px 0 0;
+}
+
+.inventory-header .btn {
+  width: auto;
+  white-space: nowrap;
+}
+
+@media (max-width: 640px) {
+  .inventory-header {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .inventory-header .btn {
+    width: 100%;
+  }
+}
