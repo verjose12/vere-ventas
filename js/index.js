@@ -10,6 +10,10 @@ const list = $("#list");
 const statusEl = $("#status");
 
 const searchInput = $("#searchInput");
+
+const totalProductsEl = $("#totalProducts");
+const totalStockEl = $("#totalStock");
+const inventoryValueEl = $("#inventoryValue");
 //obtenemos los elementos del modal 
 
 const editModal = $("#editModal");
@@ -64,9 +68,11 @@ async function loadProductsFromDatabase() {
 
   const products = await getProducts();
 
-  state.items = products.map(adaptProductFromDatabase);
-
+  state.items = products.map(adaptProductFromDatabase); 
+ 
+  updateInventorySummary();
   renderList();
+
   setStatus("");
 }
 
@@ -143,6 +149,8 @@ async function deleteProductPhoto(photoIndex) {
   product.urls = updatedUrls;
   product.stock = newStock;
 
+  updateInventorySummary();
+
   renderModalPhotos();
   renderList();
 
@@ -202,6 +210,7 @@ async function addPhotosToProduct() {
 
     product.urls = updatedUrls;
     product.stock = newStock;
+    updateInventorySummary();
 
     addProductPhotos.value = "";
 
@@ -349,7 +358,8 @@ function renderList(items = state.items) {
       state.items = state.items.filter(
         item => item.id !== product.id
       );
-
+      
+      updateInventorySummary();
       renderList();
 
       setStatus(
@@ -380,6 +390,25 @@ searchInput.addEventListener("input", () => {
 
   renderList(filteredProducts);
 });
+
+function updateInventorySummary() {
+  const totalProducts = state.items.length;
+
+  const totalStock = state.items.reduce((total, product) => {
+    return total + Number(product.stock || 0);
+  }, 0);
+
+  const inventoryValue = state.items.reduce((total, product) => {
+    const price = Number(product.price || 0);
+    const stock = Number(product.stock || 0);
+
+    return total + price * stock;
+  }, 0);
+
+  totalProductsEl.textContent = totalProducts;
+  totalStockEl.textContent = totalStock;
+  inventoryValueEl.textContent = formatPrice(inventoryValue);
+}
 
 // arranque
 loadProductsFromDatabase();
