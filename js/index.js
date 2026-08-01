@@ -9,6 +9,7 @@ const $ = s => document.querySelector(s);
 const list = $("#list");
 const statusEl = $("#status");
 
+const searchInput = $("#searchInput");
 //obtenemos los elementos del modal 
 
 const editModal = $("#editModal");
@@ -241,78 +242,144 @@ addProductPhotosBtn.addEventListener(
   addPhotosToProduct
 );
 
-function renderList(){
+function renderList(items = state.items) {
   list.innerHTML = "";
-  if(state.items.length===0){
-    list.innerHTML = `<div class="muted">Aún no hay publicaciones. Sube una foto para empezar.</div>`;
+
+  if (items.length === 0) {
+    list.innerHTML = `
+      <div class="muted">
+        No se encontraron productos.
+      </div>
+    `;
     return;
   }
-  for(const it of state.items){
-    const cover = it.urls[0];
+
+  for (const product of items) {
+    const cover = product.urls[0];
+
     const div = document.createElement("div");
     div.className = "item";
+
     div.innerHTML = `
-      <img src="${cover}" alt="">
+      <img src="${cover}" alt="${product.title}">
       <div>
-        <div class="inline" style="align-items:center;gap:8px;margin-bottom:4px">
-          <strong>${it.title}</strong>
+        <div
+          class="inline"
+          style="align-items:center;gap:8px;margin-bottom:4px"
+        >
+          <strong>${product.title}</strong>
         </div>
 
         <div class="muted">
-          Stock: <strong>${it.stock}</strong>
+          Stock: <strong>${product.stock}</strong>
           &nbsp;&nbsp;•&nbsp;&nbsp;
-          ${it.category || "Sin categoría"}
-          </div>
-          <div class="muted" style="margin-top:8px;margin-bottom:12px">
-          ${it.desc || ""}
-      </div>
-  
-      <div class="share">
-          <button class="btn whats">Compartir WhatsApp</button>
-          <button class="btn facebook-btn">Compartir en Facebook</button>
-          <button class="btn edit">Editar</button>
-          <button class="btn btn-ghost gal">Ver galería</button>
-          <button class="btn btn-ghost del">Eliminar</button>
-      </div>
+          ${product.category || "Sin categoría"}
+        </div>
+
+        <div
+          class="muted"
+          style="margin-top:8px;margin-bottom:12px"
+        >
+          ${product.desc || ""}
+        </div>
+
+        <div class="share">
+          <button class="btn whats">
+            Compartir WhatsApp
+          </button>
+
+          <button class="btn facebook-btn">
+            Compartir en Facebook
+          </button>
+
+          <button class="btn edit">
+            Editar
+          </button>
+
+          <button class="btn btn-ghost gal">
+            Ver galería
+          </button>
+
+          <button class="btn btn-ghost del">
+            Eliminar
+          </button>
+        </div>
       </div>
     `;
-    const btnWa  = div.querySelector(".whats");
+
+    const btnWa = div.querySelector(".whats");
     const btnFb = div.querySelector(".facebook-btn");
     const btnEdit = div.querySelector(".edit");
-    //const btnCp  = div.querySelector(".copy");
     const btnGal = div.querySelector(".gal");
     const btnDel = div.querySelector(".del");
 
-    btnWa.addEventListener("click", ()=> shareWhatsApp(it));
-    btnFb.addEventListener("click", () => {shareFacebook(it); });
-    //btnCp.addEventListener("click", ()=> copyMessage(it));
-    btnEdit.addEventListener("click", () => {
-      openProductEditor(it);
+    btnWa.addEventListener("click", () => {
+      shareWhatsApp(product);
     });
-    btnGal.addEventListener("click", ()=> window.open(buildGalleryLink(it), "_blank"));
 
-    
+    btnFb.addEventListener("click", () => {
+      shareFacebook(product);
+    });
+
+    btnEdit.addEventListener("click", () => {
+      openProductEditor(product);
+    });
+
+    btnGal.addEventListener("click", () => {
+      window.open(buildGalleryLink(product), "_blank");
+    });
+
     btnDel.addEventListener("click", async () => {
-      const confirmed = confirm(`¿Eliminar "${it.title}"?`);
-    
+      const confirmed = confirm(
+        `¿Eliminar "${product.title}"?`
+      );
+
       if (!confirmed) return;
-    
-      const deleted = await deleteProduct(it.id);
-    
+
+      const deleted = await deleteProduct(product.id);
+
       if (!deleted) {
-        setStatus("No se pudo eliminar el producto.", true);
+        setStatus(
+          "No se pudo eliminar el producto.",
+          true
+        );
         return;
       }
-    
-      state.items = state.items.filter(product => product.id !== it.id);
-    
+
+      state.items = state.items.filter(
+        item => item.id !== product.id
+      );
+
       renderList();
-      setStatus("Producto eliminado correctamente.");
+
+      setStatus(
+        "Producto eliminado correctamente."
+      );
     });
 
     list.appendChild(div);
   }
 }
+
+searchInput.addEventListener("input", () => {
+  const searchTerm = searchInput.value
+    .trim()
+    .toLowerCase();
+
+  const filteredProducts = state.items.filter(product => {
+    const title = product.title?.toLowerCase() || "";
+    const category = product.category?.toLowerCase() || "";
+    const description = product.desc?.toLowerCase() || "";
+
+    return (
+      title.includes(searchTerm) ||
+      category.includes(searchTerm) ||
+      description.includes(searchTerm)
+    );
+  });
+
+  renderList(filteredProducts);
+});
 
 // arranque
 loadProductsFromDatabase();

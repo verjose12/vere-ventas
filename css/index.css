@@ -585,3 +585,26 @@ footer {
     font-size: 34px;
   }
 }
+
+/* =========================
+   BUSCADOR
+========================= */
+
+.inventory-search{
+  margin:18px 0;
+}
+
+.inventory-search input{
+  width:100%;
+  padding:14px 16px;
+  border-radius:12px;
+  background:#1a1c20;
+  border:1px solid #2b2d31;
+  font-size:15px;
+}
+
+.inventory-search input:focus{
+  outline:none;
+  border-color:#25d366;
+  box-shadow:0 0 0 3px rgba(37,211,102,.15);
+}
