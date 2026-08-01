@@ -99,6 +99,14 @@ Esta versión marca la transición de un proyecto personal a un producto de soft
 - Incorporar navegación inferior entre pantallas.
 - Implementar botón flotante para las acciones principales.
 
+## v3.2.0   ← ESTA
+📌 Separación de Inventario y Agregar Producto
+- add-product.html
+- add_product.js
+- Nueva navegación entre vistas
+- Refactorización de la arquitectura
+
+## v3.3.0   ← ESTA
 Planeado
 
 - Sistema de autenticación.
@@ -108,7 +116,7 @@ Planeado
 
 ---
 
-## v3.2.0
+## v3.4.0
 
 Planeado
 
@@ -118,7 +126,7 @@ Planeado
 
 ---
 
-## v3.3.0
+## v3.5.0
 
 Planeado
 
