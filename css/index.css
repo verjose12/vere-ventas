@@ -513,22 +513,26 @@ footer {
    VISTA PRINCIPAL INVENTARIO
 ========================= */
 
-main.grid {
-  width: min(1180px, calc(100% - 32px));
+.inventory-page {
+  width: min(1200px, calc(100% - 32px));
   margin: 0 auto;
+  padding: 24px 0;
 }
 
-main.grid > .card {
+.inventory-page > .card {
   width: 100%;
 }
 
-@media (min-width: 900px) {
-  #list.list {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-  }
+#list {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
 
-  .item {
-    min-width: 0;
+@media (min-width: 900px) {
+  #list {
+    grid-template-columns:
+      repeat(auto-fit, minmax(300px, 1fr));
   }
 }
 
