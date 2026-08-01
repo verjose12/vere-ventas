@@ -277,51 +277,81 @@ function renderList(items = state.items) {
     div.className = "item";
 
     div.innerHTML = `
-      <img src="${cover}" alt="${product.title}">
-      <div>
-        <div
-          class="inline"
-          style="align-items:center;gap:8px;margin-bottom:4px"
-        >
-          <strong>${product.title}</strong>
-        </div>
-
-        <div class="muted">
+    <img
+      src="${cover}"
+      alt="${product.title}"
+      class="product-card__image"
+    >
+  
+    <div class="product-card__content">
+      <div class="product-card__info">
+        <strong class="product-card__title">
+          ${product.title}
+        </strong>
+  
+        <div class="product-card__meta">
           Stock: <strong>${product.stock}</strong>
-          &nbsp;&nbsp;•&nbsp;&nbsp;
-          ${product.category || "Sin categoría"}
+          <span>•</span>
+          <span>${product.category || "Sin categoría"}</span>
         </div>
-
-        <div
-          class="muted"
-          style="margin-top:8px;margin-bottom:12px"
-        >
+  
+        <p class="product-card__description">
           ${product.desc || ""}
-        </div>
-
-        <div class="share">
-          <button class="btn whats">
-            Compartir WhatsApp
-          </button>
-
-          <button class="btn facebook-btn">
-            Compartir en Facebook
-          </button>
-
-          <button class="btn edit">
-            Editar
-          </button>
-
-          <button class="btn btn-ghost gal">
-            Ver galería
-          </button>
-
-          <button class="btn btn-ghost del">
-            Eliminar
-          </button>
-        </div>
+        </p>
+  
+        <strong class="product-card__price">
+          ${formatPrice(product.price)}
+        </strong>
       </div>
-    `;
+  
+      <div class="product-card__actions">
+        <button
+          class="icon-btn whats"
+          type="button"
+          aria-label="Compartir por WhatsApp"
+          title="Compartir por WhatsApp"
+        >
+          <i class="bi bi-whatsapp"></i>
+        </button>
+  
+        <button
+          class="icon-btn facebook-btn"
+          type="button"
+          aria-label="Compartir en Facebook"
+          title="Compartir en Facebook"
+        >
+          <i class="bi bi-facebook"></i>
+        </button>
+  
+        <button
+          class="icon-btn gal"
+          type="button"
+          aria-label="Ver galería"
+          title="Ver galería"
+        >
+          <i class="bi bi-images"></i>
+        </button>
+  
+        <button
+          class="icon-btn edit"
+          type="button"
+          aria-label="Editar producto"
+          title="Editar producto"
+        >
+          <i class="bi bi-pencil"></i>
+        </button>
+  
+        <button
+          class="icon-btn del"
+          type="button"
+          aria-label="Eliminar producto"
+          title="Eliminar producto"
+        >
+          <i class="bi bi-trash"></i>
+        </button>
+      </div>
+    </div>
+  `;
 
     const btnWa = div.querySelector(".whats");
     const btnFb = div.querySelector(".facebook-btn");

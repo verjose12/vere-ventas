@@ -730,3 +730,82 @@ footer {
 .summary-visibility-btn i {
   font-size: 18px;
 }
+
+/* ===========================
+   TARJETA V4
+=========================== */
+
+.item{
+  display:flex;
+  gap:16px;
+  align-items:flex-start;
+}
+
+.product-card__image{
+
+  width:150px;
+  height:150px;
+
+  object-fit:cover;
+
+  border-radius:12px;
+
+  flex-shrink:0;
+
+}
+
+.product-card__content{
+
+  flex:1;
+
+  display:flex;
+
+  flex-direction:column;
+
+  justify-content:space-between;
+
+  min-height:150px;
+
+}
+
+.product-card__title{
+
+  font-size:24px;
+
+  font-weight:700;
+
+}
+
+.product-card__meta{
+
+  margin-top:6px;
+
+  color:var(--muted);
+
+  display:flex;
+
+  gap:8px;
+
+  flex-wrap:wrap;
+
+}
+
+.product-card__description{
+
+  margin-top:10px;
+
+  color:var(--muted);
+
+}
+
+.product-card__price{
+
+  display:block;
+
+  margin-top:12px;
+
+  font-size:28px;
+
+  color:#25d366;
+
+}
