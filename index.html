@@ -15,10 +15,125 @@
 </head>
 <body>
 <header>
-  <img alt="VJOX" src="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='28' height='28' viewBox='0 0 24 24' fill='%23fff'%3E%3Cpath d='M3 3h18v3H3zM3 9h18v3H3zM3 15h18v6H3z'/%3E%3C/svg%3E" />
+  <button id="openSideMenuBtn" class="header-menu-btn" type="button" aria-label="Abrir menú" aria-controls="sideMenu" aria-expanded="false">
+  <i class="bi bi-list"></i>
+</button>
   <h1>VJOX · Panel de Inventario</h1>
-  <span class="version">v3.2.8</span>
+  <span class="version">v3.2.9</span>
 </header>
+
+<!-- Fondo oscuro detrás del menú -->
+<div
+  id="sideMenuOverlay"
+  class="side-menu-overlay hidden"
+></div>
+
+<!-- Menú lateral -->
+<aside
+  id="sideMenu"
+  class="side-menu"
+  aria-label="Menú principal"
+  aria-hidden="true"
+>
+  <div class="side-menu__header">
+    <div>
+      <strong class="side-menu__brand">
+        VJOX Ventas
+      </strong>
+
+      <span class="side-menu__subtitle">
+        Mi negocio
+      </span>
+    </div>
+
+    <button
+      id="closeSideMenuBtn"
+      class="side-menu__close"
+      type="button"
+      aria-label="Cerrar menú"
+    >
+      <i class="bi bi-x-lg"></i>
+    </button>
+  </div>
+
+  <nav class="side-menu__nav">
+    <p class="side-menu__section-title">
+      Principal
+    </p>
+
+    <a
+      href="./index.html"
+      class="side-menu__link active"
+    >
+      <i class="bi bi-box-seam"></i>
+      <span>Inventario</span>
+    </a>
+
+    <a
+      href="#"
+      class="side-menu__link"
+    >
+      <i class="bi bi-bar-chart"></i>
+      <span>Estadísticas</span>
+    </a>
+
+    <a
+      href="./add_product.html"
+      class="side-menu__link"
+    >
+      <i class="bi bi-plus-circle"></i>
+      <span>Agregar producto</span>
+    </a>
+
+    <p class="side-menu__section-title">
+      Herramientas
+    </p>
+
+    <a
+      href="#"
+      class="side-menu__link"
+    >
+      <i class="bi bi-share"></i>
+      <span>Compartir catálogo</span>
+    </a>
+
+    <a
+      href="#"
+      class="side-menu__link"
+    >
+      <i class="bi bi-facebook"></i>
+      <span>Publicar en Facebook</span>
+    </a>
+
+    <p class="side-menu__section-title">
+      Configuración
+    </p>
+
+    <a
+      href="#"
+      class="side-menu__link"
+    >
+      <i class="bi bi-tags"></i>
+      <span>Categorías</span>
+    </a>
+
+    <a
+      href="#"
+      class="side-menu__link"
+    >
+      <i class="bi bi-gear"></i>
+      <span>Configuración</span>
+    </a>
+
+    <a
+      href="#"
+      class="side-menu__link"
+    >
+      <i class="bi bi-info-circle"></i>
+      <span>Acerca de VJOX</span>
+    </a>
+  </nav>
+</aside>
 
 <main class="inventory-page">
 
@@ -179,7 +294,7 @@
   <script src="js/cloudinary.js" ></script>
   <script src="js/share.js?v=2.0" ></script>
   <script src="js/database.js" ></script>
-  <script src="js/index.js?v=3.2.8"></script>
+  <script src="js/index.js?v=3.2.9"></script>
   <script>
     if ("serviceWorker" in navigator) {
       window.addEventListener("load", () => {

@@ -113,6 +113,16 @@ Esta versión marca la transición de un proyecto personal a un producto de soft
 - add-tarjetas resumen y funcion
 - Tarjeta V4, iconos en tarjeta
 
+## [3.2.9] - 2026-08-03
+
+### Added
+- Menú lateral deslizante (Side Drawer).
+- Overlay para bloquear la interfaz al abrir el menú.
+- Apertura y cierre mediante botón.
+- Cierre al hacer clic fuera del menú.
+- Cierre con la tecla Escape.
+- Bloqueo del scroll mientras el menú está abierto.
+
 ## v3.3.0   ← ESTA
 Planeado
 
