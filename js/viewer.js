@@ -53,6 +53,18 @@ function renderGallery(product) {
   const askButton = document.querySelector("#askBtn");
   const copyButton = document.querySelector("#copyBtn");
 
+  const imageLightbox =
+  document.querySelector("#imageLightbox");
+
+const imageLightboxPhoto =
+  document.querySelector("#imageLightboxPhoto");
+
+const imageLightboxPrice =
+  document.querySelector("#imageLightboxPrice");
+
+const closeImageLightboxBtn =
+  document.querySelector("#closeImageLightbox");
+
   titleElement.textContent = product.title || "Producto";
   descriptionElement.textContent = product.description || "";
 
@@ -107,7 +119,45 @@ if (
         .forEach((c) => c.classList.remove("selected"));
 
       card.classList.add("selected");
+              imageLightboxPhoto.src = imageUrl;
+        imageLightboxPhoto.alt =
+          product.title || "Producto";
+
+        imageLightboxPrice.textContent =
+          price ? formatPrice(price) : "Pregunta por precio";
+
+        imageLightbox.classList.add("show");
+        imageLightbox.setAttribute("aria-hidden", "false");
+
+        document.body.style.overflow = "hidden";
     });
+  });
+
+  function closeImageLightbox() {
+    imageLightbox.classList.remove("show");
+    imageLightbox.setAttribute("aria-hidden", "true");
+  
+    imageLightboxPhoto.src = "";
+    imageLightboxPhoto.alt = "";
+  
+    document.body.style.overflow = "";
+  }
+  
+  closeImageLightboxBtn.addEventListener(
+    "click",
+    closeImageLightbox
+  );
+  
+  imageLightbox.addEventListener("click", (event) => {
+    if (event.target === imageLightbox) {
+      closeImageLightbox();
+    }
+  });
+  
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape") {
+      closeImageLightbox();
+    }
   });
 
   if (product.per_photo) {
@@ -117,11 +167,7 @@ if (
   }
 
   askButton.addEventListener("click", () => {
-    /* const message = encodeURIComponent(
-      `Hola, me interesa este producto: ${
-        product.title || "Producto"
-      }\n${window.location.href}`
-    ); */
+
     const selectedPhotoNumber = selectedImageIndex + 1;
 
     const selectedPhotoUrl = new URL(window.location.href);
