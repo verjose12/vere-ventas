@@ -17,99 +17,7 @@
 <meta property="og:site_name" content="VJOX">
 
 <title>Galería | VJOX</title>
-<style>
-  :root{--bg:#0f0f10;--card:#16171a;--muted:#8a8f98;--text:#fff;--accent:#22c55e}
-  *{box-sizing:border-box}body{margin:0;font-family:system-ui,Segoe UI,Inter,Roboto,Arial;background:var(--bg);color:var(--text)}
-  header{padding:16px;border-bottom:1px solid #222}
-  main{max-width:900px;margin:0 auto;padding:16px;display:grid;gap:16px}
-  .title{font-size:20px;font-weight:700}
-  .muted{color:var(--muted)}
- /*  .grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:12px} */
- .grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-  gap: 12px;
-}
-
-@media (max-width: 600px) {
-
-.grid {
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-}
-
-}
-  /* .card{background:var(--card);border:1px solid #26272b;border-radius:14px;padding:12px} */
-  .card {
-  background: var(--card);
-  border: 1px solid #26272b;
-  border-radius: 14px;
-  padding: 12px;
-  cursor: pointer;
-  transition: 0.2s;
-}
-
-.card.selected {
-  border: 3px solid #25d366;
-  transform: scale(1.02);
-}
-
-.gallery-nav {
-  display: flex;
-  flex-wrap: nowrap;
-  gap: 8px;
-
-  width: 100%;
-  max-width: 100%;
-  min-width: 0;
-
-  overflow-x: auto;
-  overflow-y: hidden;
-
-  padding: 12px 0 6px;
-  scroll-behavior: smooth;
-  -webkit-overflow-scrolling: touch;
-}
-
-.gallery-nav a {
-  flex: 0 0 auto;
-  white-space: nowrap;
-
-  text-decoration: none;
-  color: #fff;
-  border: 1px solid #3a3d44;
-  background: #1a1c20;
-  padding: 9px 13px;
-  border-radius: 999px;
-  font-size: 13px;
-}
-
-.gallery-nav a.active {
-  background: #25d366;
-  border-color: #128c7e;
-  color: #062d1e;
-  font-weight: 700;
-}
-
-main,
-main > div,
-.card {
-  min-width: 0;
-  max-width: 100%;
-}
-
-html,
-body {
-  max-width: 100%;
-  overflow-x: hidden;
-}
-  .img{width:100%;aspect-ratio:1/1;object-fit:cover;border-radius:10px;border:1px solid #2a2d33}
-  .pill{display:inline-block;margin-top:8px;font-size:12px;padding:6px 10px;border-radius:999px;border:1px solid #2a2d33;background:#121316}
-  .cta{display:flex;gap:10px}
-  button{cursor:pointer;border:1px solid #3a3d44;background:#1a1c20;color:#fff;padding:12px 14px;border-radius:10px}
-  .whats{background:#25D366;border-color:#128C7E;color:#062d1e;font-weight:700}
-  footer{padding:16px;text-align:center;color:var(--muted);font-size:12px}
-
-</style>
+<link rel="stylesheet" href="css/viewer.css?v=1">
 </head>
 <body>
 <header><strong>VJOX · Galería</strong></header>
@@ -135,6 +43,35 @@ body {
     Todos los derechos reservados.
   </p>
 </footer>
+
+<div
+  id="imageLightbox"
+  class="image-lightbox hidden"
+  aria-hidden="true"
+>
+  <div class="image-lightbox__content">
+    <button
+      id="closeImageLightbox"
+      class="image-lightbox__close"
+      type="button"
+      aria-label="Cerrar imagen"
+    >
+      ×
+    </button>
+
+    <img
+      id="imageLightboxPhoto"
+      class="image-lightbox__photo"
+      src=""
+      alt=""
+    >
+
+    <div
+      id="imageLightboxPrice"
+      class="image-lightbox__price"
+    ></div>
+  </div>
+</div>
 
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 
