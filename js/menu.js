@@ -1,9 +1,17 @@
-const $ = (selector) => document.querySelector(selector);
+const menuQuery = (selector) =>
+  document.querySelector(selector);
 
-const openSideMenuBtn = $("#openSideMenuBtn");
-const closeSideMenuBtn = $("#closeSideMenuBtn");
-const sideMenu = $("#sideMenu");
-const sideMenuOverlay = $("#sideMenuOverlay");
+const openSideMenuBtn =
+  menuQuery("#openSideMenuBtn");
+
+const closeSideMenuBtn =
+  menuQuery("#closeSideMenuBtn");
+
+const sideMenu =
+  menuQuery("#sideMenu");
+
+const sideMenuOverlay =
+  menuQuery("#sideMenuOverlay");
 
 function openSideMenu() {
     sideMenu.classList.add("open");
