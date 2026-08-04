@@ -33,10 +33,7 @@ const addProductPhotos = $("#addProductPhotos");
 const addProductPhotosBtn = $("#addProductPhotosBtn");
 const addProductStatus = $("#addProductStatus");
 
-const openSideMenuBtn = $("#openSideMenuBtn");
-const closeSideMenuBtn = $("#closeSideMenuBtn");
-const sideMenu = $("#sideMenu");
-const sideMenuOverlay = $("#sideMenuOverlay");
+
 
 function formatPrice(n) {
   if (n == null || n === "") return "";
