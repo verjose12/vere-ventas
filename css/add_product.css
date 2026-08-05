@@ -89,3 +89,51 @@
     text-decoration:none;
     cursor:pointer;
   }
+
+  /* =========================
+   SECCIONES DEL FORMULARIO
+========================= */
+
+.product-form-section {
+    margin-bottom: 22px;
+  }
+  
+  .product-form-section h3 {
+    margin: 0 0 12px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 12px;
+  }
+  
+  .form-field {
+    min-width: 0;
+  }
+  
+  .form-field--full {
+    grid-column: 1 / -1;
+  }
+  
+  .form-field label {
+    margin-bottom: 6px;
+  }
+  
+  .form-field input,
+  .form-field textarea,
+  .form-field select {
+    width: 100%;
+  }
+  
+  @media (max-width: 640px) {
+    .form-grid {
+      grid-template-columns: 1fr;
+    }
+  
+    .form-field--full {
+      grid-column: auto;
+    }
+  }
