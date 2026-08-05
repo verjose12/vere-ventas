@@ -137,83 +137,207 @@
 </aside>
 
 <main class="add-product-main">
+
+  <!-- Encabezado de la página -->
   <section class="add-product-header">
-    <span class="add-product-subtitle">
-      Inventario
-    </span>
-  
     <h2>Agregar producto</h2>
-  
+
     <p>
       Completa la información y guarda el producto en tu inventario.
     </p>
   </section>
-   <!-- Crear publicación -->
-   <section class="card">
-    <div class="row">
-      <div>
-        <label>Foto(s) del producto</label>
-        <input id="fileInput" type="file" accept="image/*" multiple />
-        <div class="muted">
-          Tip: puedes seleccionar varias fotos; comprimimos automáticamente.
-        </div>
-        
-        <label class="per-photo-option">
-          <input id="perPhotoChk" type="checkbox" />
-          <span>Usar precio por foto</span>
-        </label>
-      </div>
 
-      <div class="inline">
-        <div>
-          <label>Título</label>
-          <input id="titleInput" placeholder="Ej. Describe el producto" />
-        </div>
-        <div>
-          <label>Precio (MXN)</label>
-          <input id="priceInput" type="number" inputmode="decimal" min="0" step="0.01" placeholder="Ej. 120" />
-        </div>
-      </div>
+  <!-- Fotografías -->
+  <section class="form-card">
 
-      <div class="inline">
-        <div>
-          <label>Cantidad disponible</label>
-          <input
-            id="stockInput"
-            type="number"
-            min="0"
-            step="1"
-            placeholder="Ej. 3"
-          />
-        </div>
-      
-        <div>
-          <label>Categoría</label>
-          <select id="categoryInput">
-            <option value="">Selecciona una categoría</option>
-            <option value="perfumes">Perfumes</option>
-            <option value="audifonos">Audífonos</option>
-            <option value="carteras">Carteras</option>
-            <option value="telefonos">Teléfonos</option>
-            <option value="ropa">Ropa</option>
-            <option value="otros">Otros</option>
-          </select>
-        </div>
-      </div>
+    <div class="form-section-title">
+      <i class="bi bi-images"></i>
 
       <div>
-        <label>Descripción (opcional)</label>
-        <textarea id="descInput" rows="3" placeholder="Ingredientes, tamaño, condiciones de entrega…"></textarea>
+        <strong>Fotografías</strong>
+        <span>Agrega una o varias imágenes del producto.</span>
       </div>
-
-      <div class="inline">
-        <button id="uploadBtn" class="btn btn-primary">Agregar al inventario</button>
-        <button id="clearBtn" class="btn btn-ghost">Limpiar</button>
-      </div>
-
-      <div id="status" class="muted"></div>
-      <div id="preview" class="preview"></div>
     </div>
+
+    <label for="fileInput">
+      Foto(s) del producto
+    </label>
+
+    <input
+      id="fileInput"
+      type="file"
+      accept="image/*"
+      multiple
+    />
+
+    <div class="muted">
+      Tip: puedes seleccionar varias fotos; comprimimos automáticamente.
+    </div>
+
+    <label class="per-photo-option">
+      <input
+        id="perPhotoChk"
+        type="checkbox"
+      />
+
+      <span>
+        Usar precio por foto
+      </span>
+    </label>
+
+    <div
+      id="preview"
+      class="preview"
+    ></div>
+
+  </section>
+
+  <!-- Información -->
+  <section class="form-card">
+
+    <div class="form-section-title">
+      <i class="bi bi-pencil-square"></i>
+
+      <div>
+        <strong>Información</strong>
+        <span>Describe el producto que vas a registrar.</span>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div>
+        <label for="titleInput">
+          Título
+        </label>
+
+        <input
+          id="titleInput"
+          type="text"
+          placeholder="Ej. Perfumes de dama"
+        />
+      </div>
+
+      <div>
+        <label for="priceInput">
+          Precio (MXN)
+        </label>
+
+        <input
+          id="priceInput"
+          type="number"
+          inputmode="decimal"
+          min="0"
+          step="0.01"
+          placeholder="Ej. 650"
+        />
+      </div>
+    </div>
+
+    <div>
+      <label for="descInput">
+        Descripción (opcional)
+      </label>
+
+      <textarea
+        id="descInput"
+        rows="3"
+        placeholder="Marca, tamaño, condiciones de entrega…"
+      ></textarea>
+    </div>
+
+  </section>
+
+  <!-- Inventario -->
+  <section class="form-card">
+
+    <div class="form-section-title">
+      <i class="bi bi-box-seam"></i>
+
+      <div>
+        <strong>Inventario</strong>
+        <span>Indica la cantidad disponible y la categoría.</span>
+      </div>
+    </div>
+
+    <div class="form-grid">
+      <div>
+        <label for="stockInput">
+          Cantidad disponible
+        </label>
+
+        <input
+          id="stockInput"
+          type="number"
+          min="0"
+          step="1"
+          placeholder="Ej. 3"
+        />
+      </div>
+
+      <div>
+        <label for="categoryInput">
+          Categoría
+        </label>
+
+        <select id="categoryInput">
+          <option value="">
+            Selecciona una categoría
+          </option>
+
+          <option value="perfumes">
+            Perfumes
+          </option>
+
+          <option value="audifonos">
+            Audífonos
+          </option>
+
+          <option value="carteras">
+            Carteras
+          </option>
+
+          <option value="telefonos">
+            Teléfonos
+          </option>
+
+          <option value="ropa">
+            Ropa
+          </option>
+
+          <option value="otros">
+            Otros
+          </option>
+        </select>
+      </div>
+    </div>
+
+  </section>
+
+  <!-- Acciones -->
+  <section class="form-actions">
+
+    <button
+      id="uploadBtn"
+      class="btn btn-primary"
+      type="button"
+    >
+      <i class="bi bi-check-circle"></i>
+      Agregar al inventario
+    </button>
+
+    <button
+      id="clearBtn"
+      class="btn btn-ghost"
+      type="button"
+    >
+      Limpiar
+    </button>
+
+    <div
+      id="status"
+      class="muted"
+    ></div>
+
   </section>
 
 </main>
