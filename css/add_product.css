@@ -149,8 +149,13 @@
    SUBIR FOTOGRAFÍAS
 ========================= */
 
-.photo-upload-input{
-    display:none;
+.photo-upload-input {
+    position: absolute;
+    width: 1px;
+    height: 1px;
+    overflow: hidden;
+    opacity: 0;
+    pointer-events: none;
   }
   
   .photo-upload-box{
