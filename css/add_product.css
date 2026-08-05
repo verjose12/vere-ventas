@@ -47,3 +47,45 @@
     line-height:1.5;
   
   }
+
+  /* =========================
+   PANEL
+========================= */
+
+.add-product-panel{
+    max-width: 720px;
+    margin: 0 auto;
+  }
+  
+  /* =========================
+     BARRA SUPERIOR
+  ========================= */
+  
+  .add-product-topbar{
+    display:flex;
+    align-items:center;
+    justify-content:space-between;
+  
+    margin-bottom:24px;
+  }
+  
+  .add-product-topbar h2{
+    margin:0;
+    font-size:22px;
+    font-weight:700;
+  }
+  
+  .add-product-cancel,
+  .add-product-save{
+  
+    background:none;
+    border:none;
+  
+    color:#25d366;
+  
+    font-size:15px;
+    font-weight:600;
+  
+    text-decoration:none;
+    cursor:pointer;
+  }

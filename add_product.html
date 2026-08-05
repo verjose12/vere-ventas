@@ -137,209 +137,140 @@
 </aside>
 
 <main class="add-product-main">
+  <section class="add-product-panel">
 
-  <!-- Encabezado de la página -->
-  <section class="add-product-header">
-    <h2>Agregar producto</h2>
+    <div class="add-product-topbar">
+      <a href="./index.html" class="add-product-cancel">
+        Cancelar
+      </a>
 
-    <p>
-      Completa la información y guarda el producto en tu inventario.
-    </p>
-  </section>
+      <h2>Agregar producto</h2>
 
-  <!-- Fotografías -->
-  <section class="form-card">
-
-    <div class="form-section-title">
-      <i class="bi bi-images"></i>
-
-      <div>
-        <strong>Fotografías</strong>
-        <span>Agrega una o varias imágenes del producto.</span>
-      </div>
+      <button
+        id="saveTopBtn"
+        class="add-product-save"
+        type="button"
+      >
+        Guardar
+      </button>
     </div>
 
-    <label for="fileInput">
-      Foto(s) del producto
-    </label>
+    <section class="product-form-section">
+      <h3>Información básica</h3>
 
-    <input
-      id="fileInput"
-      type="file"
-      accept="image/*"
-      multiple
-    />
+      <div class="form-grid">
+        <div class="form-field form-field--full">
+          <label for="titleInput">Título del producto</label>
+          <input
+            id="titleInput"
+            type="text"
+            placeholder="Ej. Perfume de dama"
+          />
+        </div>
 
-    <div class="muted">
-      Tip: puedes seleccionar varias fotos; comprimimos automáticamente.
-    </div>
+        <div class="form-field form-field--full">
+          <label for="descInput">Descripción (opcional)</label>
+          <textarea
+            id="descInput"
+            rows="3"
+            placeholder="Marca, modelo, tamaño…"
+          ></textarea>
+        </div>
 
-    <label class="per-photo-option">
-      <input
-        id="perPhotoChk"
-        type="checkbox"
-      />
+        <div class="form-field">
+          <label for="categoryInput">Categoría</label>
+          <select id="categoryInput">
+            <option value="">Selecciona</option>
+            <option value="perfumes">Perfumes</option>
+            <option value="audifonos">Audífonos</option>
+            <option value="carteras">Carteras</option>
+            <option value="telefonos">Teléfonos</option>
+            <option value="ropa">Ropa</option>
+            <option value="otros">Otros</option>
+          </select>
+        </div>
 
-      <span>
-        Usar precio por foto
-      </span>
-    </label>
+        <div class="form-field">
+          <label for="priceInput">Precio general</label>
+          <input
+            id="priceInput"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="$0.00"
+          />
+        </div>
 
-    <div
-      id="preview"
-      class="preview"
-    ></div>
-
-  </section>
-
-  <!-- Información -->
-  <section class="form-card">
-
-    <div class="form-section-title">
-      <i class="bi bi-pencil-square"></i>
-
-      <div>
-        <strong>Información</strong>
-        <span>Describe el producto que vas a registrar.</span>
+        <div class="form-field">
+          <label for="stockInput">Stock inicial</label>
+          <input
+            id="stockInput"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="0"
+          />
+        </div>
       </div>
-    </div>
+    </section>
 
-    <div class="form-grid">
-      <div>
-        <label for="titleInput">
-          Título
-        </label>
+    <section class="product-form-section">
+      <h3>Fotografías del producto</h3>
 
-        <input
-          id="titleInput"
-          type="text"
-          placeholder="Ej. Perfumes de dama"
-        />
-      </div>
-
-      <div>
-        <label for="priceInput">
-          Precio (MXN)
-        </label>
-
-        <input
-          id="priceInput"
-          type="number"
-          inputmode="decimal"
-          min="0"
-          step="0.01"
-          placeholder="Ej. 650"
-        />
-      </div>
-    </div>
-
-    <div>
-      <label for="descInput">
-        Descripción (opcional)
+      <label class="photo-upload-box" for="fileInput">
+        <i class="bi bi-cloud-arrow-up"></i>
+        <strong>Toca para subir fotos</strong>
+        <span>o arrastra y suelta aquí</span>
       </label>
 
-      <textarea
-        id="descInput"
-        rows="3"
-        placeholder="Marca, tamaño, condiciones de entrega…"
-      ></textarea>
+      <input
+        id="fileInput"
+        class="photo-upload-input"
+        type="file"
+        accept="image/*"
+        multiple
+      />
+
+      <div id="preview" class="preview"></div>
+    </section>
+
+    <section class="product-form-section">
+      <label class="per-photo-option">
+        <input id="perPhotoChk" type="checkbox" />
+        <span>Usar precio diferente por fotografía</span>
+      </label>
+    </section>
+
+    <section class="product-form-note">
+      <i class="bi bi-info-circle"></i>
+      <span>
+        Al guardar, el producto se agregará a tu inventario
+        y podrás compartirlo de inmediato.
+      </span>
+    </section>
+
+    <div class="product-form-actions">
+      <button
+        id="uploadBtn"
+        class="btn btn-primary"
+        type="button"
+      >
+        Agregar al inventario
+      </button>
+
+      <button
+        id="clearBtn"
+        class="btn btn-ghost"
+        type="button"
+      >
+        Limpiar
+      </button>
     </div>
 
-  </section>
-
-  <!-- Inventario -->
-  <section class="form-card">
-
-    <div class="form-section-title">
-      <i class="bi bi-box-seam"></i>
-
-      <div>
-        <strong>Inventario</strong>
-        <span>Indica la cantidad disponible y la categoría.</span>
-      </div>
-    </div>
-
-    <div class="form-grid">
-      <div>
-        <label for="stockInput">
-          Cantidad disponible
-        </label>
-
-        <input
-          id="stockInput"
-          type="number"
-          min="0"
-          step="1"
-          placeholder="Ej. 3"
-        />
-      </div>
-
-      <div>
-        <label for="categoryInput">
-          Categoría
-        </label>
-
-        <select id="categoryInput">
-          <option value="">
-            Selecciona una categoría
-          </option>
-
-          <option value="perfumes">
-            Perfumes
-          </option>
-
-          <option value="audifonos">
-            Audífonos
-          </option>
-
-          <option value="carteras">
-            Carteras
-          </option>
-
-          <option value="telefonos">
-            Teléfonos
-          </option>
-
-          <option value="ropa">
-            Ropa
-          </option>
-
-          <option value="otros">
-            Otros
-          </option>
-        </select>
-      </div>
-    </div>
+    <div id="status" class="muted"></div>
 
   </section>
-
-  <!-- Acciones -->
-  <section class="form-actions">
-
-    <button
-      id="uploadBtn"
-      class="btn btn-primary"
-      type="button"
-    >
-      <i class="bi bi-check-circle"></i>
-      Agregar al inventario
-    </button>
-
-    <button
-      id="clearBtn"
-      class="btn btn-ghost"
-      type="button"
-    >
-      Limpiar
-    </button>
-
-    <div
-      id="status"
-      class="muted"
-    ></div>
-
-  </section>
-
 </main>
 
 <div id="editModal" class="modal hidden">
