@@ -15,10 +15,7 @@ const state ={
   const perPhotoChk = $("#perPhotoChk");
   const stockInput = $("#stockInput");
   const categoryInput = $("#categoryInput");
-  const openSideMenuBtn = $("#openSideMenuBtn");
-  const closeSideMenuBtn = $("#closeSideMenuBtn");
-  const sideMenu = $("#sideMenu");
-  const sideMenuOverlay = $("#sideMenuOverlay");
+ 
   
   
   function formatPrice(n){
