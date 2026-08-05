@@ -158,45 +158,64 @@
       </button>
     </div>
 
-    <section class="product-form-footer">
+    <section class="product-form-section">
+      <h3>Información básica</h3>
 
-      <label class="per-photo-option">
-        <input id="perPhotoChk" type="checkbox" />
-    
-        <span>
-          Usar precio diferente por fotografía
-        </span>
-      </label>
-    
-      <section class="product-form-note">
-        <i class="bi bi-info-circle"></i>
-    
-        <span>
-          Al guardar, el producto se agregará a tu inventario
-          y podrás compartirlo de inmediato.
-        </span>
-      </section>
-    
-      <div class="product-form-actions">
-        <button
-          id="uploadBtn"
-          class="btn btn-primary"
-          type="button"
-        >
-          Agregar al inventario
-        </button>
-    
-        <button
-          id="clearBtn"
-          class="btn btn-ghost"
-          type="button"
-        >
-          Limpiar
-        </button>
+      <div class="form-grid">
+        <div class="form-field form-field--full">
+          <label for="titleInput">Título del producto</label>
+          <input
+            id="titleInput"
+            type="text"
+            placeholder="Ej. Perfume de dama"
+          />
+        </div>
+
+        <div class="form-field form-field--full">
+          <label for="descInput">Descripción (opcional)</label>
+          <textarea
+            id="descInput"
+            rows="3"
+            placeholder="Marca, modelo, tamaño…"
+          ></textarea>
+        </div>
+
+        <div class="form-field">
+          <label for="categoryInput">Categoría</label>
+          <select id="categoryInput">
+            <option value="">Selecciona</option>
+            <option value="perfumes">Perfumes</option>
+            <option value="audifonos">Audífonos</option>
+            <option value="carteras">Carteras</option>
+            <option value="telefonos">Teléfonos</option>
+            <option value="ropa">Ropa</option>
+            <option value="otros">Otros</option>
+          </select>
+        </div>
+
+        <div class="form-field">
+          <label for="priceInput">Precio general</label>
+          <input
+            id="priceInput"
+            type="number"
+            inputmode="decimal"
+            min="0"
+            step="0.01"
+            placeholder="$0.00"
+          />
+        </div>
+
+        <div class="form-field">
+          <label for="stockInput">Stock inicial</label>
+          <input
+            id="stockInput"
+            type="number"
+            min="0"
+            step="1"
+            placeholder="0"
+          />
+        </div>
       </div>
-    
-      <div id="status" class="muted"></div>
-    
     </section>
 
     <section class="product-form-section">
