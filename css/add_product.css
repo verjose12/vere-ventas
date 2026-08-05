@@ -1,0 +1,49 @@
+/* =========================
+   ENCABEZADO
+========================= */
+
+.add-product-header{
+
+    margin-bottom:24px;
+  
+  }
+  
+  .add-product-subtitle{
+  
+    display:inline-block;
+  
+    margin-bottom:8px;
+  
+    color:#25d366;
+  
+    font-size:13px;
+  
+    font-weight:700;
+  
+    text-transform:uppercase;
+  
+    letter-spacing:.08em;
+  
+  }
+  
+  .add-product-header h2{
+  
+    margin:0;
+  
+    font-size:32px;
+  
+    font-weight:800;
+  
+  }
+  
+  .add-product-header p{
+  
+    margin-top:8px;
+  
+    color:var(--muted);
+  
+    font-size:15px;
+  
+    line-height:1.5;
+  
+  }

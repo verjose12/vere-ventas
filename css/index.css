@@ -1124,3 +1124,17 @@ body {
     padding-bottom: 0;
   }
 }
+
+/* =========================
+   PÁGINA AGREGAR PRODUCTO
+========================= */
+
+.add-product-main{
+  width:min(900px, calc(100% - 32px));
+  margin:0 auto;
+  padding:24px 0;
+}
+
+.add-product-card{
+  width:100%;
+}
