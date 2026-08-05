@@ -101,3 +101,46 @@
   .add-product-save {
     justify-self: end;
   }
+
+  /* =========================
+   INFORMACIÓN BÁSICA
+========================= */
+
+.product-form-section {
+    margin-bottom: 18px;
+  }
+  
+  .product-form-section h3 {
+    margin: 0 0 10px;
+    font-size: 14px;
+    font-weight: 700;
+  }
+  
+  .form-grid {
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    gap: 10px;
+  }
+  
+  .form-field {
+    min-width: 0;
+  }
+  
+  .form-field--full {
+    grid-column: 1 / -1;
+  }
+  
+  .form-field label {
+    margin-bottom: 5px;
+  }
+  
+  @media (max-width: 640px) {
+    .form-grid {
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 8px;
+    }
+  
+    .form-field--full {
+      grid-column: 1 / -1;
+    }
+  }
