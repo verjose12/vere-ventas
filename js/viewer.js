@@ -1,4 +1,4 @@
-const DEFAULT_PHONE = "526565792009";
+const DEFAULT_PHONE = "526561137081";
 
 const base = DEFAULT_PHONE
   ? `https://wa.me/${DEFAULT_PHONE}?text=`
