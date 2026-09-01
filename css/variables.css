@@ -1,0 +1,81 @@
+:root {
+    /* Colores principales */
+    --color-bg: #0f0f10;
+    --color-surface: #16171a;
+    --color-surface-soft: #1a1c20;
+    --color-surface-muted: #121316;
+  
+    --color-text: #ffffff;
+    --color-text-muted: #8a8f98;
+  
+    --color-primary: #22c55e;
+    --color-primary-dark: #169c48;
+    --color-primary-soft: rgba(34, 197, 94, 0.12);
+  
+    --color-secondary: #38bdf8;
+  
+    --color-border: #2a2d33;
+    --color-border-soft: #24262b;
+    --color-border-strong: #313338;
+  
+    --color-danger: #f87171;
+    --color-danger-bg: #3a1619;
+    --color-danger-border: #991b1b;
+  
+    --color-success: #86efac;
+    --color-warning: #facc15;
+  
+    /* Plataformas */
+    --color-whatsapp: #25d366;
+    --color-whatsapp-dark: #128c7e;
+    --color-facebook: #1877f2;
+  
+    /* Tipografía */
+    --font-family-base:
+      system-ui,
+      -apple-system,
+      "Segoe UI",
+      Roboto,
+      Inter,
+      Arial,
+      sans-serif;
+  
+    --font-size-xs: 12px;
+    --font-size-sm: 13px;
+    --font-size-base: 14px;
+    --font-size-md: 16px;
+    --font-size-lg: 18px;
+    --font-size-xl: 24px;
+    --font-size-2xl: 32px;
+  
+    --font-weight-regular: 400;
+    --font-weight-medium: 600;
+    --font-weight-bold: 700;
+    --font-weight-extra-bold: 800;
+  
+    /* Bordes */
+    --radius-sm: 8px;
+    --radius-md: 10px;
+    --radius-lg: 14px;
+    --radius-xl: 18px;
+    --radius-pill: 999px;
+    --radius-circle: 50%;
+  
+    /* Espaciado */
+    --space-1: 4px;
+    --space-2: 8px;
+    --space-3: 12px;
+    --space-4: 16px;
+    --space-5: 20px;
+    --space-6: 24px;
+    --space-7: 32px;
+  
+    /* Sombras */
+    --shadow-card: 0 8px 20px rgba(0, 0, 0, 0.22);
+    --shadow-floating: 0 12px 30px rgba(0, 0, 0, 0.45);
+    --shadow-modal: 0 20px 45px rgba(0, 0, 0, 0.4);
+  
+    /* Transiciones */
+    --transition-fast: 0.2s ease;
+    --transition-normal: 0.28s ease;
+  }

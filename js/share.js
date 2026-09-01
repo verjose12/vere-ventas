@@ -25,14 +25,29 @@ function buildShareUrlFromState(stateObj) {
 }
 
 
+// function buildGalleryLink(item) {
+//   const url = new URL("viewer.html", location.href);
+
+//   url.searchParams.set("id", item.id);
+//   url.searchParams.set("v", "2");
+
+//   return url.toString();
+// }
+
 function buildGalleryLink(item) {
   const url = new URL("viewer.html", location.href);
 
   url.searchParams.set("id", item.id);
+
+  if (item.userId) {
+    url.searchParams.set("user", item.userId);
+  }
+
   url.searchParams.set("v", "2");
 
   return url.toString();
 }
+
 
 
 function buildMessage(item) {

@@ -13,6 +13,10 @@ const sideMenu =
 const sideMenuOverlay =
   menuQuery("#sideMenuOverlay");
 
+const logoutBtn =
+  menuQuery("#logoutBtn");
+
+
 function openSideMenu() {
     sideMenu.classList.add("open");
     sideMenuOverlay.classList.add("show");
@@ -32,6 +36,7 @@ function openSideMenu() {
   
     document.body.style.overflow = "";
   }
+
   
   openSideMenuBtn.addEventListener("click", openSideMenu);
   
@@ -44,3 +49,20 @@ function openSideMenu() {
       closeSideMenu();
     }
   });
+
+  
+if (logoutBtn) {
+  logoutBtn.addEventListener("click", async (event) => {
+    event.preventDefault();
+
+    const { error } = await supabaseClient.auth.signOut();
+
+    if (error) {
+      console.error("Error al cerrar sesión:", error);
+      return;
+    }
+
+    // window.location.href = "./auth/login.html";
+    window.location.replace("./auth/login.html");
+  });
+}

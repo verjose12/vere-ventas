@@ -15,7 +15,7 @@ const state ={
   const perPhotoChk = $("#perPhotoChk");
   const stockInput = $("#stockInput");
   const categoryInput = $("#categoryInput");
- 
+  
   
   
   function formatPrice(n){
@@ -105,6 +105,17 @@ const state ={
         urls.push(delivered);
         perPhotoPrices.push(perPhoto ? (ppMap[i] || price) : null);
       }
+
+      const {
+        data: { session }
+      } = await supabaseClient.auth.getSession();
+    
+      if (!session) {
+        return setStatus(
+          "Debes iniciar sesión.",
+          true
+        );
+      }
   
       const productToSave = {
         title: title,
@@ -114,7 +125,9 @@ const state ={
         per_photo: perPhoto,
         per_photo_prices: perPhotoPrices,
         stock: Number(stock),
-        category: category || null
+        category: category || null,
+
+        user_id: session.user.id
       };
       
       const savedProduct = await saveProduct(productToSave);

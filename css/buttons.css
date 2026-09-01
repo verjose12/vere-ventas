@@ -1,0 +1,183 @@
+/* =====================================================
+   VJOX DESIGN SYSTEM
+   Archivo: buttons.css
+
+   Componentes:
+   • .btn
+   • Variantes de color
+   • Variantes de tamaño
+   • Botones de icono
+===================================================== */
+
+
+/* =========================
+   BOTÓN BASE
+========================= */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--space-2);
+
+  min-height: 46px;
+  padding: 10px 14px;
+
+  font-family: var(--font-family-base);
+  font-size: var(--font-size-base);
+  font-weight: var(--font-weight-bold);
+  line-height: 1.2;
+
+  color: var(--color-text);
+  background: var(--color-surface-soft);
+
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+
+  text-decoration: none;
+  cursor: pointer;
+
+  transition:
+    transform var(--transition-fast),
+    filter var(--transition-fast),
+    background var(--transition-fast),
+    border-color var(--transition-fast);
+}
+
+.btn:hover {
+  filter: brightness(1.08);
+}
+
+.btn:active {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+
+/* =========================
+   VARIANTES DE COLOR
+========================= */
+
+.btn--primary {
+  color: #041d0f;
+  background: var(--color-primary);
+  border-color: var(--color-primary-dark);
+}
+
+.btn--secondary {
+  color: #061923;
+  background: var(--color-secondary);
+  border-color: var(--color-secondary);
+}
+
+.btn--ghost {
+  color: var(--color-text);
+  background: transparent;
+  border-color: var(--color-border);
+}
+
+.btn--danger {
+  color: #fecaca;
+  background: var(--color-danger-bg);
+  border-color: var(--color-danger-border);
+}
+
+.btn--facebook {
+  color: #ffffff;
+  background: var(--color-facebook);
+  border-color: var(--color-facebook);
+}
+
+.btn--whatsapp {
+  color: #062d1e;
+  background: var(--color-whatsapp);
+  border-color: var(--color-whatsapp-dark);
+}
+
+
+/* =========================
+   TAMAÑOS
+========================= */
+
+.btn--sm {
+  min-height: 38px;
+  padding: 8px 12px;
+  font-size: var(--font-size-sm);
+}
+
+.btn--md {
+  min-height: 46px;
+}
+
+.btn--lg {
+  min-height: 52px;
+  padding: 13px 18px;
+  font-size: var(--font-size-md);
+}
+
+
+/* =========================
+   ANCHO
+========================= */
+
+.btn--full {
+  width: 100%;
+}
+
+
+/* =========================
+   BOTONES DE ICONO
+========================= */
+
+.btn-icon {
+  width: 40px;
+  height: 40px;
+  min-height: 40px;
+  padding: 0;
+
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  color: var(--color-text);
+  background: var(--color-surface-soft);
+
+  border: 1px solid var(--color-border-strong);
+  border-radius: var(--radius-md);
+
+  cursor: pointer;
+
+  transition:
+    transform var(--transition-fast),
+    filter var(--transition-fast);
+}
+
+.btn-icon:hover {
+  filter: brightness(1.08);
+}
+
+.btn-icon:active {
+  transform: scale(0.96);
+}
+
+.btn-icon--facebook {
+  color: #ffffff;
+  background: var(--color-facebook);
+  border-color: var(--color-facebook);
+}
+
+.btn-icon--whatsapp {
+  color: #ffffff;
+  background: var(--color-whatsapp-dark);
+  border-color: var(--color-whatsapp);
+}
+
+.btn-icon--danger {
+  color: var(--color-danger);
+  background: transparent;
+  border-color: var(--color-danger-border);
+}

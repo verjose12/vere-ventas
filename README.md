@@ -10,7 +10,7 @@ Su objetivo es reducir el tiempo que un vendedor dedica a preparar publicaciones
 
 # Estado del proyecto
 
-**Versión:** 3.2.8
+**Versión:** 4.0.0
 
 **Estado:** En desarrollo activo.
 
@@ -28,6 +28,19 @@ Actualmente el proyecto se encuentra en una etapa de profesionalización, prepar
 * Publicación automática en Facebook mediante Meta Graph API.
 * Progressive Web App (PWA).
 * Diseño adaptable para dispositivos móviles.
+
+## v4.0.0
+
+- Autenticación con Supabase
+- Registro e inicio de sesión
+- Confirmación de correo
+- Cierre de sesión
+- Protección de rutas
+- Arquitectura multiusuario
+- Inventario independiente por usuario
+- Galerías públicas por vendedor
+- Row Level Security
+- Nuevo Design System
 
 ---
 

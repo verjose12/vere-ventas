@@ -9,6 +9,11 @@ function getProductIdFromUrl() {
   return params.get("id");
 }
 
+function getUserIdFromUrl() {
+  const params = new URLSearchParams(window.location.search);
+  return params.get("user");
+}
+
 function formatPrice(value) {
   if (value == null || value === "") {
     return "";
@@ -208,7 +213,16 @@ async function renderGalleryNavigation(currentProductId) {
     return;
   }
 
-  const products = await getProducts();
+  // const products = await getProducts();
+
+  const userId = getUserIdFromUrl();
+
+if (!userId) {
+  console.warn("No se encontró el usuario de la galería.");
+  return;
+}
+
+const products = await getProductsByUser(userId);
 
   galleryNav.innerHTML = "";
 

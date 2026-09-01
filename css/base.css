@@ -1,0 +1,21 @@
+/* =========================
+   RESET
+========================= */
+
+*,
+*::before,
+*::after {
+  box-sizing: border-box;
+}
+
+/* =========================
+   DOCUMENTO
+========================= */
+
+body {
+  margin: 0;
+  font-family: var(--font-family-base);
+  background: var(--color-bg);
+  color: var(--color-text);
+}
+

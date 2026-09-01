@@ -1,10 +1,14 @@
-const SUPABASE_URL = "https://hmdxqtcxsafqoympyttr.supabase.co";
-const SUPABASE_KEY = "sb_publishable_l6yOXCyNUW9FSNOd7h6f5g_SeSI7aJD";
+// const SUPABASE_URL = "https://hmdxqtcxsafqoympyttr.supabase.co";
+const SUPABASE_URL = "https://efreukwqbvfzspdixcnz.supabase.co";
+// const SUPABASE_KEY = "sb_publishable_l6yOXCyNUW9FSNOd7h6f5g_SeSI7aJD";
+const SUPABASE_KEY = "sb_publishable_K-p3gI-Ej8NqWPHZh6_fJw_Mgxox1wD";
+
 
 const supabaseClient = supabase.createClient(
   SUPABASE_URL,
   SUPABASE_KEY
 );
+
 
 async function saveProduct(product) {
     console.log("Producto que se enviará:", product);
@@ -35,6 +39,25 @@ async function saveProduct(product) {
     }
   
     console.log("Productos obtenidos:", data);
+    return data;
+  }
+
+  async function getMyProducts(userId) {
+    const { data, error } = await supabaseClient
+      .from("products")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+  
+    if (error) {
+      console.error(
+        "Error al obtener productos del usuario:",
+        error
+      );
+      return [];
+    }
+  
+    console.log("Productos del usuario:", data);
     return data;
   }
 
@@ -86,4 +109,19 @@ async function saveProduct(product) {
     return data;
   }
 
+
+  async function getProductsByUser(userId) {
+    const { data, error } = await supabaseClient
+      .from("products")
+      .select("*")
+      .eq("user_id", userId)
+      .order("created_at", { ascending: false });
+  
+    if (error) {
+      console.error(error);
+      return [];
+    }
+  
+    return data;
+  }
   

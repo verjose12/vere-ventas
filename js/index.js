@@ -18,6 +18,7 @@ const inventoryValueEl = $("#inventoryValue");
 const toggleInventoryValueBtn =
   $("#toggleInventoryValue");
 
+
 // Estado
 let isInventoryValueVisible = true;
 
@@ -60,6 +61,7 @@ function setStatus(msg, isError=false){
 function adaptProductFromDatabase(product) {
   return {
     id: product.id,
+    userId: product.user_id,
     title: product.title,
     price: product.price,
     desc: product.description,
@@ -75,7 +77,18 @@ function adaptProductFromDatabase(product) {
 async function loadProductsFromDatabase() {
   setStatus("Cargando publicaciones...");
 
-  const products = await getProducts();
+  // const products = await getProducts();
+
+  const {
+    data: { user }
+  } = await supabaseClient.auth.getUser();
+  
+  if (!user) {
+    setStatus("Debes iniciar sesión.");
+    return;
+  }
+  
+  const products = await getMyProducts(user.id);
 
   state.items = products.map(adaptProductFromDatabase); 
  
@@ -501,38 +514,32 @@ toggleInventoryValueBtn.addEventListener("click", () => {
   }
 });
 
-function openSideMenu() {
-  sideMenu.classList.add("open");
-  sideMenuOverlay.classList.add("show");
+// if (logoutBtn) {
+//   logoutBtn.addEventListener("click", async (event) => {
+//     event.preventDefault();
 
-  sideMenu.setAttribute("aria-hidden", "false");
-  openSideMenuBtn.setAttribute("aria-expanded", "true");
+//     const { error } = await supabaseClient.auth.signOut();
 
-  document.body.style.overflow = "hidden";
-}
+//     if (error) {
+//       console.error("Error al cerrar sesión:", error);
+//       return;
+//     }
 
-function closeSideMenu() {
-  sideMenu.classList.remove("open");
-  sideMenuOverlay.classList.remove("show");
+//     window.location.href = "./auth/login.html";
+//   });
+// }
 
-  sideMenu.setAttribute("aria-hidden", "true");
-  openSideMenuBtn.setAttribute("aria-expanded", "false");
+async function init() {
+  const user = await requireAuth();
 
-  document.body.style.overflow = "";
-}
-
-openSideMenuBtn.addEventListener("click", openSideMenu);
-
-closeSideMenuBtn.addEventListener("click", closeSideMenu);
-
-sideMenuOverlay.addEventListener("click", closeSideMenu);
-
-document.addEventListener("keydown", event => {
-  if (event.key === "Escape") {
-    closeSideMenu();
+  if (!user) {
+    return;
   }
-});
 
+  await loadProductsFromDatabase();
+}
+
+init();
 // arranque
-loadProductsFromDatabase();
+// loadProductsFromDatabase();
 //renderList();

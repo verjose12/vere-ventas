@@ -99,7 +99,7 @@ Esta versión marca la transición de un proyecto personal a un producto de soft
 - Incorporar navegación inferior entre pantallas.
 - Implementar botón flotante para las acciones principales.
 
-## v3.2.8   ← ESTA
+## v3.2.8 
 📌 Separación de Inventario y Agregar Producto
 - add-product.html
 - add_product.js
@@ -123,9 +123,7 @@ Esta versión marca la transición de un proyecto personal a un producto de soft
 - Cierre con la tecla Escape.
 - Bloqueo del scroll mientras el menú está abierto.
 
-## v3.3.0   ← ESTA
-Planeado
-
+## v3.3.0   
 - Sistema de autenticación.
 - Registro de usuarios.
 - Roles.
@@ -133,7 +131,68 @@ Planeado
 
 ---
 
-## v3.4.0
+## VJOX v4.0.0  - 2026-09-01  ← ESTA
+
+Nueva arquitectura multiusuario y sistema de autenticación.
+
+Cambios principales:
+
+- Implementación de Supabase Auth.
+- Registro de nuevos usuarios.
+- Inicio de sesión con correo y contraseña.
+- Confirmación de correo electrónico.
+- Cierre de sesión.
+- Protección de vistas privadas mediante auth guard.
+
+- Implementación inicial de arquitectura multiusuario.
+- Cada producto ahora se relaciona con su propietario mediante user_id.
+- Cada usuario visualiza únicamente su propio inventario.
+- Cada usuario puede agregar sus propios productos.
+- Galerías públicas separadas por usuario.
+- Los enlaces de galería ahora identifican al propietario del catálogo.
+
+- Configuración de Row Level Security (RLS) en Supabase.
+- Políticas para creación, actualización y eliminación de productos por propietario.
+- Lectura pública de productos para permitir las galerías compartidas.
+
+- Creación de entorno de desarrollo independiente:
+  - Supabase Production: vjox-ventas
+  - Supabase Development: vjox-dev
+- Separación del desarrollo multiusuario de la base de datos de producción.
+
+- Corrección del esquema de products en DEV.
+- user_id migrado a UUID.
+- id configurado como Identity/autoincremental.
+- Restauración de created_at automático.
+- Corrección de permisos y grants para authenticated y anon.
+
+- Implementación y organización del nuevo Design System de VJOX.
+- Separación de estilos base, formularios, botones, tarjetas, variables y utilidades.
+- Preparación de una base visual reutilizable para las nuevas vistas.
+
+Estado actual:
+
+✓ Registro funciona
+✓ Confirmación de correo funciona
+✓ Login funciona
+✓ Logout funciona
+✓ Auth Guard funciona
+✓ Productos asociados por usuario
+✓ Inventario independiente por usuario
+✓ Alta de productos independiente por usuario
+✓ Galería pública independiente por usuario
+
+Pendiente para siguientes versiones:
+
+- Configuración inicial de perfil de vendedor.
+- WhatsApp independiente por usuario.
+- Integración de Facebook por usuario.
+- Login con Google.
+- Recuperación de contraseña.
+- Configuración/edición de perfil.
+- Métricas y estadísticas multiusuario.
+
+## v4.2.0
 
 Planeado
 
@@ -143,7 +202,7 @@ Planeado
 
 ---
 
-## v3.5.0
+## v4.5.0
 
 Planeado
 
@@ -154,7 +213,7 @@ Planeado
 
 ---
 
-## v4.0.0
+## v5.0.0
 
 Planeado
 

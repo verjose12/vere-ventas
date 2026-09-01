@@ -1,0 +1,6 @@
+@import url("./variables.css");  /* colores, tamaños, radios, sombras */
+@import url("./base.css");       /*body, tipografía y reglas globales */
+@import url("./forms.css");      /*inputs, labels, textarea, select */
+@import url("./buttons.css");    /*botones y variantes */
+@import url("./cards.css");     /* tarjetas reutilizables  */
+@import url("./utilities.css"); /*clases pequeñas como .hidden */

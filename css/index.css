@@ -11,16 +11,8 @@
    BASE
 ========================= */
 
-* {
-  box-sizing: border-box;
-}
-
 body {
-  margin: 0;
   padding-bottom: 100px;
-  font-family: system-ui, -apple-system, "Segoe UI", Roboto, Inter, Arial, sans-serif;
-  background: var(--bg);
-  color: var(--text);
 }
 
 header {
@@ -63,9 +55,6 @@ main {
 
 .card {
   padding: 14px;
-  background: var(--card);
-  border: 1px solid #26272b;
-  border-radius: 14px;
 }
 
 .row {
@@ -88,44 +77,6 @@ main {
    FORMULARIOS
 ========================= */
 
-label {
-  display: block;
-  margin-bottom: 4px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
-input,
-textarea,
-button,
-select {
-  width: 100%;
-  padding: 12px;
-  color: var(--text);
-  background: #1a1c20;
-  border: 1px solid #313338;
-  border-radius: 10px;
-  font-size: 14px;
-}
-
-select option {
-  color: #ffffff;
-  background: #1a1c20;
-}
-
-input[type="file"] {
-  padding: 10px;
-}
-
-.inline {
-  display: flex;
-  gap: 10px;
-}
-
-.inline > * {
-  flex: 1;
-}
-
 .btn {
   cursor: pointer;
   border: 1px solid #3a3d44;
@@ -142,38 +93,6 @@ input[type="file"] {
   background: #1a1c20;
 }
 
-.muted {
-  color: var(--muted);
-  font-size: 12px;
-}
-
-.ok {
-  color: #86efac;
-}
-
-.bad {
-  color: #fda4af;
-}
-
-.per-photo-option {
-  display: flex;
-  align-items: center;
-  justify-content: flex-start;
-  gap: 8px;
-  width: fit-content;
-  margin-top: 10px;
-}
-
-.per-photo-option input[type="checkbox"] {
-  flex: 0 0 auto;
-  width: 18px;
-  height: 18px;
-  margin: 0;
-}
-
-.per-photo-option span {
-  white-space: nowrap;
-}
 
 /* =========================
    PREVISUALIZACIÓN

@@ -12,7 +12,8 @@ Actualmente únicamente se brinda soporte a la versión más reciente del proyec
 
 | Versión | Soporte |
 | ------- | ------- |
-| 3.x.x   | ✅ Sí    |
+| 4.x.x   | ✅ Sí    |
+| 3.x.x   | ❌ No    |
 | 2.x.x   | ❌ No    |
 | 1.x.x   | ❌ No    |
 
@@ -115,11 +116,11 @@ VJOX Ventas
 
 Versión actual:
 
-3.2.9
+4.0.0
 
 Última actualización:
 
-31 de julio de 2026
+1 de septiembre de 2026
 
 # Autora
 
