@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+  <title>Configura tu perfil | VJOX</title>
+
+  <!-- Design System VJOX -->
+  
+  <link rel="stylesheet" href="css/vjox-design.css">
+  <link rel="stylesheet" href="css/profile-setup.css">
+</head>
+
+<body>
+
+  <main class="profile-setup">
+
+    <section class="card profile-card">
+
+      <header class="profile-header">
+        <h1>Completa tu perfil</h1>
+
+        <p>
+          Configura los datos de tu negocio para que tus clientes
+          puedan ponerse en contacto contigo.
+        </p>
+      </header>
+
+      <form id="profileForm">
+
+        <div class="form-group">
+          <label for="name">Tu nombre</label>
+
+          <input
+            type="text"
+            id="name"
+            name="name"
+            placeholder="Ej. Verónica"
+            autocomplete="name"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="businessName">Nombre de tu negocio</label>
+
+          <input
+            type="text"
+            id="businessName"
+            name="businessName"
+            placeholder="Ej. Botitas Viajeras"
+            required
+          >
+        </div>
+
+        <div class="form-group">
+          <label for="whatsappPhone">WhatsApp</label>
+
+          <input
+            type="tel"
+            id="whatsappPhone"
+            name="whatsappPhone"
+            placeholder="Ej. 6561234567"
+            autocomplete="tel"
+            required
+          >
+        </div>
+
+        <button
+          type="submit"
+          class="btn btn--primary btn--full btn--lg"
+        >
+          Guardar y continuar
+        </button>
+
+        <p id="profileStatus"></p>
+
+      </form>
+
+    </section>
+
+  </main>
+
+  <!-- Supabase -->
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+
+  <script src="js/database.js"></script>
+  <script src="js/profile-setup.js"></script>
+
+</body>
+</html>

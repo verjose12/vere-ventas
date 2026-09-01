@@ -94,28 +94,44 @@ const state ={
     if (!stock) {
       return setStatus("Agrega la cantidad disponible 📦", true);
     }
-  
+    const {
+      data: { session }
+    } = await supabaseClient.auth.getSession();
+    
+    if (!session) {
+      return setStatus(
+        "Debes iniciar sesión.",
+        true
+      );
+    }
+    
+    const userId = session.user.id;
+
     setStatus("Subiendo fotos… 📤 Esto puede tardar unos segundos.");
     try{
       const urls = [], perPhotoPrices = [];
       for(let i=0;i<state.files.length;i++){
         const file = state.files[i];                                   // <-- corregido
         const compressed = await compressImage(file, 1600, 0.85);
-        const delivered = await uploadImageToCloudinary(compressed);
+        // const delivered = 
+        //   await uploadImageToCloudinary(compressed);
+        const delivered =
+          await uploadImageToCloudinary(
+            compressed, userId);
         urls.push(delivered);
         perPhotoPrices.push(perPhoto ? (ppMap[i] || price) : null);
       }
 
-      const {
-        data: { session }
-      } = await supabaseClient.auth.getSession();
+      // const {
+      //   data: { session }
+      // } = await supabaseClient.auth.getSession();
     
-      if (!session) {
-        return setStatus(
-          "Debes iniciar sesión.",
-          true
-        );
-      }
+      // if (!session) {
+      //   return setStatus(
+      //     "Debes iniciar sesión.",
+      //     true
+      //   );
+      // }
   
       const productToSave = {
         title: title,
@@ -127,7 +143,8 @@ const state ={
         stock: Number(stock),
         category: category || null,
 
-        user_id: session.user.id
+        // user_id: session.user.id
+        user_id: userId
       };
       
       const savedProduct = await saveProduct(productToSave);

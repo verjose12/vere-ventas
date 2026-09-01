@@ -18,6 +18,7 @@ const inventoryValueEl = $("#inventoryValue");
 const toggleInventoryValueBtn =
   $("#toggleInventoryValue");
 
+// const logoutBtn = $("#logoutBtn");
 
 // Estado
 let isInventoryValueVisible = true;

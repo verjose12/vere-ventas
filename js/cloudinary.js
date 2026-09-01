@@ -1,14 +1,17 @@
 
 const CLOUD_NAME = "dvxorpdrd";
 const UPLOAD_PRESET = "Ventas";
-const CLOUDINARY_FOLDER = "verox-ventas";
+const CLOUDINARY_BASE_FOLDER ="vjox/users";
 
-async function uploadImageToCloudinary(file) {
+async function uploadImageToCloudinary(file, userId) {
   const form = new FormData();
+
+  const userFolder=
+  `${CLOUDINARY_BASE_FOLDER}/${userId}/products`;
 
   form.append("file", file);
   form.append("upload_preset", UPLOAD_PRESET);
-  form.append("folder", CLOUDINARY_FOLDER);
+  form.append("asset_folder", userFolder);
 
   const response = await fetch(
     `https://api.cloudinary.com/v1_1/${CLOUD_NAME}/image/upload`,

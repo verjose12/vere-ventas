@@ -124,4 +124,51 @@ async function saveProduct(product) {
   
     return data;
   }
+
+//funsiones para profile-setup
+
+  async function createProfile(profile) {
+    const { data, error } = await supabaseClient
+      .from("profiles")
+      .insert([profile])
+      .select()
+      .single();
   
+    if (error) {
+      console.error("Error creando perfil:", error);
+      return null;
+    }
+  
+    return data;
+  }
+  
+  async function getProfile(userId) {
+    const { data, error } = await supabaseClient
+      .from("profiles")
+      .select("*")
+      .eq("id", userId)
+      .maybeSingle();
+  
+    if (error) {
+      console.error("Error obteniendo perfil:", error);
+      return null;
+    }
+  
+    return data;
+  }
+  
+
+  async function getPublicProfile(userId) {
+    const { data, error } = await supabaseClient
+      .from("public_profiles")
+      .select("*")
+      .eq("id", userId)
+      .maybeSingle();
+  
+    if (error) {
+      console.error("Error obteniendo perfil público:", error);
+      return null;
+    }
+  
+    return data;
+  }

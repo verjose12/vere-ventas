@@ -182,10 +182,39 @@ Estado actual:
 ✓ Alta de productos independiente por usuario
 ✓ Galería pública independiente por usuario
 
+## [4.1.0] - 2026-09-01
+
+### Perfiles y WhatsApp multiusuario
+
+- Se agregó la configuración inicial del perfil del vendedor.
+- Cada usuario puede registrar:
+  - Nombre.
+  - Nombre del negocio.
+  - Número de WhatsApp.
+- Se agregó la tabla `profiles` relacionada con el usuario autenticado mediante su UUID.
+- Se implementaron políticas RLS para proteger los perfiles de usuario.
+- Se agregó `public_profiles` para consultar únicamente la información necesaria del vendedor desde la galería pública.
+- La galería ahora identifica al propietario mediante el parámetro `user` de la URL.
+- El botón **"Me interesa este producto"** dejó de utilizar un número de WhatsApp fijo.
+- El contacto de WhatsApp ahora se obtiene dinámicamente desde el perfil del propietario de la galería.
+- Los números mexicanos de 10 dígitos se convierten automáticamente al formato internacional `52XXXXXXXXXX`.
+- Se corrigió la navegación entre productos para conservar el `userId` del vendedor.
+
+### Cloudinary multiusuario
+
+- Se eliminó el uso de una carpeta fija para todas las imágenes de productos.
+- Las imágenes ahora se organizan automáticamente por usuario utilizando su UUID.
+- Nueva estructura de almacenamiento:
+
+  `vjox/users/{userId}/products`
+
+- La sesión del usuario ahora se valida antes de iniciar la carga de imágenes.
+- `uploadImageToCloudinary()` recibe el `userId` para determinar dinámicamente la carpeta de destino.
+- Se configuró Cloudinary para utilizar `asset_folder` durante la carga.
+- La organización de imágenes queda preparada para facilitar la administración de archivos por usuario.
+
 Pendiente para siguientes versiones:
 
-- Configuración inicial de perfil de vendedor.
-- WhatsApp independiente por usuario.
 - Integración de Facebook por usuario.
 - Login con Google.
 - Recuperación de contraseña.

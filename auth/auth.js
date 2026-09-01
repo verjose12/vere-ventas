@@ -30,31 +30,31 @@ if (registerForm) {
       
       console.log("Usuario creado:", data);
       
-      const user = data.user;
+     // const user = data.user;
       
-      if (user) {
-        const { error: profileError } = await supabaseClient
-          .from("profiles")
-          .insert({
-            id: user.id,
-            name: name,
-            plan: "free"
-          });
+      // if (user) {
+      //   const { error: profileError } = await supabaseClient
+      //     .from("profiles")
+      //     .insert({
+      //       id: user.id,
+      //       name: name,
+      //       plan: "free"
+      //     });
       
-        if (profileError) {
-          console.error(
-            "Error creando perfil:",
-            profileError
-          );
+      //   if (profileError) {
+      //     console.error(
+      //       "Error creando perfil:",
+      //       profileError
+      //     );
       
-          status.textContent =
-            "La cuenta se creó, pero hubo un problema creando el perfil.";
+      //     status.textContent =
+      //       "La cuenta se creó, pero hubo un problema creando el perfil.";
       
-          return;
-        }
-      }
+      //     return;
+      //   }
+      // }
       
-      status.textContent = "Cuenta creada correctamente.";
+      status.textContent = "Cuenta creada correctamente, confirma tu email.";
 
     });
 }
@@ -94,10 +94,18 @@ if (loginForm) {
 
     status.textContent =
       "Sesión iniciada correctamente.";
-
-      setTimeout(() => {
+    
+    const user = data.user;
+    
+    const profile = await getProfile(user.id);
+    
+    setTimeout(() => {
+      if (profile) {
         window.location.href = "../index.html";
-      }, 800);
+      } else {
+        window.location.href = "../profiles-setup.html";
+      }
+    }, 800);
   });
 }
 

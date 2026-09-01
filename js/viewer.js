@@ -1,8 +1,8 @@
-const DEFAULT_PHONE = "526561137081";
+// const DEFAULT_PHONE = "526561137081";
 
-const base = DEFAULT_PHONE
-  ? `https://wa.me/${DEFAULT_PHONE}?text=`
-  : "https://api.whatsapp.com/send?text=";
+// const base = DEFAULT_PHONE
+//   ? `https://wa.me/${DEFAULT_PHONE}?text=`
+//   : "https://api.whatsapp.com/send?text=";
 
 function getProductIdFromUrl() {
   const params = new URLSearchParams(window.location.search);
@@ -50,7 +50,7 @@ function showError(message) {
 }
 let selectedImageIndex = 0;
 
-function renderGallery(product) {
+function renderGallery(product, sellerProfile) {
   const titleElement = document.querySelector("#t");
   const descriptionElement = document.querySelector("#d");
   const pricesElement = document.querySelector("#prices");
@@ -171,15 +171,55 @@ if (
     pricesElement.textContent = `Precio: ${formatPrice(product.price)}`;
   }
 
-  askButton.addEventListener("click", () => {
+//   askButton.addEventListener("click", () => {
 
-    const selectedPhotoNumber = selectedImageIndex + 1;
+//     const selectedPhotoNumber = selectedImageIndex + 1;
 
-    const selectedPhotoUrl = new URL(window.location.href);
-    selectedPhotoUrl.searchParams.set("photo", selectedPhotoNumber);
+//     const selectedPhotoUrl = new URL(window.location.href);
+//     selectedPhotoUrl.searchParams.set("photo", selectedPhotoNumber);
 
-    const message = encodeURIComponent(
-      `Hola 👋
+//     const message = encodeURIComponent(
+//       `Hola 👋
+
+// Me interesa este producto:
+
+// ${product.title}
+
+// 📸 Fotografía seleccionada:
+// ${selectedPhotoUrl.toString()}`
+//     );
+
+//     const base = DEFAULT_PHONE
+//       ? `https://wa.me/${DEFAULT_PHONE}?text=`
+//       : "https://api.whatsapp.com/send?text=";
+
+//     window.open(base + message, "_blank");
+//   });
+
+askButton.addEventListener("click", () => {
+
+  const phone = sellerProfile?.whatsapp_phone;
+
+  if (!phone) {
+    alert("Este vendedor todavía no ha configurado su WhatsApp.");
+    return;
+  }
+
+  // const cleanPhone = phone.replace(/\D/g, "");
+
+  let cleanPhone = phone.replace(/\D/g, "");
+
+  if (cleanPhone.length === 10) {
+    cleanPhone = `52${cleanPhone}`;
+  }
+
+  const selectedPhotoNumber = selectedImageIndex + 1;
+
+  const selectedPhotoUrl = new URL(window.location.href);
+  selectedPhotoUrl.searchParams.set("photo", selectedPhotoNumber);
+
+  const message = encodeURIComponent(
+    `Hola 👋
 
 Me interesa este producto:
 
@@ -187,14 +227,13 @@ ${product.title}
 
 📸 Fotografía seleccionada:
 ${selectedPhotoUrl.toString()}`
-    );
+  );
 
-    const base = DEFAULT_PHONE
-      ? `https://wa.me/${DEFAULT_PHONE}?text=`
-      : "https://api.whatsapp.com/send?text=";
+  const whatsappUrl =
+    `https://wa.me/${cleanPhone}?text=${message}`;
 
-    window.open(base + message, "_blank");
-  });
+  window.open(whatsappUrl, "_blank");
+});
 
   copyButton.addEventListener("click", async () => {
     try {
@@ -229,7 +268,9 @@ const products = await getProductsByUser(userId);
   products.forEach((product) => {
     const link = document.createElement("a");
 
-    link.href = `viewer.html?id=${product.id}`;
+    // link.href = `viewer.html?id=${product.id}`;
+    link.href =
+  `viewer.html?id=${product.id}&user=${encodeURIComponent(userId)}`;
     link.textContent = product.title || "Producto";
 
     if (String(product.id) === String(currentProductId)) {
@@ -255,6 +296,25 @@ async function loadProduct() {
     return;
   }
 
+  const userId = getUserIdFromUrl();
+
+  if (!userId) {
+    showError("No se encontró el vendedor de este producto.");
+    return;
+  }
+
+const sellerProfile = await getPublicProfile(userId);
+
+if (!sellerProfile) {
+  showError("No se pudo cargar la información del vendedor.");
+  return;
+}
+
+  // if (!product) {
+  //   showError("No se pudo cargar el producto.");
+  //   return;
+  // }
+
   const imageUrls = product.image_urls || [];
 
   if (imageUrls.length === 0) {
@@ -262,7 +322,7 @@ async function loadProduct() {
     return;
   }
 
-  renderGallery(product);
+  renderGallery(product, sellerProfile);
 
   await renderGalleryNavigation(productId);
 }

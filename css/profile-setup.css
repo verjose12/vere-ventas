@@ -1,0 +1,45 @@
+.profile-setup {
+    min-height: 100vh;
+  
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  
+    padding: var(--space-5);
+  }
+  
+  .profile-card {
+    width: 100%;
+    max-width: 520px;
+  
+    padding: var(--space-6);
+  }
+  
+  .profile-header {
+    margin-bottom: var(--space-6);
+  }
+  
+  .profile-header h1 {
+    margin: 0 0 var(--space-2);
+  
+    font-size: var(--font-size-xl);
+    font-weight: var(--font-weight-extra-bold);
+  }
+  
+  .profile-header p {
+    margin: 0;
+  
+    color: var(--color-text-muted);
+    line-height: 1.5;
+  }
+  
+  #profileForm {
+    display: grid;
+    gap: var(--space-4);
+  }
+  
+  #profileStatus {
+    margin: 0;
+    text-align: center;
+    color: var(--color-text-muted);
+  }

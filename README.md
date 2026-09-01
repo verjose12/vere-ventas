@@ -10,7 +10,7 @@ Su objetivo es reducir el tiempo que un vendedor dedica a preparar publicaciones
 
 # Estado del proyecto
 
-**Versión:** 4.0.0
+**Versión:** 4.1.0
 
 **Estado:** En desarrollo activo.
 
@@ -41,6 +41,13 @@ Actualmente el proyecto se encuentra en una etapa de profesionalización, prepar
 - Galerías públicas por vendedor
 - Row Level Security
 - Nuevo Design System
+
+## v4.1.0
+
+- 👤 Perfiles independientes por vendedor.
+- 💬 Contacto por WhatsApp personalizado por usuario.
+- 🖼️ Galerías públicas independientes.
+- ☁️ Organización de imágenes por usuario en Cloudinary.
 
 ---
 
