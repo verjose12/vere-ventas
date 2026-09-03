@@ -221,10 +221,63 @@ Pendiente para siguientes versiones:
 - Configuración/edición de perfil.
 - Métricas y estadísticas multiusuario.
 
-## v4.2.0
 
-Planeado
+## [4.2.0] - 2026-09-03
 
+### Facebook Multiusuario
+
+Se completó la primera integración multiusuario de Facebook en VJOX, permitiendo que cada usuario pueda vincular su propia página y publicar productos desde la aplicación.
+
+### Agregado
+- Integración de Facebook Login mediante OAuth de Meta.
+- Flujo para conectar una página de Facebook durante la configuración del perfil.
+- Asociación de la conexión de Facebook con el usuario autenticado de VJOX.
+- Soporte para usuarios que administran una sola página de Facebook.
+- Selección de página cuando una cuenta administra múltiples páginas.
+- Nueva tabla `facebook_connections` para almacenar las conexiones de Facebook por usuario.
+- Nueva tabla `facebook_pending_pages` para manejar temporalmente la selección entre múltiples páginas.
+- Edge Functions para iniciar y completar el proceso OAuth con Meta.
+- Edge Function para consultar páginas pendientes.
+- Edge Function para seleccionar y guardar la página elegida.
+- Edge Function para consultar de forma segura el nombre de la página conectada.
+- Publicación directa de productos desde VJOX hacia la página de Facebook correspondiente al usuario.
+- Indicador de carga durante el proceso de publicación en Facebook.
+- Mensajes visuales de confirmación al completar la conexión con Facebook.
+- Nombre dinámico del negocio en el menú lateral:
+  - muestra el nombre de la página de Facebook cuando existe una conexión;
+  - utiliza el nombre del negocio como respaldo;
+  - utiliza el nombre del usuario como segundo respaldo.
+
+### Seguridad
+- Los `Page Access Tokens` de Facebook permanecen exclusivamente en backend.
+- Los tokens no son enviados ni expuestos al navegador.
+- Las tablas que contienen credenciales de Facebook no son accesibles directamente por usuarios `anon` o `authenticated`.
+- Las operaciones sensibles utilizan credenciales de servicio únicamente dentro de Supabase Edge Functions.
+- Cada conexión de Facebook se identifica mediante el `user_id` del usuario autenticado.
+- Se agregó validación de sesión antes de consultar, seleccionar o utilizar una conexión de Facebook.
+- El flujo OAuth utiliza un `state` firmado y con expiración para vincular de forma segura la autorización de Meta con el usuario que inició el proceso.
+- La selección de páginas múltiples valida tanto el usuario autenticado como la página seleccionada antes de guardar la conexión.
+
+### Mejorado
+- El onboarding permite continuar utilizando VJOX sin conectar Facebook, ya que la integración es opcional.
+- Si Meta devuelve una sola página, VJOX la conecta automáticamente.
+- Si Meta devuelve varias páginas, VJOX muestra un selector para que el usuario elija cuál desea utilizar.
+- Se reemplazaron respuestas técnicas del flujo OAuth por redirecciones y mensajes integrados en la interfaz de VJOX.
+- Se eliminó el `alert()` del flujo final de selección de página y se sustituyó por un modal de confirmación.
+- Los nombres de páginas obtenidos desde Facebook se insertan mediante `textContent` para evitar interpretar contenido externo como HTML.
+- El menú lateral ahora refleja la identidad del negocio o página conectada del usuario.
+
+### Pruebas
+- Conexión OAuth probada correctamente con Meta.
+- Publicación real desde VJOX hacia una página de Facebook verificada.
+- Aislamiento probado entre usuarios con y sin conexión de Facebook.
+- Flujo de una sola página probado correctamente.
+- Flujo de múltiples páginas probado mediante páginas simuladas.
+- Selección y almacenamiento de la página elegida verificados.
+- Limpieza de páginas pendientes después de completar la selección verificada.
+- Visualización dinámica del nombre de la página conectada en el menú lateral verificada.
+
+Resumen
 - Facebook por usuario.
 - Configuración individual de páginas.
 - Tokens independientes.

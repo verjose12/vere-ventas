@@ -10,7 +10,7 @@ Su objetivo es reducir el tiempo que un vendedor dedica a preparar publicaciones
 
 # Estado del proyecto
 
-**Versión:** 4.1.0
+**Versión:** 4.2.0
 
 **Estado:** En desarrollo activo.
 
@@ -49,6 +49,17 @@ Actualmente el proyecto se encuentra en una etapa de profesionalización, prepar
 - 🖼️ Galerías públicas independientes.
 - ☁️ Organización de imágenes por usuario en Cloudinary.
 
+## v4.2.0
+
+- 🔵 Integración multiusuario con Facebook.
+- 🔐 Conexión segura mediante Meta OAuth.
+- 📄 Detección de páginas administradas por cada usuario.
+- 🔀 Selección de página para usuarios con múltiples páginas.
+- 🚀 Publicación directa de productos en la página de Facebook conectada.
+- 👤 Conexiones de Facebook independientes por usuario.
+- 🏪 Visualización del nombre de la página conectada dentro de VJOX.
+- 🔒 Page Access Tokens protegidos y utilizados exclusivamente desde el backend.
+
 ---
 
 # Tecnologías utilizadas
@@ -65,6 +76,7 @@ Actualmente el proyecto se encuentra en una etapa de profesionalización, prepar
 * Supabase Edge Functions
 * Cloudinary
 * Meta Graph API
+* Facebook Login / OAuth
 
 ## Herramientas
 
@@ -83,8 +95,6 @@ El objetivo a largo plazo es evolucionar hacia una plataforma SaaS que permita a
 
 ---
 
-# Hoja de ruta
-
 ## Versión 3.1
 
 * Sistema de autenticación.
@@ -92,20 +102,22 @@ El objetivo a largo plazo es evolucionar hacia una plataforma SaaS que permita a
 * Roles.
 * Configuración del negocio.
 
-## Versión 3.2
+## Versión 4.2
 
 * Integración de Facebook por usuario.
 * Administración de múltiples páginas.
 * Configuración individual de tokens.
 
-## Versión 3.3
+# Hoja de ruta
+
+## Versión 4.3
 
 * Dashboard.
 * Reportes.
 * Estadísticas.
 * Mejoras de inventario.
 
-## Versión 4.0
+## Versión 4.4
 
 * Plataforma SaaS.
 * Suscripciones.

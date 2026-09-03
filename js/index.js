@@ -380,7 +380,7 @@ function renderList(items = state.items) {
     });
 
     btnFb.addEventListener("click", () => {
-      shareFacebook(product);
+      shareFacebook(product, btnFb);
     });
 
     btnEdit.addEventListener("click", () => {

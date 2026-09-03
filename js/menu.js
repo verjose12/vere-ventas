@@ -66,3 +66,91 @@ if (logoutBtn) {
     window.location.replace("./auth/login.html");
   });
 }
+
+async function loadSideMenuBusinessName() {
+
+  const businessNameEl =
+    document.querySelector(
+      "#sideMenuBusinessName"
+    );
+
+  if (!businessNameEl) return;
+
+
+  const {
+    data: { user },
+    error: userError
+  } =
+    await supabaseClient.auth.getUser();
+
+
+  if (userError || !user) {
+    businessNameEl.textContent =
+      "Mi negocio";
+
+    return;
+  }
+
+
+  let displayName =
+    "Mi negocio";
+
+
+  const {
+    data: profile,
+    error: profileError
+  } =
+    await supabaseClient
+      .from("profiles")
+      .select(
+        "name, business_name"
+      )
+      .eq("id", user.id)
+      .maybeSingle();
+
+
+  if (!profileError && profile) {
+
+    displayName =
+      profile.business_name ||
+      profile.name ||
+      "Mi negocio";
+  }
+
+
+  try {
+
+    const {
+      data,
+      error
+    } =
+      await supabaseClient.functions.invoke(
+        "facebook-connection-info"
+      );
+
+
+    if (
+      !error &&
+      data?.connected &&
+      data?.page?.name
+    ) {
+
+      displayName =
+        data.page.name;
+    }
+
+  } catch (error) {
+
+    console.warn(
+      "No se pudo cargar la página de Facebook:",
+      error
+    );
+  }
+
+
+  businessNameEl.textContent =
+    displayName;
+}
+
+
+loadSideMenuBusinessName();

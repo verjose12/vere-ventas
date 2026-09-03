@@ -25,15 +25,6 @@ function buildShareUrlFromState(stateObj) {
 }
 
 
-// function buildGalleryLink(item) {
-//   const url = new URL("viewer.html", location.href);
-
-//   url.searchParams.set("id", item.id);
-//   url.searchParams.set("v", "2");
-
-//   return url.toString();
-// }
-
 function buildGalleryLink(item) {
   const url = new URL("viewer.html", location.href);
 
@@ -68,22 +59,23 @@ function buildMessage(item) {
 
   return lines.join("\n");
 }
-/* 
-function shareFacebook(product){
 
-  const galleryLink = buildGalleryLink(product);
-
-  const facebookUrl =
-      `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(galleryLink)}`;
-
-  window.open(
-      facebookUrl,
-      "_blank"
+async function shareFacebook(product, button) {
+  const confirmPublish = confirm(
+    `¿Quieres publicar "${product.title}" en Facebook?`
   );
 
-} */
+  if (!confirmPublish) {
+    return;
+  }
 
-async function shareFacebook(product) {
+  const originalContent = button.innerHTML;
+
+  button.disabled = true;
+  button.innerHTML = `
+    <span class="spinner-border spinner-border-sm"></span>
+  `;
+
   const imageUrl = product.urls?.[0];
 
   if (!imageUrl) {
@@ -159,6 +151,9 @@ async function shareFacebook(product) {
     alert(
       `❌ No se pudo publicar en Facebook.\n\n${error.message}`
     );
+  } finally {
+    button.disabled = false;
+    button.innerHTML = originalContent;
   }
 }
 
